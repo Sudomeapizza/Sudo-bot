@@ -10,7 +10,7 @@ module.exports = {
         ),
     async execute(interaction, client) {
 
-        const silence = interaction.options.getString('silent') ?? 'false';
+        const silence = interaction.options.getString('silent') || 'false';
 
         if (silent) {
             const message = await interaction.deferReply({
