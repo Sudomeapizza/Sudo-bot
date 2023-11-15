@@ -17,7 +17,7 @@ module.exports = {
 
         const target = interaction.options.getString('user');
         const silence = interaction.options.getString('silent');
-        const newMessage = "";
+        var newMessage = "";
         
         if (!target) {
             newMessage = `Display name: ${interaction.user.displayName}\n`
