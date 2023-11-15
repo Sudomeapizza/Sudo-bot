@@ -48,7 +48,7 @@ module.exports = {
         
 
         // hour change by 3,600,000
-        const change = 3600000;
+        const change = 3600;
 
         switch (region) {
             case "PST":
