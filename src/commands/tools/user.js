@@ -8,7 +8,7 @@ module.exports = {
         option.setName('user')
         .setDescription('username')
         )
-    .addStringOption(option =>
+    .addBooleanOption(option =>
         option.setName('silent')
         .setDescription('shhhhh (true)')
         ),

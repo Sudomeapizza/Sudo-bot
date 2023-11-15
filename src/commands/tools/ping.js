@@ -4,7 +4,7 @@ module.exports = {
     data: new SlashCommandBuilder()
     .setName('ping')
     .setDescription("return the pinnng")
-    .addStringOption(option =>
+    .addBooleanOption(option =>
         option.setName('silents')
         .setDescription('shhhhh (true)')
         ),

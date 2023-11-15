@@ -34,7 +34,7 @@ module.exports = {
             {name: 'Long Time/Date', value: 'F'},
             {name: 'Short Time/Date', value: 'f'},
         ))
-    .addStringOption(option =>
+    .addBooleanOption(option =>
         option.setName('silent')
         .setDescription('shhhhh (true)')
         ),
