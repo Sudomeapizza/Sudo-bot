@@ -12,7 +12,7 @@ module.exports = {
         )
     .addStringOption(option =>
         option.setName('time')
-        .setDescription('the time in HH:MM<:SS>')
+        .setDescription('the 24h time is in HH:MM<:SS>')
         .setRequired(true)
         )
     .addStringOption(option =>
