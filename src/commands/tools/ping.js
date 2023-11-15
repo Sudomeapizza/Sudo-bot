@@ -11,16 +11,17 @@ module.exports = {
     async execute(interaction, client) {
 
         const silence = interaction.options.getString('silents') || 'false';
+        var message;
 
         if (silence) {
             console.log(silence);
-            const message = await interaction.deferReply({
+            message = await interaction.deferReply({
                 fetchReply: true,
                 ephemeral: true
             });
         } else {
             console.log(silence);
-            const message = await interaction.deferReply({
+            message = await interaction.deferReply({
                 fetchReply: true
             });
         }
