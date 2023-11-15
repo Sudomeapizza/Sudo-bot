@@ -2,7 +2,7 @@ const { SlashCommandBuilder } = require('discord.js')
 
 module.exports = {
     data: new SlashCommandBuilder()
-    .setName('Timestamp')
+    .setName('timestamp')
     .setDescription("Give a timestamp code")
 
     .addStringOption(option =>
