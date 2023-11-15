@@ -16,7 +16,7 @@ module.exports = {
     async execute(interaction, client) {
 
         const target = interaction.options.getUser('user');
-        const silence = interaction.options.getString('silent') || false;
+        const silence = interaction.options.getBoolean('silent') || false;
         var newMessage = "";
         
         if (!target) {

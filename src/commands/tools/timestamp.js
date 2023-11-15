@@ -45,7 +45,7 @@ module.exports = {
         const time = interaction.options.getString('time');
         const region = interaction.options.getString('time_region');
         const format = interaction.options.getString('format') || 'R';
-        const silence = interaction.options.getString('silent') || false;
+        const silence = interaction.options.getBoolean('silent') || false;
 
         // this is in UTC
         var timestamp = Date.parse(`${date} ${time}`)/1000;
