@@ -33,6 +33,10 @@ module.exports = {
             {name: 'Short Time', value: 't'},
             {name: 'Long Time/Date', value: 'F'},
             {name: 'Short Time/Date', value: 'f'},
+        )
+    .addStringOption(option =>
+        option.setName('silent')
+        .setDescription('shhhhh (true/false)')
         )),
 
 
@@ -42,11 +46,11 @@ module.exports = {
         const time = interaction.options.getString('time');
         const region = interaction.options.getString('time_region');
         const format = interaction.options.getString('format') ?? 'R';
+        const silence = interaction.options.getString('silent');
 
         // this is in UTC
         var timestamp = Date.parse(`${date} ${time}`)/1000;
         
-
         // hour change by 3,600,000
         const change = 3600;
 
@@ -70,15 +74,18 @@ module.exports = {
 
         const fullResponse = `Timestamp code: \`<t:${timestamp}:${format}>\`\n`
         + `How it appears: <t:${timestamp}:${format}>`;
-        const message = await interaction.reply({
-            content: fullResponse,
-            fetchReply: true,
-            ephemeral: true
-        });
-        
-        // await interaction.editReply({
-        //     content: null,
-        //     ephemeral: true
-        // });
+
+        if (silence) {    
+            const message = await interaction.reply({
+                content: fullResponse,
+                // fetchReply: true,
+                ephemeral: true
+            });
+        } else {
+            const message = await interaction.reply({
+                content: fullResponse
+                // fetchReply: true,
+            });
+        }
     }
 }
