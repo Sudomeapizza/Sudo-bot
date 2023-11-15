@@ -14,13 +14,11 @@ module.exports = {
         var message;
 
         if (silence) {
-            console.log(silence);
             message = await interaction.deferReply({
                 fetchReply: true,
                 ephemeral: true
             });
         } else {
-            console.log(silence);
             message = await interaction.deferReply({
                 fetchReply: true
             });
@@ -31,14 +29,12 @@ module.exports = {
         
         
         if (silence) {
-            console.log(silence);
             await interaction.editReply({
                 fetchReply: true,
                 content: newMessage,
                 ephemeral: true
             });
         } else {
-            console.log(silence);
             await interaction.editReply({
                 fetchReply: true,
                 content: newMessage

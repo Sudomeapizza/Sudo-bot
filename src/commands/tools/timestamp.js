@@ -58,13 +58,13 @@ module.exports = {
                 timestamp += change * 8;
                 break;
             case "MST":
-                timestamp += change * 9;
+                timestamp += change * 7;
                 break;
             case "CST":
-                timestamp += change * 10;
+                timestamp += change * 6;
                 break;
             case "EST":
-                timestamp += change * 11;
+                timestamp += change * 5;
                 break;
             default:
                 // shrug
