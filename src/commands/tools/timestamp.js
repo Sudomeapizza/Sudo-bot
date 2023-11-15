@@ -41,7 +41,7 @@ module.exports = {
         const date = interaction.options.getString('date');
         const time = interaction.options.getString('time');
         const region = interaction.options.getString('time_region');
-        const format = interaction.options.getString('format');
+        const format = interaction.options.getString('format') ?? 'R';
 
 
         var timestamp = Date.parse(`${date} ${time}`);
