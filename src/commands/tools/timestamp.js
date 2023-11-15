@@ -33,12 +33,11 @@ module.exports = {
             {name: 'Short Time', value: 't'},
             {name: 'Long Time/Date', value: 'F'},
             {name: 'Short Time/Date', value: 'f'},
-        )
+        ))
     .addStringOption(option =>
         option.setName('silent')
         .setDescription('shhhhh (true/false)')
-        )),
-
+        ),
 
     async execute(interaction, client) {
 
