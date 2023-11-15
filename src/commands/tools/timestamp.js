@@ -36,7 +36,7 @@ module.exports = {
         ))
     .addStringOption(option =>
         option.setName('silent')
-        .setDescription('shhhhh (true/false)')
+        .setDescription('shhhhh (true)')
         ),
 
     async execute(interaction, client) {
@@ -45,7 +45,7 @@ module.exports = {
         const time = interaction.options.getString('time');
         const region = interaction.options.getString('time_region');
         const format = interaction.options.getString('format') ?? 'R';
-        const silence = interaction.options.getString('silent');
+        const silence = interaction.options.getString('silent') ?? 'false';
 
         // this is in UTC
         var timestamp = Date.parse(`${date} ${time}`)/1000;

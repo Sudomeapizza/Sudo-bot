@@ -10,13 +10,13 @@ module.exports = {
         )
     .addStringOption(option =>
         option.setName('silent')
-        .setDescription('shhhhh (true/false)')
+        .setDescription('shhhhh (true)')
         ),
 
     async execute(interaction, client) {
 
         const target = interaction.options.getUser('user');
-        const silence = interaction.options.getString('silent');
+        const silence = interaction.options.getString('silent') ?? 'false';
         var newMessage = "";
         
         if (!target) {
@@ -32,13 +32,11 @@ module.exports = {
         if (silence) {
             const message = await interaction.reply({
                 content: newMessage,
-                fetchReply: true,
                 ephemeral: true
             });
         } else {
             const message = await interaction.reply({
-                content: newMessage,
-                fetchReply: true
+                content: newMessage
             });
         }
     }
