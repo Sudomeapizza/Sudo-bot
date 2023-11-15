@@ -20,7 +20,7 @@ module.exports = {
         .setMinLength(4)
         )
     .addStringOption(option =>
-        option.setName('Time Region')
+        option.setName('time region')
         .setDescription('PST/MST/CST/EST')
         .setRequired(true)
         .setMaxLength(4)
