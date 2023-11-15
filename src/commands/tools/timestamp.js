@@ -57,13 +57,13 @@ module.exports = {
             case "PST":
                 timestamp += change * 8;
                 break;
-            case "PST":
+            case "MST":
                 timestamp += change * 9;
                 break;
-            case "PST":
+            case "CST":
                 timestamp += change * 10;
                 break;
-            case "PST":
+            case "EST":
                 timestamp += change * 11;
                 break;
             default:
@@ -77,13 +77,11 @@ module.exports = {
         if (silence) {    
             const message = await interaction.reply({
                 content: fullResponse,
-                // fetchReply: true,
                 ephemeral: true
             });
         } else {
             const message = await interaction.reply({
                 content: fullResponse
-                // fetchReply: true,
             });
         }
     }
