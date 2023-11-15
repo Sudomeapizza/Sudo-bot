@@ -44,7 +44,7 @@ module.exports = {
         const format = interaction.options.getString('format') ?? 'R';
 
 
-        var timestamp = Date.parse(`${date} ${time}`);
+        var timestamp = Date.parse(`${date} ${time}`)/1000;
         
         // hour change by 3,600,000
         const change = 3600000;
