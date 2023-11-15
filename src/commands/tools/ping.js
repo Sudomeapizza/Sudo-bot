@@ -5,12 +5,12 @@ module.exports = {
     .setName('ping')
     .setDescription("return the pinnng")
     .addStringOption(option =>
-        option.setName('silent')
+        option.setName('silents')
         .setDescription('shhhhh (true)')
         ),
     async execute(interaction, client) {
 
-        const silence = interaction.options.getString('silent') || 'false';
+        const silence = interaction.options.getString('silents') || 'false';
 
         if (silence) {
             const message = await interaction.deferReply({
