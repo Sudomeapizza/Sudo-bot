@@ -10,7 +10,7 @@ module.exports = {
         ),
     async execute(interaction, client) {
 
-        const silence = interaction.options.getString('silents') || 'false';
+        const silence = interaction.options.getString('silents') || false;
         var message;
 
         if (silence) {
