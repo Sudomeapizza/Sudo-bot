@@ -44,14 +44,16 @@ module.exports = {
 
         const date = interaction.options.getString('date');
         const time = interaction.options.getString('time');
+        const region = interaction.options.getString('time_region');
         const format = interaction.options.getString('format');
+
 
         var timestamp = Date.parse(`${date} ${time}`);
         
         // hour change by 3,600,000
         const change = 3600000;
 
-        switch (format) {
+        switch (region) {
             case "PST":
                 // lol does nothing since server is located here
                 break;
