@@ -12,7 +12,7 @@ module.exports = {
 
         const silence = interaction.options.getString('silent') || 'false';
 
-        if (silent) {
+        if (silence) {
             const message = await interaction.deferReply({
                 fetchReply: true,
                 ephemeral: true
@@ -27,7 +27,7 @@ module.exports = {
         + `Client Ping: ${message.createdTimestamp - interaction.createdTimestamp}`;
         
         
-        if (silent) {
+        if (silence) {
             await interaction.editReply({
                 content: newMessage,
                 ephemeral: true
