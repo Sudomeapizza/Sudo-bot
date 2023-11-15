@@ -9,15 +9,11 @@ module.exports = {
         option.setName('date')
         .setDescription('the date in MM DD YYYY')
         .setRequired(true)
-        .setMaxLength(8)
-        .setMinLength(8)
         )
     .addStringOption(option =>
         option.setName('time')
         .setDescription('the time in HH:MM<:SS>')
         .setRequired(true)
-        .setMaxLength(6)
-        .setMinLength(4)
         )
     .addStringOption(option =>
         option.setName('time_region')
