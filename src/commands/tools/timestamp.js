@@ -43,26 +43,28 @@ module.exports = {
         const region = interaction.options.getString('time_region');
         const format = interaction.options.getString('format') ?? 'R';
 
-
+        // this is in UTC
         var timestamp = Date.parse(`${date} ${time}`)/1000;
         
+
         // hour change by 3,600,000
         const change = 3600000;
 
         switch (region) {
             case "PST":
-                // lol does nothing since server is located here
+                timestamp += change * 8;
                 break;
             case "PST":
-                timestamp += change * 1;
+                timestamp += change * 9;
                 break;
             case "PST":
-                timestamp += change * 2;
+                timestamp += change * 10;
                 break;
             case "PST":
-                timestamp += change * 3;
+                timestamp += change * 11;
                 break;
             default:
+                // shrug
                 break;
         }
 
