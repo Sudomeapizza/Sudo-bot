@@ -13,11 +13,13 @@ module.exports = {
         const silence = interaction.options.getString('silents') || 'false';
 
         if (silence) {
+            console.log(silence);
             const message = await interaction.deferReply({
                 fetchReply: true,
                 ephemeral: true
             });
         } else {
+            console.log(silence);
             const message = await interaction.deferReply({
                 fetchReply: true
             });
@@ -28,12 +30,16 @@ module.exports = {
         
         
         if (silence) {
+            console.log(silence);
             await interaction.editReply({
+                fetchReply: true,
                 content: newMessage,
                 ephemeral: true
             });
         } else {
+            console.log(silence);
             await interaction.editReply({
+                fetchReply: true,
                 content: newMessage
             });
         }
