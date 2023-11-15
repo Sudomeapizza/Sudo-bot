@@ -20,6 +20,13 @@ module.exports = {
         .setMinLength(4)
         )
     .addStringOption(option =>
+        option.setName('Time Region')
+        .setDescription('PST/MST/CST/EST')
+        .setRequired(true)
+        .setMaxLength(4)
+        .setMinLength(3)
+        )
+    .addStringOption(option =>
         option.setName('format')
         .setDescription('optional format')
         .addChoices(
@@ -39,8 +46,30 @@ module.exports = {
         const time = interaction.options.getString('time');
         const format = interaction.options.getString('format');
 
-        var fullResponse = `${date}\n${time}\n${format}`;
+        var timestamp = Date.parse(`${date} ${time}`);
+        
+        // hour change by 3,600,000
+        const change = 3600000;
 
+        switch (format) {
+            case "PST":
+                // lol does nothing since server is located here
+                break;
+            case "PST":
+                timestamp += change * 1;
+                break;
+            case "PST":
+                timestamp += change * 2;
+                break;
+            case "PST":
+                timestamp += change * 3;
+                break;
+            default:
+                break;
+        }
+
+        const fullResponse = `Timestamp code: \`<t:${timestamp}:${format}>\``
+        + `How it appears: <t:${timestamp}:${format}>`;
         const message = await interaction.reply({
             content: fullResponse,
             fetchReply: true,
