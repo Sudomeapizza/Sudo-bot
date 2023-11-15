@@ -4,7 +4,7 @@ module.exports = {
     data: new SlashCommandBuilder()
     .setName('user')
     .setDescription("give deets")
-    .addStringOption(option =>
+    .addUserOption(option =>
         option.setName('user')
         .setDescription('username')
         )
@@ -15,7 +15,7 @@ module.exports = {
 
     async execute(interaction, client) {
 
-        const target = interaction.options.getString('user');
+        const target = interaction.options.getUser('user');
         const silence = interaction.options.getString('silent');
         var newMessage = "";
         
