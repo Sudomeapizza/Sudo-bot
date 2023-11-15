@@ -7,14 +7,14 @@ module.exports = {
 
     .addStringOption(option =>
         option.setName('date')
-        .setDescription('the date in MMDDYYYY')
+        .setDescription('the date in MM DD YYYY')
         .setRequired(true)
         .setMaxLength(8)
         .setMinLength(8)
         )
     .addStringOption(option =>
         option.setName('time')
-        .setDescription('the time in HHMM<SS>')
+        .setDescription('the time in HH:MM<:SS>')
         .setRequired(true)
         .setMaxLength(6)
         .setMinLength(4)
@@ -68,7 +68,7 @@ module.exports = {
                 break;
         }
 
-        const fullResponse = `Timestamp code: \`<t:${timestamp}:${format}>\``
+        const fullResponse = `Timestamp code: \`<t:${timestamp}:${format}>\`\n`
         + `How it appears: <t:${timestamp}:${format}>`;
         const message = await interaction.reply({
             content: fullResponse,
