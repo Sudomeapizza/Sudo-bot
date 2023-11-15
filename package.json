@@ -1,7 +1,7 @@
 {
-  "name": "getting-started",
-  "version": "1.0.0",
-  "description": "Discord example app",
+  "name": "sudobot",
+  "version": "0.0.2",
+  "description": "Sudo bot by Sudomeapizza",
   "main": "app.js",
   "engines": {
     "node": "16.x"
