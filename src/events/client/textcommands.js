@@ -7,11 +7,11 @@ module.exports = {
 
     async execute(interaction, client) {
 
-        client.on("messageCreate", async (message) => {
-            if (message.author.bot) return false;
-            console.log("message created: " + message.content);
-            message.channel.send(`You said: ${message.content}`)
-        })
+        // client.on("messageCreate", async (message) => {
+        //     if (message.author.bot) return false;
+        //     console.log("message created: " + message.content);
+        //     message.channel.send(`You said: ${message.content}`)
+        // })
 
     }
 
