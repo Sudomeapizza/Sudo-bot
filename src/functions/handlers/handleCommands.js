@@ -25,7 +25,7 @@ module.exports = (client) => {
             
             // Routes.applicationGuildCommands
             //Routes.applicationCommands
-            await rest.put(Routes.applicationCommands(clientId, guildId), {
+            await rest.put(Routes.applicationGuildCommands(clientId, guildId), {
                 body: commandArray,
             });
 
