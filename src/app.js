@@ -14,6 +14,9 @@ const client = new Client({ intents: [
 client.commands = new Collection();
 client.commandArray = [];
 
+const channel = client.channels.cache.get(1173069259618930808);
+channel.send('message');
+
 const functionFolders = fs.readdirSync('./src/functions');
 for (const folder of functionFolders) {
     const functionFiles = fs
