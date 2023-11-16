@@ -15,14 +15,6 @@ const client = new Client({ intents: [
 client.commands = new Collection();
 client.commandArray = [];
 
-
-// client.on("messageCreate", async (message) => {
-//     if (message.author.bot) return false;
-//     console.log("message created: " + message.content);
-//     message.channel.send(`You said: ${message.content}`)
-// })
-
-
 const functionFolders = fs.readdirSync('./src/functions');
 for (const folder of functionFolders) {
     const functionFiles = fs
