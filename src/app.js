@@ -7,15 +7,27 @@ const client = new Client({ intents: [
     GatewayIntentBits.Guilds,
     GatewayIntentBits.GuildMessages,
     GatewayIntentBits.MessageContent,
+    GatewayIntentBits.DirectMessages,
     GatewayIntentBits.GuildMembers,
     GatewayIntentBits.GuildInvites,
-    GatewayIntentBits.GuildEmojisAndStickers
+    GatewayIntentBits.GuildEmojisAndStickers,
 ]});
 client.commands = new Collection();
 client.commandArray = [];
 
-const channel = client.channels.cache.get(1173069259618930808);
-channel.send('message');
+
+client.on("messageCreate", async (message) => {
+    console.log("text3");
+    const channel = client.channels.cache.get("1173069259618930808");
+    message.channel.send('message');
+    if (message.author.bot) return false;
+    if (message.content.includes("ping1")) {
+        console.log(message);
+        console.log("message created: " + message.content);
+        // message.send(`heyo1`);
+    }
+})
+
 
 const functionFolders = fs.readdirSync('./src/functions');
 for (const folder of functionFolders) {

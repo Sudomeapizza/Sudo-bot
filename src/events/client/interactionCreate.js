@@ -1,6 +1,9 @@
+const { InteractionResponse } = require("discord.js");
+
 module.exports = {
     name: "interactionCreate",
     async execute(interaction, client) {
+        
         if (interaction.isChatInputCommand()) {
             const { commands } = client;
             const { commandName } = interaction;
@@ -16,6 +19,8 @@ module.exports = {
                     ephemeral: true
                 });
             }
+        } else {
+            
         }
     }
 }
