@@ -1,5 +1,6 @@
 const { SlashCommandBuilder } = require('discord.js')
 const { timeStampCalc } = require('../../helpers/timestampcalc.js')
+const { getRegion } = require('../../helpers/user.js');
 
 module.exports = {
     data: new SlashCommandBuilder()
@@ -19,7 +20,7 @@ module.exports = {
     .addStringOption(option =>
         option.setName('time_region')
         .setDescription('PST/MST/CST/EST')
-        .setRequired(true)
+        // .setRequired(true) // somehow make optional based on DB?
         .setMaxLength(4)
         .setMinLength(3)
         )
@@ -48,31 +49,40 @@ module.exports = {
 
         const date = interaction.options.getString('date');
         const time = interaction.options.getString('time');
-        const region = interaction.options.getString('time_region').toLowerCase();
+        const region = interaction.options.getString('time_region').toLowerCase() || getRegion(interaction.user.id || null);
         const format = interaction.options.getString('format') || 'R';
         const silence = interaction.options.getBoolean('silent') || false;
         const mobile = interaction.options.getBoolean('mobile') || false;
 
-        const response = timeStampCalc(date, time, region, format);
-        
+        if (region == null) {
 
-        if (silence) {    
             await interaction.reply({
-                content: response[0],
+                content: "You do not have a region set internally, please specify your region.",
                 ephemeral: true
             });
+
         } else {
-            await interaction.reply({
-                content: response[0]
-            });
-        }
 
-        if (mobile) {
-            client.channels.send(response[1]);
-            await interaction.reply({
-                content: response[1],
-                ephemeral: true
-            });
+            const response = timeStampCalc(date, time, region, format);
+            
+            if (silence) {    
+                await interaction.reply({
+                    content: response[0],
+                    ephemeral: true
+                });
+            } else {
+                await interaction.reply({
+                    content: response[0]
+                });
+            }
+
+            if (mobile) {
+                client.channels.send(response[1]);
+                await interaction.reply({
+                    content: response[1],
+                    ephemeral: true
+                });
+            }
         }
     }
 }
