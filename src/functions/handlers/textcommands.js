@@ -30,7 +30,7 @@ module.exports = (client) => {
                 const targetDate = goToDate(userMessage);
                 var timestamp = timeStampCalc(targetDate, info[1], getRegion(message.author.id), 'R', true);
                 
-                message.channel.send(str.replace(`${info[0]} at ${info[1]}`,timestamp));
+                message.channel.send(userMessage.replace(`${info[0]} at ${info[1]}`,timestamp));
 
             } else {
                 message.channel.send(info[0]);
