@@ -9,4 +9,4 @@ function getRegion(userId) {
     return region[userId];
 }
 
-modules.export = { getRegion };
+module.exports = { getRegion };
