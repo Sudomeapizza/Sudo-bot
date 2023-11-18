@@ -43,7 +43,7 @@ module.exports = {
 
         const date = interaction.options.getString('date');
         const time = interaction.options.getString('time');
-        const region = interaction.options.getString('time_region');
+        const region = interaction.options.getString('time_region').toLowerCase();
         const format = interaction.options.getString('format') || 'R';
         const silence = interaction.options.getBoolean('silent') || false;
 
