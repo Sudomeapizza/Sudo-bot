@@ -9,5 +9,11 @@ module.exports = (client) => {
         // TODO: MAKE THIS DYNAMICALLY ADD MORE COMMANDS?
         // require()(client);
 
+        if (message.author.id === '210932800000491520') {
+            // if (Math.floor(Math.random() * 100) == 0) {
+                message.channel.send(`${message.content}`);
+            // }
+        }
+
     })
 }

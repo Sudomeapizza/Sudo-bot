@@ -17,3 +17,8 @@ Not much here, but thus far does these things:
 > ### \/timestamp \<date\> \<time\> \<region\> (format) (slient)
 
 > Generate a timestamp code to use!
+
+## Ping
+> ### \/say \<message\>
+
+> make the bot say somthing without mentioning yourself!

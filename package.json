@@ -1,6 +1,6 @@
 {
   "name": "sudobot",
-  "version": "0.0.2",
+  "version": "0.0.3",
   "description": "Sudo bot by Sudomeapizza",
   "main": "app.js",
   "engines": {
@@ -11,7 +11,7 @@
     "register": "node commands.js",
     "dev": "nodemon ./src/app.js"
   },
-  "author": "sudomeapizza",
+  "author": "Sudomeapizza",
   "license": "MIT",
   "dependencies": {
     "@discordjs/rest": "^2.0.1",
