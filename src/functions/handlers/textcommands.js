@@ -23,6 +23,7 @@ module.exports = (client) => {
 
         if (message.guildId === '1076645110390984714'
         || message.guildId === '351882915153707008') {
+            if (message.author.bot) {return;}
             var userMessage = message.content;
             const info = dateRegex(userMessage);
             if (info[0] != null) {
