@@ -54,17 +54,16 @@ module.exports = {
         const silence = interaction.options.getBoolean('silent') || false;
         const mobile = interaction.options.getBoolean('mobile') || false;
 
-        if (region == null) {
+        const response = timeStampCalc(date, time, region, format);
+
+        if (response == null) {
 
             await interaction.reply({
                 content: "You do not have a region set internally, please specify your region.",
                 ephemeral: true
             });
-
         } else {
-
-            const response = timeStampCalc(date, time, region, format);
-            
+        
             if (silence) {    
                 await interaction.reply({
                     content: response[0],

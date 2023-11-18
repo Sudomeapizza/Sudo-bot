@@ -22,8 +22,7 @@ function timeStampCalc(date, time, region, format, internal = false){
             timestamp += change * 5;
             break;
         default:
-            // shrug
-            break;
+            return false;
     }
 
     
