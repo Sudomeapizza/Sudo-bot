@@ -23,31 +23,33 @@ module.exports = (client) => {
                 // }
             // }
         }
-
-        if (message.guildId === '1076645110390984714'
-        || message.guildId === '351882915153707008') {
-            if (message.author.bot) {return;}
-            var userMessage = message.content;
-            const info = dateRegex(userMessage);
-            if (info[0] != null) {
-                // message.channel.send(info[0] + " " + info[1]);
-                const targetDate = goToDate(userMessage);
-                var timestamp = timeStampCalc(targetDate, info[0], getRegion(message.author.id), 'D', true);
-                if (timestamp) {
-                    message.channel.send(userMessage.replace(`${info[1]} at ${info[0]}`,`${timestamp[0]}${timestamp[1]}`));
-                } else {
-                    message.author.send({
-                        content: "You do not have a region set internally, please specify your region.",
-                        ephemeral: true
-                    });
-                }
-
-            } else {
-                message.channel.send(info[0]);
-            }
-        }
-
-
-
+        timeConvert(message);
+        
     })
+}
+
+function timeConvert(message) {
+    if (message.guildId === '1076645110390984714'
+    || message.guildId === '351882915153707008') {
+        if (message.author.bot) {return;}
+        var userMessage = message.content;
+        const info = dateRegex(userMessage);
+        if (info[0] != null) {
+            // message.channel.send(info[0] + " " + info[1]);
+            const targetDate = goToDate(userMessage);
+            var timestamp = timeStampCalc(targetDate, info[0], getRegion(message.author.id), 'D', true);4
+            var newMessage = userMessage.replace(`${info[1]} at ${info[0]}`,`${timestamp[0]}${timestamp[1]}`);
+            var newMessage = userMessage.replace(`${info[1]} @ ${info[0]}`,`${timestamp[0]}${timestamp[1]}`);
+            if (timestamp) {
+                message.channel.send(newMessage);
+            } else {
+                message.author.send({
+                    content: "You do not have a region set internally, please specify your region.",
+                    ephemeral: true
+                });
+            }
+        } else {
+            message.channel.send(info[0]);
+        }
+    }
 }
