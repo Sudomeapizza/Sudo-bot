@@ -46,10 +46,18 @@ module.exports = {
         ),
 
     async execute(interaction, client) {
+        var region;
+
+        if (interaction.options.getString('time_region') == null) {
+            if (getRegion(interaction.user.id) != null) {
+                region = getRegion(interaction.user.id);
+            } else {
+                region = null;
+            }
+        }
 
         const date = interaction.options.getString('date');
         const time = interaction.options.getString('time');
-        const region = interaction.options.getString('time_region').toLowerCase() || getRegion(interaction.user.id || null);
         const format = interaction.options.getString('format') || 'R';
         const silence = interaction.options.getBoolean('silent') || false;
         const mobile = interaction.options.getBoolean('mobile') || false;
