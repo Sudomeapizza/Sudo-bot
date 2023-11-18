@@ -43,7 +43,7 @@ function goToDate(message) {
     var idate = new Date();
     var targetDate = dateRegex(message);
     var options = { weekday: 'short', year: 'numeric', month: 'long', day: 'numeric' };
-    while (idate.toLocaleDateString("en-US", options) != targetDate[1]) {
+    while (idate.toLocaleDateString("en-US", options).toLowerCase() != targetDate[1].toLowerCase()) {
         console.log(idate.toLocaleDateString("en-US", options) + " |||||| " + targetDate[1]);
         idate = Date.parse(idate); // convert to num
         console.log("==" + idate);
