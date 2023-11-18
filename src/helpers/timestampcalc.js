@@ -44,7 +44,6 @@ function goToDate(message) {
     var targetDate = dateRegex(message);
     var options = { weekday: 'short', year: 'numeric', month: 'long', day: 'numeric' };
     options = {weekday: 'short'};
-    console.log(`${idate.toLocaleDateString("en-US", options).toLowerCase()} ${targetDate[1].toLowerCase()}`);
     while (idate.toLocaleDateString("en-US", options).toLowerCase() != targetDate[1].toLowerCase()) {
         options = { weekday: 'short', year: 'numeric', month: 'long', day: 'numeric' };
         idate = Date.parse(idate); // convert to num
