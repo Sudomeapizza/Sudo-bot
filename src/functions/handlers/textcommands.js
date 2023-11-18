@@ -5,10 +5,10 @@ const { getRegion } = require('../../helpers/user.js');
 module.exports = (client) => {
     
     // I ain't questioning it, but it WORKS
-    client.on("messageCreate", async (interaction, message) => {
-        // if (message.author.bot) return false;
+    client.on("messageCreate", async (message, interaction) => {
+        if (message.author.bot) return false;
 
-        if (interaction.author.bot) return false;
+        // if (interaction.author.bot) return false;
 
         //console.log("message created: " + message.content);
         //message.channel.send(`You said: ${message.content}`);
