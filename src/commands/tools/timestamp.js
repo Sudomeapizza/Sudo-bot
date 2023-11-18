@@ -53,7 +53,9 @@ module.exports = {
         const silence = interaction.options.getBoolean('silent') || false;
         const mobile = interaction.options.getBoolean('mobile') || false;
 
-        const response = timeStampCalc(date, time, region, format);
+        const timeStamp = new timeStampCalc();
+        const response = timeStamp.calcTime(date, time, region, format);
+        
 
         if (silence) {    
             await interaction.reply({
