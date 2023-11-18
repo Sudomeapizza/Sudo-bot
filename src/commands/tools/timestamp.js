@@ -66,7 +66,7 @@ module.exports = {
 
         if (response == false) {
 
-            await interaction.user.send({
+            await interaction.reply({
                 content: "You do not have a region set internally, please specify your region.",
                 ephemeral: true
             });
