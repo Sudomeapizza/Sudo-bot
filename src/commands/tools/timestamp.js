@@ -1,4 +1,5 @@
 const { SlashCommandBuilder } = require('discord.js')
+const { timeStampCalc } = require('../../helpers/timestampcalc.js')
 
 module.exports = {
     data: new SlashCommandBuilder()
@@ -37,6 +38,10 @@ module.exports = {
     .addBooleanOption(option =>
         option.setName('silent')
         .setDescription('shhhhh (true)')
+        )
+    .addBooleanOption(option =>
+        option.setName('mobile')
+        .setDescription('set true for mobile copy/paste')
         ),
 
     async execute(interaction, client) {
@@ -46,42 +51,26 @@ module.exports = {
         const region = interaction.options.getString('time_region').toLowerCase();
         const format = interaction.options.getString('format') || 'R';
         const silence = interaction.options.getBoolean('silent') || false;
+        const mobile = interaction.options.getBoolean('mobile') || false;
 
-        // this is in UTC
-        var timestamp = Date.parse(`${date} ${time}`)/1000;
-        
-        // hour change by 3,600,000
-        const change = 3600;
-
-        switch (region) {
-            case "pst":
-                timestamp += change * 8;
-                break;
-            case "mst":
-                timestamp += change * 7;
-                break;
-            case "cst":
-                timestamp += change * 6;
-                break;
-            case "est":
-                timestamp += change * 5;
-                break;
-            default:
-                // shrug
-                break;
-        }
-
-        const fullResponse = `Timestamp code: \`<t:${timestamp}:${format}>\`\n`
-        + `How it appears: <t:${timestamp}:${format}>`;
+        const response = timeStampCalc(date, time, region, format);
 
         if (silence) {    
-            const message = await interaction.reply({
-                content: fullResponse,
+            await interaction.reply({
+                content: response[0],
                 ephemeral: true
             });
         } else {
-            const message = await interaction.reply({
-                content: fullResponse
+            await interaction.reply({
+                content: response[0]
+            });
+        }
+
+        if (mobile) {
+            client.channels.send(response[1]);
+            await interaction.reply({
+                content: response[1],
+                ephemeral: true
             });
         }
     }

@@ -11,11 +11,18 @@ module.exports = (client) => {
 
         if (message.author.id === '210932800000491520') {
             // if (Math.floor(Math.random() * 100) == 0) {
-                if (message.content.toLowerCase().includes("bloody")) {
-                    message.channel.send(`${message.content}`);
-                }
+                // if (message.content.toLowerCase().includes("bloody")) {
+                    // message.channel.send(`${message.content}`);
+                // }
             // }
         }
+
+        if (message.guildId === '1076645110390984714'
+        || message.guildId === '351882915153707008') {
+            
+        }
+
+
 
     })
 }
