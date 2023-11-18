@@ -16,7 +16,7 @@ module.exports = {
         client.channels.cache.get(`${interaction.channelId}`).send(usermessage);
 
         await interaction.reply({
-            message: ""
+            message: " "
         });
         await interaction.deleteReply({});
 
