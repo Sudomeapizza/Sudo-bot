@@ -13,7 +13,7 @@ module.exports = {
         const usermessage = interaction.options.getString('message');
         // var message;
 
-        client.channels.get(`${interaction.channelId}`).send(usermessage);
+        client.channels.cache.get(`${interaction.channelId}`).send(usermessage);
 
         // usermessage = await interaction.send({
 
