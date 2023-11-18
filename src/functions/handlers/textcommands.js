@@ -38,8 +38,8 @@ function timeConvert(message) {
             // message.channel.send(info[0] + " " + info[1]);
             const targetDate = goToDate(userMessage);
             var timestamp = timeStampCalc(targetDate, info[0], getRegion(message.author.id), 'D', true);4
-            var newMessage = userMessage.replace(`${info[1]} at ${info[0]}`,`${timestamp[0]}${timestamp[1]}`);
-            var newMessage = userMessage.replace(`${info[1]} @ ${info[0]}`,`${timestamp[0]}${timestamp[1]}`);
+            var newMessage = userMessage.replace(`${info[1]} at ${info[0]}`,`${timestamp[0]} ${timestamp[1]}`);
+            // var newMessage = userMessage.replace(`${info[1]} @ ${info[0]}`,`${timestamp[0]} ${timestamp[1]}`);
             if (timestamp) {
                 message.channel.send(newMessage);
             } else {
