@@ -1,3 +1,7 @@
+const { timeStampCalc, goToDate } = require('../../helpers/timestampcalc.js')
+const { dateRegex } = require('regex.js');
+const { getRegion } = require('user.js');
+
 module.exports = (client) => {
     
     // I ain't questioning it, but it WORKS
@@ -19,7 +23,18 @@ module.exports = (client) => {
 
         if (message.guildId === '1076645110390984714'
         || message.guildId === '351882915153707008') {
-            
+            var userMessage = message.content;
+            const info = dateRegex(userMessage);
+            if (info[0] != null) {
+                message.channel.send(info[0] + " " + info[1]);
+                const targetDate = goToDate(userMessage);
+                var timestamp = timeStampCalc(targetDate, info[1], getRegion(message.author.id), 'R', true);
+                
+                message.channel.send(str.replace(`${info[0]} at ${info[1]}`,timestamp));
+
+            } else {
+                message.channel.send(info[0]);
+            }
         }
 
 
