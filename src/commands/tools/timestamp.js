@@ -53,8 +53,7 @@ module.exports = {
         const silence = interaction.options.getBoolean('silent') || false;
         const mobile = interaction.options.getBoolean('mobile') || false;
 
-        const timeStamp = new timeStampCalc();
-        const response = timeStamp(date, time, region, format);
+        const response = timeStampCalc(date, time, region, format);
         
 
         if (silence) {    
