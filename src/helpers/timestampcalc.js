@@ -43,8 +43,10 @@ function goToDate(message) {
     var idate = new Date();
     var targetDate = dateRegex(message);
     var options = { weekday: 'short', year: 'numeric', month: 'long', day: 'numeric' };
+    options = {weekday: 'short'};
     console.log(`${idate.toLocaleDateString("en-US", options).toLowerCase()} ${targetDate[1].toLowerCase()}`);
     while (idate.toLocaleDateString("en-US", options).toLowerCase() != targetDate[1].toLowerCase()) {
+        options = { weekday: 'short', year: 'numeric', month: 'long', day: 'numeric' };
         idate = Date.parse(idate); // convert to num
         idate += 3600*24*1000; // 1 hour in seconds x 24 hours x 1000 miliseconds
         idate = new Date(idate) // convert to date
