@@ -56,7 +56,7 @@ module.exports = {
 
         const response = timeStampCalc(date, time, region, format);
 
-        if (response == null) {
+        if (response == false) {
 
             await interaction.reply({
                 content: "You do not have a region set internally, please specify your region.",
