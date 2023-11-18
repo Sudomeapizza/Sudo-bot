@@ -30,7 +30,12 @@ module.exports = (client) => {
                 // message.channel.send(info[0] + " " + info[1]);
                 const targetDate = goToDate(userMessage);
                 var timestamp = timeStampCalc(targetDate, info[0], getRegion(message.author.id), 'D', true);
-                message.channel.send(userMessage.replace(`${info[1]} at ${info[0]}`,`${timestamp[0]}${timestamp[1]}`));
+                console.log("_" + timestamp);
+                if (timestamp) {
+                    message.channel.send(userMessage.replace(`${info[1]} at ${info[0]}`,`${timestamp[0]}${timestamp[1]}`));
+                } else {
+                    message.channel.send({content:"You do not have a region set internally, please specify your region.", ephemeral:true});
+                }
 
             } else {
                 message.channel.send(info[0]);

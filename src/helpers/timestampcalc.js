@@ -23,6 +23,7 @@ function timeStampCalc(date, time, region, format, internal = false){
             break;
         default:
             return false;
+            break;
     }
 
     
