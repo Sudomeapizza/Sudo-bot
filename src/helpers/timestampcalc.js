@@ -1,4 +1,3 @@
-
 function timeStampCalc(date, time, region, format){
     // this is in UTC
     var timestamp = Date.parse(`${date} ${time}`)/1000;
@@ -30,3 +29,5 @@ function timeStampCalc(date, time, region, format){
 
     return fullResponse;
 }
+
+export {timeStampCalc};
