@@ -11,7 +11,7 @@ module.exports = (client) => {
 
         if (message.author.id === '210932800000491520') {
             // if (Math.floor(Math.random() * 100) == 0) {
-                if (message.content.contains("bloody")) {
+                if (message.content.toLowerCase().includes("bloody")) {
                     message.channel.send(`${message.content}`);
                 }
             // }

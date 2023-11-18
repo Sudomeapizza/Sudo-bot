@@ -54,16 +54,16 @@ module.exports = {
         const change = 3600;
 
         switch (region) {
-            case "PST":
+            case "pst":
                 timestamp += change * 8;
                 break;
-            case "MST":
+            case "mst":
                 timestamp += change * 7;
                 break;
-            case "CST":
+            case "cst":
                 timestamp += change * 6;
                 break;
-            case "EST":
+            case "est":
                 timestamp += change * 5;
                 break;
             default:
