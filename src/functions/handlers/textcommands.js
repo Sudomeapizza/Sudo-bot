@@ -1,6 +1,6 @@
 const { timeStampCalc, goToDate } = require('../../helpers/timestampcalc.js')
-const { dateRegex } = require('./regex.js');
-const { getRegion } = require('./user.js');
+const { dateRegex } = require('../../helpers/regex.js');
+const { getRegion } = require('../../helpers/user.js');
 
 module.exports = (client) => {
     
