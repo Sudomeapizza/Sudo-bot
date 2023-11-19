@@ -62,7 +62,7 @@ module.exports = (client) => {
         if (message.author.id === '165615258965114880') {
             if (Math.floor(Math.random() * 10) == 0) {
                 if (message.content.toLowerCase().includes("bloody")) {
-                    message.channel.send(`${getArray("bloodyGif")}`);
+                    message.channel.send(`${getArray("bloodyGif")}`  || "None2");
                 }
             }
         }
@@ -72,7 +72,7 @@ module.exports = (client) => {
 
 function response(message, chance, responseMessage) {
     if (Math.floor(Math.random() * chance) == 0) {
-        console.log(responseMessage);
-        message.channel.send(responseMessage);
+        console.log("2+ " + responseMessage);
+        message.channel.send(responseMessage || "None1");
     }
 }
