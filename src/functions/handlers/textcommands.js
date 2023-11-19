@@ -22,7 +22,7 @@ module.exports = (client) => {
                 // case value.replace(/\s+/g, '') == "<@823697716076347423>" ||
                 //     value.replace(/\s+/g, '') == "@Sudo Bot#2104":
                 case message.content == "<@823697716076347423>":
-                    response(message, 1, message.has(message.guild.members.cache.get(823697716076347423)));
+                    // response(message, 1, message.has(message.guild.members.cache.get(823697716076347423)));
                     
                     response(message, 1, `${getArray("wiki")[0]}`);
                     break;
