@@ -29,6 +29,7 @@ function getArray(gif) {
         case "bloodyGifs":
             return random(bloodyGifs);
         case "wiki":
+            console.log("workie2");
             return wiki;
         default:
             break;
@@ -42,6 +43,7 @@ function random(array){
 
 function randomWiki(){
     const link = new website();
+    console.log("workie1");
     return link.theLink();
 }
 
