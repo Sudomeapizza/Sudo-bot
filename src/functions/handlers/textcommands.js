@@ -2,6 +2,7 @@ const { timeStampCalc, goToDate } = require('../../helpers/timestampcalc.js')
 const { dateRegex } = require('../../helpers/regex.js');
 const { getRegion } = require('../../helpers/user.js');
 const { voice } = require('@discordjs/voice');
+const joinVoiceChannel = require('@discordjs/voice').joinVoiceChanel;
 
 
 var gifs = ["https://cdn.discordapp.com/attachments/669372366710898688/1175332478563651664/image0.gif?ex=656ad8ab&is=655863ab&hm=dc4afa1be5b9f0f72829d88f9b9944a36c1f97abb8760138712009ba264b9b1a&",
