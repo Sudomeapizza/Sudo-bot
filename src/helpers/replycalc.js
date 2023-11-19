@@ -97,7 +97,7 @@ downloadFile(fileUrl);
     //   client.send();
 
     // var info = wget.download(source[1], "");
-    console.log(`${JSON.parse(JSON.stringify(outputstuff))}`)
+    // console.log(`${JSON.parse(JSON.stringify(outputstuff))}`)
     // console.log(`https://en.wikipedia.org/?curid=${JSON.parse(info).query.pages}`);
 
 
