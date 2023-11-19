@@ -71,7 +71,7 @@ async function downloadFile(url) {
     // Get the file content as a Buffer
     const fileContent = Buffer.from(response.data, 'binary');
     const readableContent = fileContent.toString('utf-8');
-    const jsonData = JSON.parse(jsonString);
+    const jsonData = JSON.parse(readableContent);
     const pagesValue = jsonData.query.pages;
 
     // You can now use the fileContent variable as needed
