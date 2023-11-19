@@ -52,14 +52,14 @@ function randomWiki(){
  
     // request.open("GET", source[0]);
     
-    XHR.onreadystatechange = function() {
+    XMLHttpRequest.onreadystatechange = function() {
         if (this.readyState == 4 && this.status == 200) {
         // Typical action to be performed when the document is ready:
-        outputstuff = XHR.responseText;
+        outputstuff = XMLHttpRequest.responseText;
         }
     };
-    XHR.open("GET", source[0], true);
-    XHR.send();
+    XMLHttpRequest.open("GET", source[0], true);
+    XMLHttpRequest.send();
 
     // var info = wget.download(source[1], "");
     console.log(`${JSON.parse(JSON.stringify(outputstuff))}`)
