@@ -73,9 +73,11 @@ async function downloadFile(url) {
     const readableContent = fileContent.toString('utf-8');
     const jsonData = JSON.parse(readableContent);
     const pagesValue = jsonData.query.pages;
+    const firstPageKey = Object.keys(pagesValue)[0];
+    const pageNumber = pagesObject[firstPageKey].pageid;
 
     // You can now use the fileContent variable as needed
-    console.log('https://en.wikipedia.org/?curid=', pagesValue);
+    console.log('https://en.wikipedia.org/?curid=', pageNumber);
   } catch (error) {
     console.error('Error downloading file:', error.message);
   }
