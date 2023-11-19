@@ -24,6 +24,7 @@ module.exports = (client) => {
                 // case value:
                 //     break;
                 default:
+                    console.log("uh oh");
                     break;
             }
         }

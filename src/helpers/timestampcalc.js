@@ -60,9 +60,11 @@ function goToDate(message) {
 function timeConvert(message) {
     if (message.guildId === '1076645110390984714'
     || message.guildId === '351882915153707008') {
+        console.log("workie6");
         if (message.author.bot) {return;}
         var userMessage = message.content;
         const info = dateRegex(userMessage);
+        console.log("workie7");
         if (info[0] != null) {
             const targetDate = goToDate(userMessage);
             var timestamp = timeStampCalc(targetDate, info[0], getRegion(message.author.id), 'D', true);4
