@@ -26,9 +26,11 @@ class website {
     console.log(pagesValue);
     const firstPageKey = Object.keys(pagesValue)[0];
     const pageNumber = pagesValue[firstPageKey].pageid;
-    console.log([pageNumber]);
+    console.log(pageNumber);
 
     this._link = ('https://en.wikipedia.org/?curid=' + pageNumber).replace(/\s+/g, '');
+
+    console.log(this._link);
   }
 
   theLink() {
