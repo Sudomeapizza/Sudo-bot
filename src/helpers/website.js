@@ -7,7 +7,7 @@ function getLink() {
         'https://api.example.com/data'];
 
         console.log("________" + shell.exec('echo $(wget -q -O "https://en.wikipedia.org/w/api.php?format=json&action=query&generator=random&grnnamespace=0&rvprop=content&grnlimit=1")'));
-        console.log("_-_-_-_-" + shell.exec('echo $(wget -q -O "https://example.com)'));
+        console.log("_-_-_-_-" + shell.exec('echo $(wget -q -O "https://example.com")'));
         
     // async function downloadFile(url) {
     //     try {
