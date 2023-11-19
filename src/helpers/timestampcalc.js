@@ -1,4 +1,5 @@
 const { dateRegex } = require('./regex.js');
+const { getRegion } = require('../../helpers/user.js');
 
 function timeStampCalc(date, time, region, format, internal = false){
     // this is in UTC
@@ -56,4 +57,30 @@ function goToDate(message) {
     return idate.toLocaleDateString("en-US", { year: 'numeric', month: 'long', day: 'numeric' });      
 }
 
-module.exports = { timeStampCalc, goToDate };
+function timeConvert(message) {
+    if (message.guildId === '1076645110390984714'
+    || message.guildId === '351882915153707008') {
+        if (message.author.bot) {return;}
+        var userMessage = message.content;
+        const info = dateRegex(userMessage);
+        if (info[0] != null) {
+            // message.channel.send(info[0] + " " + info[1]);
+            const targetDate = goToDate(userMessage);
+            var timestamp = timeStampCalc(targetDate, info[0], getRegion(message.author.id), 'D', true);4
+            var newMessage = userMessage.replace(`${info[1]} at ${info[0]}`,`${timestamp[0]} ${timestamp[1]}`);
+            // var newMessage = userMessage.replace(`${info[1]} @ ${info[0]}`,`${timestamp[0]} ${timestamp[1]}`);
+            if (timestamp) {
+                message.channel.send(newMessage);
+            } else {
+                message.author.send({
+                    content: "You do not have a region set internally, please specify your region.",
+                    ephemeral: true
+                });
+            }
+        } else {
+            message.channel.send(info[0]);
+        }
+    }
+}
+
+module.exports = { timeStampCalc, goToDate, timeConvert };
