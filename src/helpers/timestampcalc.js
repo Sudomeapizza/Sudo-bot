@@ -70,7 +70,7 @@ function timeConvert(message) {
             var newMessage = userMessage.replace(`${info[1]} at ${info[0]}`,`${timestamp[0]} ${timestamp[1]}`);
             // var newMessage = userMessage.replace(`${info[1]} @ ${info[0]}`,`${timestamp[0]} ${timestamp[1]}`);
             if (timestamp) {
-                message.channel.send(newMessage);
+                message.channel.send(newMessage  || "None4");
             } else {
                 message.author.send({
                     content: "You do not have a region set internally, please specify your region.",
@@ -78,7 +78,7 @@ function timeConvert(message) {
                 });
             }
         } else {
-            message.channel.send(info[0]);
+            message.channel.send(info[0]  || "None5");
         }
     }
 }
