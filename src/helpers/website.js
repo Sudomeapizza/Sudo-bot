@@ -18,7 +18,7 @@ class website {
     // this just prints to the console for no reason...
     // try without echo?
     console.log(0);
-    var readableContent = shell.exec(`echo $(./src/helpers/wget.sh "${source[0]}")`);
+    var readableContent = shell.exec(`echo $(./src/helpers/wget.sh "${source[0]}", )`, {silent:true});
     // var readableContent = shell.exec(`$(./src/helpers/wget.sh "${source[0]}")`);
     console.log(1);
     const jsonData = JSON.parse(readableContent);
