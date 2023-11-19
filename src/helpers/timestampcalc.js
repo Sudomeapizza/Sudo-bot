@@ -69,7 +69,6 @@ function timeConvert(message) {
             const targetDate = goToDate(userMessage);
             var timestamp = timeStampCalc(targetDate, info[0], getRegion(message.author.id), 'D', true);4
             var newMessage = userMessage.replace(`${info[1]} at ${info[0]}`,`${timestamp[0]} ${timestamp[1]}`);
-            // var newMessage = userMessage.replace(`${info[1]} @ ${info[0]}`,`${timestamp[0]} ${timestamp[1]}`);
             if (timestamp) {
                 message.channel.send(newMessage || "None4");
             } else {
@@ -78,6 +77,8 @@ function timeConvert(message) {
                     content: "You do not have a region set internally, please specify your region."
                 });
             }
+        } else {
+            console.log("Workie8");
         }
     }
 }
