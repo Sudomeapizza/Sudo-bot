@@ -6,6 +6,7 @@ var _link;
 
 class website {
   constructor() {
+    console.log("Workie13");
     this.getLink();
   }
 
@@ -28,6 +29,7 @@ class website {
   }
 
   theLink() {
+    console.log("Workie14");
     return this._link;
   }
 }
