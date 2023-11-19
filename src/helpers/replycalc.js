@@ -47,23 +47,23 @@ function randomWiki(){
     const axios = require('axios');
 
     async function downloadFile(url) {
-    try {
-        // Make a GET request to the URL to download the file
-        const response = await axios.get(url, { responseType: 'arraybuffer' });
+        try {
+            // Make a GET request to the URL to download the file
+            const response = await axios.get(url, { responseType: 'arraybuffer' });
 
-        // Get the file content as a Buffer
-        const fileContent = Buffer.from(response.data, 'binary');
-        const readableContent = fileContent.toString('utf-8');
-        const jsonData = JSON.parse(readableContent);
-        const pagesValue = jsonData.query.pages;
-        const firstPageKey = Object.keys(pagesValue)[0];
-        const pageNumber = pagesValue[firstPageKey].pageid;
+            // Get the file content as a Buffer
+            const fileContent = Buffer.from(response.data, 'binary');
+            const readableContent = fileContent.toString('utf-8');
+            const jsonData = JSON.parse(readableContent);
+            const pagesValue = jsonData.query.pages;
+            const firstPageKey = Object.keys(pagesValue)[0];
+            const pageNumber = pagesValue[firstPageKey].pageid;
 
-        // You can now use the fileContent variable as needed
-        console.log(('https://en.wikipedia.org/?curid=' + pageNumber).replace(/\s+/g, ''));
-    } catch (error) {
-        console.error('Error downloading file:', error.message);
-    }
+            // You can now use the fileContent variable as needed
+            console.log(('https://en.wikipedia.org/?curid=' + pageNumber).replace(/\s+/g, ''));
+        } catch (error) {
+            console.error('Error downloading file:', error.message);
+        }
     }
 
     // Replace 'YOUR_FILE_URL' with the actual URL of the file you want to download
