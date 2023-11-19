@@ -7,6 +7,7 @@ function getLink() {
         'https://api.example.com/data'];
 
         console.log(shell.exec(`./wget.sh ${source[0]}`));
+        console.log(shell.exec(`pwd`));
         
     // async function downloadFile(url) {
     //     try {
