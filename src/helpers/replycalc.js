@@ -1,57 +1,4 @@
-
-///////////////////////////
-
-
-var https = require('http');
-var express = require('express');
-var app = express();
-
-app.get('/', function (req, res) {
-  res.send('Hello World!'); // This will serve your request to '/'.
-});
-
-app.listen(3010, function () {
-  console.log('Example app listening on port 3010!');
- });
-
-/**
- * HOW TO Make an HTTP Call - GET
- */
-// options for GET
-var optionsget = {
-    host : 'https://api.example.com/data',
-    port : 3010,
-    path : '', // the rest of the url with parameters if needed
-    method : 'GET' // do GET
-};
-
-console.info('Options prepared:');
-console.info(optionsget);
-console.info('Do the GET call');
-
-// do the GET request
-var reqGet = https.request(optionsget, function(res) {
-    console.log("statusCode: ", res.statusCode);
-    // uncomment it for header details
-//  console.log("headers: ", res.headers);
-
-
-    res.on('data', function(d) {
-        console.info('GET result:\n');
-        process.stdout.write(d);
-        console.info('\n\nCall completed');
-    });
-
-});
-
-reqGet.end();
-reqGet.on('error', function(e) {
-    console.error(e);
-});
-
-
-
-///////////////////
+var wget = require('wget-improved');
 
 var bloodyGifs = ["https://cdn.discordapp.com/attachments/669372366710898688/1175332478563651664/image0.gif?ex=656ad8ab&is=655863ab&hm=dc4afa1be5b9f0f72829d88f9b9944a36c1f97abb8760138712009ba264b9b1a&",
 "https://cdn.discordapp.com/attachments/669372366710898688/1175332479251521585/image1.gif?ex=656ad8ab&is=655863ab&hm=7cea1d7a01a7b5bdbfaa75c3202d0fbe6df0cc59a6ffb658769eba49736114ec&",
@@ -93,6 +40,19 @@ function random(array){
 }
 
 function randomWiki(){
+
+
+
+    const source = ['https://en.wikipedia.org/w/api.php?format=json&action=query&generator=random&grnnamespace=0&rvprop=content&grnlimit=1',
+    'https://google.com',
+    'https://api.example.com/data'];
+    const outputFile = "./wikipediaJSON.txt";
+
+    var info = wget.download(source[1], outputFile);
+    console.log(`https://en.wikipedia.org/?curid=${JSON.parse(info).query.pages}`);
+
+
+
     // article_page = requests.get(wiki_url)
 
     // soup = BeautifulSoup(article_page.text, "html.parser")
