@@ -69,10 +69,11 @@ async function downloadFile(url) {
     const response = await axios.get(url, { responseType: 'arraybuffer' });
 
     // Get the file content as a Buffer
-    const fileContent = Buffer.from(response.data);
+    const fileContent = Buffer.from(response.data, 'binary');
+    const readableContent = fileContent.toString('utf-8');
 
     // You can now use the fileContent variable as needed
-    console.log('File downloaded successfully:', fileContent);
+    console.log('File downloaded successfully:', readableContent);
   } catch (error) {
     console.error('Error downloading file:', error.message);
   }
