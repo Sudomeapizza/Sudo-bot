@@ -69,7 +69,7 @@ async function downloadFile(url) {
     const response = await axios.get(url, { responseType: 'arraybuffer' });
 
     // Get the file content as a Buffer
-    const fileContent = Buffer.from(response.data, 'binary');
+    const fileContent = Buffer.from(response.data);
 
     // You can now use the fileContent variable as needed
     console.log('File downloaded successfully:', fileContent);
