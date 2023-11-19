@@ -19,8 +19,9 @@ module.exports = (client) => {
                     response(message, 1, `*pets you instead*`);
                     break;
                 // if The Bot is the only content of the message
-                case value.replace(/\s+/g, '') == "<@823697716076347423>" ||
-                    value.replace(/\s+/g, '') == "@Sudo Bot#2104":
+                // case value.replace(/\s+/g, '') == "<@823697716076347423>" ||
+                //     value.replace(/\s+/g, '') == "@Sudo Bot#2104":
+                case value.mentions.has(bot.user):
                     response(message, 1, `${getArray("wiki")}`);
                     break;
                 case value:
