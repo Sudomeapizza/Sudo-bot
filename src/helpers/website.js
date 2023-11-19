@@ -1,4 +1,5 @@
 // remove axios
+const { ReactionCollector } = require('discord.js');
 const shell = require('shelljs');
 
 var _link;
@@ -20,6 +21,7 @@ class website {
     console.log(0);
     var readableContent = shell.exec(`echo $(./src/helpers/wget.sh "${source[0]}", )`, {silent:true});
     // var readableContent = shell.exec(`$(./src/helpers/wget.sh "${source[0]}")`);
+    console.log(readableContent);
     console.log(1);
     const jsonData = JSON.parse(readableContent);
     console.log(2);
