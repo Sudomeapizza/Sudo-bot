@@ -61,20 +61,40 @@ function randomWiki(){
     // XMLHttpRequest.open("GET", source[0], true);
     // XMLHttpRequest.send();
 
+    const axios = require('axios');
 
-    function handler() {
-        if(this.status == 200 &&
-          this.responseXML != null &&
-          this.responseXML.getElementById('test').textContent) {
-          // success!
-          console.log(this.responseXML.getElementById('test').textContent);
-        }
-      }
+async function downloadFile(url) {
+  try {
+    // Make a GET request to the URL to download the file
+    const response = await axios.get(url, { responseType: 'arraybuffer' });
+
+    // Get the file content as a Buffer
+    const fileContent = Buffer.from(response.data, 'binary');
+
+    // You can now use the fileContent variable as needed
+    console.log('File downloaded successfully:', fileContent);
+  } catch (error) {
+    console.error('Error downloading file:', error.message);
+  }
+}
+
+// Replace 'YOUR_FILE_URL' with the actual URL of the file you want to download
+const fileUrl = source[0];
+downloadFile(fileUrl);
+
+    // function handler() {
+    //     if(this.status == 200 &&
+    //       this.responseXML != null &&
+    //       this.responseXML.getElementById('test').textContent) {
+    //       // success!
+    //       console.log(this.responseXML.getElementById('test').textContent);
+    //     }
+    //   }
       
-      var client = new XMLHttpRequest();
-      client.onload = handler;
-      client.open("GET", "unicorn.xml");
-      client.send();
+    //   var client = new XMLHttpRequest();
+    //   client.onload = handler;
+    //   client.open("GET", "unicorn.xml");
+    //   client.send();
 
     // var info = wget.download(source[1], "");
     console.log(`${JSON.parse(JSON.stringify(outputstuff))}`)
