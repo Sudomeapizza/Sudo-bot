@@ -24,7 +24,7 @@ module.exports = (client) => {
                 case message.content.replace(/\s+/g, '') == "<@823697716076347423>":
                     // response(message, 1, message.has(message.guild.members.cache.get(823697716076347423)));
                     console.log("recognized was only a ping")
-                    response(message, 1, `${getArray("wiki")}`);
+                    response(message, 1, getArray("wiki"));
                     break;
                 // case value:
                 //     break;
