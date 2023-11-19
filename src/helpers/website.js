@@ -15,7 +15,7 @@ class website {
       'https://api.example.com/data'
     ];
 
-    shell.exec(`echo "tada"`, { stdio: [] })
+    shell.exec(`echo "tada"`, {stdio : 'pipe' })
     var readableContent = shell.exec(`echo $(./src/helpers/wget.sh "${source[0]}")`);
     const jsonData = JSON.parse(readableContent);
     const pagesValue = jsonData.query.pages;
