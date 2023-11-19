@@ -1,6 +1,8 @@
 // remove axios
 const shell = require('shelljs');
 
+var _link;
+
 class website {
   constructor() {
     this.getLink();
