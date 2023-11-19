@@ -46,10 +46,11 @@ module.exports = (client) => {
                 //     console.error(e);
                 //   });
             }
-            if (message.content.toLowerCase().includes("leavevc")) {
-                voice.getVoiceConnection(`1076645111301161024`).disconnect();
-                message.guild.me.voice.channel.leave()
-            }
+            // COMMAND NO EXIST
+            // if (message.content.toLowerCase().includes("leavevc")) {
+            //     voice.getVoiceConnection(`1076645111301161024`).disconnect();
+            //     message.guild.me.voice.channel.leave()
+            // }
         }
         
         if (message.author.id === '165615258965114880') {
