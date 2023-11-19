@@ -43,7 +43,9 @@ function random(array){
 }
 
 function randomWiki(){
-    return new getLink();
+    const link = new getLink();
+    console.log(link);
+    return link;
 }
 
 module.exports = { getArray }
