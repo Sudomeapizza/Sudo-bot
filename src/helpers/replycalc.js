@@ -25,19 +25,25 @@ var wiki = new randomWiki();
 
 
 function getArray(gif) {
+    console.log("Workie2.1");
     switch (gif) {
         case "bloodyGifs":
+            console.log("Workie2.2");
             return random(bloodyGifs);
         case "wiki":
-            console.log("workie2");
+            console.log("workie2.21");
             return wiki;
         default:
+            console.log("Workie2.22");
             break;
     }
+    console.log("Workie2.3");
 }
 
 function random(array){
+    console.log("Workie11");
     const val = `${array[Math.floor(Math.random() * array.length)]}`;
+    console.log("Workie12");
     return val;
 }
 

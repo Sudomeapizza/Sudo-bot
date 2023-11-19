@@ -2,6 +2,7 @@ const { dateRegex } = require('./regex.js');
 const { getRegion } = require('./user.js');
 
 function timeStampCalc(date, time, region, format, internal = false){
+    console.log("Workie10");
     // this is in UTC
     var timestamp = Date.parse(`${date} ${time}`)/1000;
     var fullResponse;
@@ -40,6 +41,7 @@ function timeStampCalc(date, time, region, format, internal = false){
 }
 
 function goToDate(message) {
+    console.log("Workie9");
     // i => itterativeDate
     var idate = new Date();
     var targetDate = dateRegex(message);
