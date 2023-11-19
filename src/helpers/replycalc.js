@@ -30,7 +30,7 @@ function getArray(gif) {
         case "bloodyGifs":
             return random(bloodyGifs);
         case "wiki":
-            return random(wiki);
+            return wiki[0];
         default:
             break;
     }
