@@ -1,5 +1,11 @@
-const axios = require('axios');
+// remove axios
 const shell = require('shelljs')
+var _link;
+class website {
+    website(){
+        getLink();
+    }
+}
 
 function getLink() {
     const source = ['https://en.wikipedia.org/w/api.php?format=json&action=query&generator=random&grnnamespace=0&rvprop=content&grnlimit=1',
@@ -12,7 +18,12 @@ function getLink() {
     const firstPageKey = Object.keys(pagesValue)[0];
     const pageNumber = pagesValue[firstPageKey].pageid;
     console.log(('https://en.wikipedia.org/?curid=' + pageNumber).replace(/\s+/g, ''));
-    return ('https://en.wikipedia.org/?curid=' + pageNumber).replace(/\s+/g, '');
+
+    _link = ('https://en.wikipedia.org/?curid=' + pageNumber).replace(/\s+/g, '');
 }
 
-module.exports = { getLink };
+function theLink() {
+    return _link;
+}
+
+module.exports = { website, theLink };
