@@ -73,8 +73,7 @@ function timeConvert(message) {
                 message.channel.send(newMessage  || "None4");
             } else {
                 message.author.send({
-                    content: "You do not have a region set internally, please specify your region.",
-                    ephemeral: true
+                    content: "You do not have a region set internally, please specify your region."
                 });
             }
         } else {

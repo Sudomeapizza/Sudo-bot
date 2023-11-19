@@ -1,7 +1,6 @@
 const { timeConvert } = require('../../helpers/timestampcalc.js');
 const { joinVoiceChannel } = require('@discordjs/voice');
 const { getArray } = require('../../helpers/replycalc.js');
-const { website, theLink } = require('../../helpers/website.js');
 
 module.exports = (client) => {
     
@@ -23,7 +22,6 @@ module.exports = (client) => {
                 case message.content.replace(/\s+/g, '') == "<@823697716076347423>":
                     // response(message, 1, message.has(message.guild.members.cache.get(823697716076347423)));
                     console.log("recognized was only a ping")
-                    //response(message, 1, new website().theLink());
                     response(message, 1, getArray("wiki"));
                     break;
                 // case value:
@@ -34,29 +32,30 @@ module.exports = (client) => {
         }
 
         if (message.author.id === '210932800000491520') {
+            var connection;
             if (message.content.toLowerCase().includes("joinvc")) {
                 // voice.joinVoiceChannel([`1076645111301161024`]);
-                const connection = joinVoiceChannel({
-                    channelId: message.member.voice.channelId,
-                    guildId: message.guild.id, 
-                    adapterCreator: message.guild.voiceAdapterCreator,
-                    selfDeaf: false
-                });
+                if (connection != null) {
+                    connection = joinVoiceChannel({
+                        channelId: message.member.voice.channelId,
+                        guildId: message.guild.id, 
+                        adapterCreator: message.guild.voiceAdapterCreator,
+                        selfDeaf: false
+                    });
+                } else {
+                    message.author.send({
+                        content: `I'm already in another channel!\nhttps://discord.com/channels/${connection.guildId}/${connection.channelId}`
+                    });
+                }
                 message.delete();
 
-                // client.channels.cache.get("1076645111301161024").join().then(connection => {
-                //     // Yay, it worked!
-                //     console.log("Successfully connected.");
-                //   }).catch(e => {
-                //     // Oh no, it errored! Let's log it to console :)
-                //     console.error(e);
-                //   });
             }
-            // COMMAND NO EXIST??
-            // if (message.content.toLowerCase().includes("leavevc")) {
-            //     voice.getVoiceConnection(`1076645111301161024`).disconnect();
-            //     message.guild.me.voice.channel.leave()
-            // }
+            // maybe workie?
+            if (message.content.toLowerCase().includes("leavevc")) {
+                connection.destroy();
+                connection = null;
+                message.delete();
+            }
         }
         
         if (message.author.id === '165615258965114880') {
