@@ -1,4 +1,4 @@
-const axios = require('axios');
+const { getLink } = require('./website.js');
 
 var bloodyGifs = ["https://cdn.discordapp.com/attachments/669372366710898688/1175332478563651664/image0.gif?ex=656ad8ab&is=655863ab&hm=dc4afa1be5b9f0f72829d88f9b9944a36c1f97abb8760138712009ba264b9b1a&",
 "https://cdn.discordapp.com/attachments/669372366710898688/1175332479251521585/image1.gif?ex=656ad8ab&is=655863ab&hm=7cea1d7a01a7b5bdbfaa75c3202d0fbe6df0cc59a6ffb658769eba49736114ec&",
@@ -43,38 +43,7 @@ function random(array){
 }
 
 function randomWiki(){
-    const source = ['https://en.wikipedia.org/w/api.php?format=json&action=query&generator=random&grnnamespace=0&rvprop=content&grnlimit=1',
-    'https://google.com',
-    'https://api.example.com/data'];
-
-    function downloadFile(url) {
-        try {
-            // Make a GET request to the URL to download the file
-            // const response2 = await axios.get(url, { responseType: 'arraybuffer' });
-            const response = axios.get(url);
-
-
-            // Get the file content as a Buffer
-            const fileContent = Buffer.from(response.data, 'binary');
-            const readableContent = fileContent.toString('utf-8');
-            const jsonData = JSON.parse(readableContent);
-            const pagesValue = jsonData.query.pages;
-            const firstPageKey = Object.keys(pagesValue)[0];
-            const pageNumber = pagesValue[firstPageKey].pageid;
-
-            
-            // You can now use the fileContent variable as needed
-            console.log(('https://en.wikipedia.org/?curid=' + pageNumber).replace(/\s+/g, ''));
-
-            return(('https://en.wikipedia.org/?curid=' + pageNumber).replace(/\s+/g, ''));
-        } catch (error) {
-            console.error('Error downloading file:', error.message);
-        }
-    }
-
-    // Replace 'YOUR_FILE_URL' with the actual URL of the file you want to download
-    const fileUrl = source[0];
-    return downloadFile(fileUrl);
+    return new getLink();
 }
 
 module.exports = { getArray }
