@@ -1,5 +1,5 @@
 var wget = require('wget-improved');
-var xhttp = require('xmlhttprequest');
+var XHR = require('xmlhttprequest');
 
 var bloodyGifs = ["https://cdn.discordapp.com/attachments/669372366710898688/1175332478563651664/image0.gif?ex=656ad8ab&is=655863ab&hm=dc4afa1be5b9f0f72829d88f9b9944a36c1f97abb8760138712009ba264b9b1a&",
 "https://cdn.discordapp.com/attachments/669372366710898688/1175332479251521585/image1.gif?ex=656ad8ab&is=655863ab&hm=7cea1d7a01a7b5bdbfaa75c3202d0fbe6df0cc59a6ffb658769eba49736114ec&",
@@ -52,14 +52,14 @@ function randomWiki(){
  
     // request.open("GET", source[0]);
     
-    xhttp.onreadystatechange = function() {
+    XHR.onreadystatechange = function() {
         if (this.readyState == 4 && this.status == 200) {
         // Typical action to be performed when the document is ready:
-        outputstuff = xhttp.responseText;
+        outputstuff = XHR.responseText;
         }
     };
-    xhttp.open("GET", source[0], true);
-    xhttp.send();
+    XHR.open("GET", source[0], true);
+    XHR.send();
 
     // var info = wget.download(source[1], "");
     console.log(`${JSON.parse(JSON.stringify(outputstuff))}`)
