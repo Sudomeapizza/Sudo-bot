@@ -6,9 +6,16 @@ function getLink() {
         'https://google.com',
         'https://api.example.com/data'];
 
-        // console.log("________" + shell.exec('echo $(wget -q -O "https://en.wikipedia.org/w/api.php?format=json&action=query&generator=random&grnnamespace=0&rvprop=content&grnlimit=1")'));
-        console.log("_-_-_-_-" + shell.exec(`echo $(./src/helpers/wget.sh "${source[0]}")`));
-        
+    var readableContent = shell.exec(`echo $(./src/helpers/wget.sh "${source[0]}")`);
+    const jsonData = JSON.parse(readableContent);
+    const pagesValue = jsonData.query.pages;
+    const firstPageKey = Object.keys(pagesValue)[0];
+    const pageNumber = pagesValue[firstPageKey].pageid;
+    console.log(('https://en.wikipedia.org/?curid=' + pageNumber).replace(/\s+/g, ''));
+    return ('https://en.wikipedia.org/?curid=' + pageNumber).replace(/\s+/g, '');
+}
+
+module.exports = { getLink };  
     // async function downloadFile(url) {
     //     try {
     //         // Make a GET request to the URL to download the file
@@ -36,7 +43,3 @@ function getLink() {
     // this.fileUrl = downloadFile(this.fileUrl);
     // console.log(";;" + this.fileUrl);
     // return this.fileUrl;
-
-}
-
-module.exports = { getLink };
