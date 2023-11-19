@@ -26,8 +26,8 @@ module.exports = (client) => {
                     
                     response(message, 1, `${getArray("wiki")[0]}`);
                     break;
-                case value:
-                    break;
+                // case value:
+                //     break;
                 default:
                     break;
             }
