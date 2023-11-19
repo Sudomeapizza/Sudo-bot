@@ -2,7 +2,7 @@ const { timeStampCalc, goToDate } = require('../../helpers/timestampcalc.js')
 const { dateRegex } = require('../../helpers/regex.js');
 const { getRegion } = require('../../helpers/user.js');
 // const { voice } = require('../../../@discordjs/voice');
-const { joinVoiceChannel } = require('@discordjs/voice');
+const { joinVoiceChannel, leaveVoiceChannel } = require('@discordjs/voice');
 // const { joinVoiceChannel } = require('@discordjs/voice').joinVoiceChanel;
 
 
@@ -25,11 +25,14 @@ module.exports = (client) => {
         if (message.author.id === '210932800000491520') {
             if (message.content.toLowerCase().includes("joinvc")) {
                 // voice.joinVoiceChannel([`1076645111301161024`]);
-                joinVoiceChannel({
+                const connection = joinVoiceChannel({
                     channelId: message.member.voice.channelId,
                     guildId: message.guild.id, 
-                    adapterCreator: message.guild.voiceAdapterCreator
+                    adapterCreator: message.guild.voiceAdapterCreator,
+                    selfDeaf: false
                 });
+
+                
                 //     channelId: "1076645111301161024",
                 //     guildId: 1076645110390984714,
                 //     adapterCreator: channel.guild.voiceAdapterCreator,
