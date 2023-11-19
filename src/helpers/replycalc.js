@@ -29,8 +29,8 @@ function getArray(gif) {
         case "bloodyGifs":
             return random(bloodyGifs);
         case "wiki":
-            console.log("~~~~~~" + wiki);
-            return wiki;
+            console.log("~~~~~~" + wiki._link);
+            return wiki._link;
         default:
             break;
     }
