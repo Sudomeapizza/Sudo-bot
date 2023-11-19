@@ -1,8 +1,3 @@
-// import requests
-// import webbrowser
-// from bs4 import BeautifulSoup
-const { requests } = require('requests');
-
 
 ///////////////////////////
 
