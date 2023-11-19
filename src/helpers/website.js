@@ -22,7 +22,7 @@ function getLink() {
     _link = ('https://en.wikipedia.org/?curid=' + pageNumber).replace(/\s+/g, '');
 }
 
-function theLink() {
+website.prototype.theLink = function() {
     return _link;
 }
 
