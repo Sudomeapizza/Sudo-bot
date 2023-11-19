@@ -6,8 +6,7 @@ function getLink() {
         'https://google.com',
         'https://api.example.com/data'];
 
-        console.log(shell.exec(`./wget.sh ${source[0]}`));
-        console.log(shell.exec(`pwd`));
+        console.log(shell.exec(`.src/helpers/wget.sh ${source[0]}`));
         
     // async function downloadFile(url) {
     //     try {
