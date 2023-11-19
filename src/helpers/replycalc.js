@@ -37,7 +37,9 @@ function getArray(gif) {
 }
 
 function random(array){
-    return `${array[Math.floor(Math.random() * array.length)]}`
+    const val = `${array[Math.floor(Math.random() * array.length)]}`;
+    console.log(val);
+    return val;
 }
 
 function randomWiki(){
