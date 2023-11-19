@@ -93,13 +93,13 @@ function random(array){
 }
 
 function randomWiki(){
-    article_page = requests.get(wiki_url)
+    // article_page = requests.get(wiki_url)
 
-    soup = BeautifulSoup(article_page.text, "html.parser")
-    article_title = soup.find(id='firstHeading')
+    // soup = BeautifulSoup(article_page.text, "html.parser")
+    // article_title = soup.find(id='firstHeading')
     
-    response = `${article_title.string}`
-    return response;
+    // response = `${article_title.string}`
+    // return response;
 }
 
 module.exports = { getArray }
