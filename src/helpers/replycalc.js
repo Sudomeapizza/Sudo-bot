@@ -49,7 +49,7 @@ function randomWiki(){
     var outputstuff;
 
  
-    request.open("GET", source[0]);
+    // request.open("GET", source[0]);
     var xhttp = new XMLHttpRequest();
     xhttp.onreadystatechange = function() {
         if (this.readyState == 4 && this.status == 200) {
@@ -57,7 +57,7 @@ function randomWiki(){
         outputstuff = xhttp.responseText;
         }
     };
-    xhttp.open("GET", "filename", true);
+    xhttp.open("GET", source[0], true);
     xhttp.send();
 
     // var info = wget.download(source[1], "");
