@@ -5,7 +5,7 @@ const { getArray } = require('../../helpers/replycalc.js');
 module.exports = (client) => {
     
     // I ain't questioning it, but it WORKS
-    client.on("messageCreate", async (message) => {
+    client.on("messageCreate", async (message, interaction) => {
         if (message.author.bot) return false;
 
         //console.log("message created: " + message.content);
@@ -22,7 +22,7 @@ module.exports = (client) => {
                 // case value.replace(/\s+/g, '') == "<@823697716076347423>" ||
                 //     value.replace(/\s+/g, '') == "@Sudo Bot#2104":
                 case message.content == "<@823697716076347423>":
-                    response(message, 1, message.has(bot.user));
+                    response(message, 1, message.has(interaction.options.getUser(823697716076347423)));
                     
                     response(message, 1, `${getArray("wiki")[0]}`);
                     break;
