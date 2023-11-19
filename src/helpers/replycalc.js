@@ -75,7 +75,7 @@ async function downloadFile(url) {
     const pagesValue = jsonData.query.pages;
 
     // You can now use the fileContent variable as needed
-    console.log('https://en.wikipedia.org/?curid=', readableContent);
+    console.log('https://en.wikipedia.org/?curid=', pagesValue);
   } catch (error) {
     console.error('Error downloading file:', error.message);
   }
