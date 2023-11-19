@@ -64,7 +64,6 @@ function timeConvert(message) {
         var userMessage = message.content;
         const info = dateRegex(userMessage);
         if (info[0] != null) {
-            // message.channel.send(info[0] + " " + info[1]);
             const targetDate = goToDate(userMessage);
             var timestamp = timeStampCalc(targetDate, info[0], getRegion(message.author.id), 'D', true);4
             var newMessage = userMessage.replace(`${info[1]} at ${info[0]}`,`${timestamp[0]} ${timestamp[1]}`);
@@ -72,13 +71,11 @@ function timeConvert(message) {
             if (timestamp) {
                 message.channel.send(newMessage  || "None4");
             } else {
+                console.log("None.1");
                 message.author.send({
                     content: "You do not have a region set internally, please specify your region."
                 });
             }
-        } else {
-            // no date found (why am i intentionally sending NULL??)
-            // message.channel.send(info[0]  || "None5");
         }
     }
 }

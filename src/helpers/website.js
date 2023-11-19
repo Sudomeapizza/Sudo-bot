@@ -16,21 +16,15 @@ class website {
       'https://api.example.com/data'
     ];
 
-    // this just prints to the console for no reason...
-    // try without echo?
+    // fixed the console readout, but now it sends a broken message...
     var readableContent = shell.exec(`echo $(./src/helpers/wget.sh "${source[0]}")`, {silent:true});
-    console.log(readableContent);
     const jsonData = JSON.parse(readableContent);
-    console.log(jsonData);
     const pagesValue = jsonData.query.pages;
-    console.log(pagesValue);
     const firstPageKey = Object.keys(pagesValue)[0];
     const pageNumber = pagesValue[firstPageKey].pageid;
-    console.log(pageNumber);
 
     this._link = ('https://en.wikipedia.org/?curid=' + pageNumber).replace(/\s+/g, '');
 
-    console.log(this._link);
   }
 
   theLink() {
