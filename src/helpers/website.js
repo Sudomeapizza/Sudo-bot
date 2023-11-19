@@ -31,6 +31,7 @@ class getLink {
         // Replace 'YOUR_FILE_URL' with the actual URL of the file you want to download
         this.fileUrl = source[0];
         this.fileUrl = downloadFile(this.fileUrl);
+        console.log(";;" + this.fileUrl);
         return this.fileUrl;
     }
 }
