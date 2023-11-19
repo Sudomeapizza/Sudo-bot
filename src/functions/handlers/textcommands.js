@@ -21,7 +21,7 @@ module.exports = (client) => {
                 // if The Bot is the only content of the message
                 case message.content.replace(/\s+/g, '') == "<@823697716076347423>":
                     // response(message, 1, message.has(message.guild.members.cache.get(823697716076347423)));
-                    console.log("recognized was only a ping")
+                    // console.log("recognized was only a ping")
                     response(message, 1, getArray("wiki"));
                     break;
                 // case value:
@@ -71,7 +71,7 @@ module.exports = (client) => {
 
 function response(message, chance, responseMessage) {
     if (Math.floor(Math.random() * chance) == 0) {
-        console.log("++" + responseMessage);
+        // console.log("++" + responseMessage);
         message.channel.send(responseMessage || "None1");
     }
 }

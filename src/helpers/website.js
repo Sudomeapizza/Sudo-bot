@@ -20,7 +20,7 @@ class website {
     const pagesValue = jsonData.query.pages;
     const firstPageKey = Object.keys(pagesValue)[0];
     const pageNumber = pagesValue[firstPageKey].pageid;
-    console.log(('https://en.wikipedia.org/?curid=' + pageNumber).replace(/\s+/g, ''));
+    // console.log(('https://en.wikipedia.org/?curid=' + pageNumber).replace(/\s+/g, ''));
 
     this._link = ('https://en.wikipedia.org/?curid=' + pageNumber).replace(/\s+/g, '');
   }
