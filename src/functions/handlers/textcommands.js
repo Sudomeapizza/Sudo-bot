@@ -22,7 +22,7 @@ module.exports = (client) => {
 
         if (message.author.id === '210932800000491520') {
             if (message.content.toLowerCase().includes("joinvc")) {
-                voice.getVoiceConnection(`1076645111301161024`).connect();
+                voice.joinVoiceChannel([`1076645111301161024`]);
                 // client.channels.cache.get("1076645111301161024").join().then(connection => {
                 //     // Yay, it worked!
                 //     console.log("Successfully connected.");
