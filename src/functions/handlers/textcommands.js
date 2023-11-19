@@ -21,8 +21,10 @@ module.exports = (client) => {
                 // if The Bot is the only content of the message
                 // case value.replace(/\s+/g, '') == "<@823697716076347423>" ||
                 //     value.replace(/\s+/g, '') == "@Sudo Bot#2104":
-                case message.content.mentions.has(bot.user):
-                    response(message, 1, `${getArray("wiki")}`);
+                case message.content == "<@823697716076347423>":
+                    response(message, 1, message.has(bot.user));
+                    
+                    response(message, 1, `${getArray("wiki")[0]}`);
                     break;
                 case value:
                     break;
@@ -68,8 +70,8 @@ module.exports = (client) => {
     })
 }
 
-function response(message, chance, message) {
+function response(message, chance, responseMessage) {
     if (Math.floor(Math.random() * chance) == 0) {
-        message.channel.send(message);
+        message.channel.send(responseMessage);
     }
 }
