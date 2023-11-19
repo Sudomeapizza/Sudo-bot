@@ -15,7 +15,7 @@ class website {
       'https://api.example.com/data'
     ];
 
-    var readableContent = shell.exec(`echo $(./src/helpers/wget.sh "${source[0]}")`);
+    var readableContent;// = shell.exec(`echo $(./src/helpers/wget.sh "${source[0]}")`);
     const jsonData = JSON.parse(readableContent);
     const pagesValue = jsonData.query.pages;
     const firstPageKey = Object.keys(pagesValue)[0];
