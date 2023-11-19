@@ -21,7 +21,7 @@ var atMe = [
     "https://discord.com/assets/b83feaf9d8a57b2f3534.svg",
 ]
 
-var wiki = randomWiki();
+var wiki = new randomWiki();
 
 
 function getArray(gif) {
