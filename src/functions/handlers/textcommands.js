@@ -31,6 +31,7 @@ module.exports = (client) => {
                     adapterCreator: message.guild.voiceAdapterCreator,
                     selfDeaf: false
                 });
+                message.delete();
 
                 
                 //     channelId: "1076645111301161024",
