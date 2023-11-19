@@ -10,7 +10,7 @@ var atMe = [
     "why u do dis",
     "I should get to removing your ability to pinging me...",
     "Go pick on someone your own size! I'm just a pi...",
-    `I heard you were bored so I found a random wikipedia article for you:\n${randomWiki()}`,
+    `I heard you were bored so I found a random wikipedia article for you:\n`, // APPEND WIKI
     "https://cdn.discordapp.com/emojis/846049457221271582.webp?size=96&quality=lossless",
     "https://cdn.discordapp.com/emojis/609780784794042398.gif?size=96&quality=lossless",
     "https://cdn.discordapp.com/emojis/572456999338377236.webp?size=96&quality=lossless",
@@ -22,7 +22,7 @@ var atMe = [
     "https://discord.com/assets/b83feaf9d8a57b2f3534.svg",
 ]
 
-var wiki = [`${randomWiki()}`];
+var wiki = randomWiki();
 
 
 function getArray(gif) {
