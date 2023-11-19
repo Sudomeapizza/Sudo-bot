@@ -2,13 +2,15 @@ const { timeStampCalc, goToDate } = require('../../helpers/timestampcalc.js')
 const { dateRegex } = require('../../helpers/regex.js');
 const { getRegion } = require('../../helpers/user.js');
 
+var gifs = ["https://cdn.discordapp.com/attachments/669372366710898688/1175332478563651664/image0.gif?ex=656ad8ab&is=655863ab&hm=dc4afa1be5b9f0f72829d88f9b9944a36c1f97abb8760138712009ba264b9b1a&",
+"https://cdn.discordapp.com/attachments/669372366710898688/1175332479251521585/image1.gif?ex=656ad8ab&is=655863ab&hm=7cea1d7a01a7b5bdbfaa75c3202d0fbe6df0cc59a6ffb658769eba49736114ec&",
+"https://media.discordapp.net/attachments/669372366710898688/1175332479612223639/image2.gif?ex=656ad8ab&is=655863ab&hm=dfa1cab4e4ad5048ea11119c56a80672fcc3b1e86cc3bb7463f4cb4cacbb293f&="]
+
 module.exports = (client) => {
     
     // I ain't questioning it, but it WORKS
     client.on("messageCreate", async (message, interaction) => {
         if (message.author.bot) return false;
-
-        // if (interaction.author.bot) return false;
 
         //console.log("message created: " + message.content);
         //message.channel.send(`You said: ${message.content}`);
@@ -17,14 +19,29 @@ module.exports = (client) => {
         // require()(client);
 
         if (message.author.id === '210932800000491520') {
-            // if (Math.floor(Math.random() * 100) == 0) {
-                // if (message.content.toLowerCase().includes("bloody")) {
-                    // message.channel.send(`${message.content}`);
-                // }
-            // }
+            if (message.content.toLowerCase().includes("joinvc")) {
+                client.channels.cache.get("1076645111301161024").join().then(connection => {
+                    // Yay, it worked!
+                    console.log("Successfully connected.");
+                  }).catch(e => {
+                    // Oh no, it errored! Let's log it to console :)
+                    console.error(e);
+                  });
+            }
+            if (message.content.toLowerCase().includes("leavevc")) {
+                message.guild.me.voice.channel.leave()
+            }
+        }
+        
+        if (message.author.id === '165615258965114880') {
+            if (Math.floor(Math.random() * 10) == 0) {
+                if (message.content.toLowerCase().includes("bloody")) {
+                    var gifMessage = Math.floor(Math.random() * 3)
+                    message.channel.send(`${gif[gifMessage]}`);
+                }
+            }
         }
         timeConvert(message);
-        
     })
 }
 
