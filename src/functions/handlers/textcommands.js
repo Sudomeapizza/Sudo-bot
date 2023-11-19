@@ -23,11 +23,15 @@ module.exports = (client) => {
         if (message.author.id === '210932800000491520') {
             if (message.content.toLowerCase().includes("joinvc")) {
                 // voice.joinVoiceChannel([`1076645111301161024`]);
-                const connection = voice.joinVoiceChannel({
-                    channelId: "1076645111301161024",
-                    guildId: 1076645110390984714,
-                    adapterCreator: channel.guild.voiceAdapterCreator,
+                const connection = joinVoiceChannel({
+                    channelId: message.member.voice.channelId,
+                    guildId: message.guild.id, 
+                    adapterCreator: message.guild.voiceAdapterCreator
                 });
+                //     channelId: "1076645111301161024",
+                //     guildId: 1076645110390984714,
+                //     adapterCreator: channel.guild.voiceAdapterCreator,
+                // });
 
                 // client.channels.cache.get("1076645111301161024").join().then(connection => {
                 //     // Yay, it worked!
