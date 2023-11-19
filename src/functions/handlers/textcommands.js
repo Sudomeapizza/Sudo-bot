@@ -8,9 +8,6 @@ module.exports = (client) => {
     client.on("messageCreate", async (message, interaction) => {
         if (message.author.bot) return false;
 
-        //console.log("message created: " + message.content);
-        //message.channel.send(`You said: ${message.content}`);
-
         // If the bot gets pinged
         if (message.content.includes("<@823697716076347423>")) {
             switch (true) {
@@ -20,8 +17,6 @@ module.exports = (client) => {
                     break;
                 // if The Bot is the only content of the message
                 case message.content.replace(/\s+/g, '') == "<@823697716076347423>":
-                    // response(message, 1, message.has(message.guild.members.cache.get(823697716076347423)));
-                    // console.log("recognized was only a ping")
                     response(message, 1, getArray("wiki"));
                     break;
                 // case value:
@@ -71,7 +66,6 @@ module.exports = (client) => {
 
 function response(message, chance, responseMessage) {
     if (Math.floor(Math.random() * chance) == 0) {
-        // console.log("++" + responseMessage);
         message.channel.send(responseMessage || "None1");
     }
 }
