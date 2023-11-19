@@ -49,7 +49,8 @@ function randomWiki(){
     const outputFile = "./wikipediaJSON.txt";
 
     var info = wget.download(source[1], outputFile);
-    console.log(`https://en.wikipedia.org/?curid=${JSON.parse(info).query.pages}`);
+    console.log(`${JSON.parse(info)}`)
+    // console.log(`https://en.wikipedia.org/?curid=${JSON.parse(info).query.pages}`);
 
 
 
