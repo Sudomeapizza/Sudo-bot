@@ -78,7 +78,8 @@ function timeConvert(message) {
                 });
             }
         } else {
-            message.channel.send(info[0]  || "None5");
+            // no date found (why am i intentionally sending NULL??)
+            // message.channel.send(info[0]  || "None5");
         }
     }
 }
