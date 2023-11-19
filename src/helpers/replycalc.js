@@ -1,5 +1,4 @@
-var wget = require('wget-improved');
-// var XMLHttpRequest = require('xhr2');
+const axios = require('axios');
 
 var bloodyGifs = ["https://cdn.discordapp.com/attachments/669372366710898688/1175332478563651664/image0.gif?ex=656ad8ab&is=655863ab&hm=dc4afa1be5b9f0f72829d88f9b9944a36c1f97abb8760138712009ba264b9b1a&",
 "https://cdn.discordapp.com/attachments/669372366710898688/1175332479251521585/image1.gif?ex=656ad8ab&is=655863ab&hm=7cea1d7a01a7b5bdbfaa75c3202d0fbe6df0cc59a6ffb658769eba49736114ec&",
@@ -47,7 +46,6 @@ function randomWiki(){
     const source = ['https://en.wikipedia.org/w/api.php?format=json&action=query&generator=random&grnnamespace=0&rvprop=content&grnlimit=1',
     'https://google.com',
     'https://api.example.com/data'];
-    const axios = require('axios');
 
     async function downloadFile(url) {
         try {
