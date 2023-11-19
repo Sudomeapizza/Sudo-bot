@@ -30,42 +30,42 @@ module.exports = (client) => {
         }
 
         // stuff for joining vc's
-        // if (message.author.id === '210932800000491520') {
-        //     var connection;
-        //     if (message.content.toLowerCase().includes("joinvc")) {
-        //         // voice.joinVoiceChannel([`1076645111301161024`]);
-        //         if (connection != null) {
-        //             connection = joinVoiceChannel({
-        //                 channelId: message.member.voice.channelId,
-        //                 guildId: message.guild.id, 
-        //                 adapterCreator: message.guild.voiceAdapterCreator,
-        //                 selfDeaf: false
-        //             });
-        //         } else {
-        //             console.log("None.1");
-        //             message.author.send({
-        //                 content: `I'm already in another channel!\nhttps://discord.com/channels/${connection.guildId}/${connection.channelId}`
-        //             });
-        //         }
-        //         message.delete();
-
-        //     }
-        //     // maybe workie?
-        //     if (message.content.toLowerCase().includes("leavevc")) {
-        //         connection.destroy();
-        //         connection = null;
-        //         message.delete();
-        //     }
-        // }
-        
-        if (message.author.id === '165615258965114880') {
-            if (Math.floor(Math.random() * 10) == 0) {
-                if (message.content.toLowerCase().includes("bloody")) {
-                    message.channel.send(`${getArray("bloodyGif")}`  || "None2");
+        if (message.author.id === '210932800000491520') {
+            var connection;
+            if (message.content.toLowerCase().includes("joinvc")) {
+                // voice.joinVoiceChannel([`1076645111301161024`]);
+                if (connection != null) {
+                    connection = joinVoiceChannel({
+                        channelId: message.member.voice.channelId,
+                        guildId: message.guild.id, 
+                        adapterCreator: message.guild.voiceAdapterCreator,
+                        selfDeaf: false
+                    });
+                } else {
+                    console.log("None.1");
+                    message.author.send({
+                        content: `I'm already in another channel!\nhttps://discord.com/channels/${connection.guildId}/${connection.channelId}`
+                    });
                 }
+                message.delete();
+
+            }
+            // maybe workie?
+            if (message.content.toLowerCase().includes("leavevc")) {
+                connection.destroy();
+                connection = null;
+                message.delete();
             }
         }
-        timeConvert(message);
+        
+        // if (message.author.id === '165615258965114880') {
+        //     if (Math.floor(Math.random() * 10) == 0) {
+        //         if (message.content.toLowerCase().includes("bloody")) {
+        //             message.channel.send(`${getArray("bloodyGif")}` || "None2");
+        //         }
+        //     }
+        // }
+        // timeConvert(message);
     })
 }
 
