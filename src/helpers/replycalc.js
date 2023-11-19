@@ -19,9 +19,9 @@ app.listen(3010, function () {
  */
 // options for GET
 var optionsget = {
-    host : 'localhost',
+    host : 'https://api.example.com/data',
     port : 3010,
-    path : '/quote/random', // the rest of the url with parameters if needed
+    path : '', // the rest of the url with parameters if needed
     method : 'GET' // do GET
 };
 
