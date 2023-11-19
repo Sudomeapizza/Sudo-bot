@@ -71,9 +71,11 @@ async function downloadFile(url) {
     // Get the file content as a Buffer
     const fileContent = Buffer.from(response.data, 'binary');
     const readableContent = fileContent.toString('utf-8');
+    const jsonData = JSON.parse(jsonString);
+    const pagesValue = jsonData.query.pages;
 
     // You can now use the fileContent variable as needed
-    console.log('File downloaded successfully:', readableContent);
+    console.log('https://en.wikipedia.org/?curid=', readableContent);
   } catch (error) {
     console.error('Error downloading file:', error.message);
   }
