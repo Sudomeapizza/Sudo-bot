@@ -66,15 +66,12 @@ function timeConvert(message) {
         const info = dateRegex(userMessage);
         console.log("workie7");
         if (info[0] != null) {
-            console.log("workie8");
             const targetDate = goToDate(userMessage);
             var timestamp = timeStampCalc(targetDate, info[0], getRegion(message.author.id), 'D', true);4
             var newMessage = userMessage.replace(`${info[1]} at ${info[0]}`,`${timestamp[0]} ${timestamp[1]}`);
             // var newMessage = userMessage.replace(`${info[1]} @ ${info[0]}`,`${timestamp[0]} ${timestamp[1]}`);
             if (timestamp) {
-                console.log("workie9");
                 message.channel.send(newMessage || "None4");
-                console.log("workie10");
             } else {
                 console.log("None.1");
                 message.author.send({
