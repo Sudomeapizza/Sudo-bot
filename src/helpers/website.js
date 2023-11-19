@@ -18,11 +18,16 @@ class website {
     // this just prints to the console for no reason...
     // try without echo?
     // var readableContent = shell.exec(`echo $(./src/helpers/wget.sh "${source[0]}")`);
-    var readableContent = `{"warnings":{"main":{"*":"Unrecognized parameter: rvprop."}},"batchcomplete":"","continue":{"grncontinue":"0.513767514422|0.513767685666|8605127|0","continue":"grncontinue||"},"query":{"pages":{"69211489":{"pageid":69211489,"ns":0,"title":"Meanings of minor planet names: 605001\u2013606000"}}}}`;
+    var readableContent = shell.exec(`$(./src/helpers/wget.sh "${source[0]}")`).stdout;
+    console.log(1);
     const jsonData = JSON.parse(readableContent);
+    console.log(2);
     const pagesValue = jsonData.query.pages;
+    console.log(3);
     const firstPageKey = Object.keys(pagesValue)[0];
+    console.log(4);
     const pageNumber = pagesValue[firstPageKey].pageid;
+    console.log(5);
 
     this._link = ('https://en.wikipedia.org/?curid=' + pageNumber).replace(/\s+/g, '');
   }
