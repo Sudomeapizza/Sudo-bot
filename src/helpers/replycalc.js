@@ -46,10 +46,22 @@ function randomWiki(){
     const source = ['https://en.wikipedia.org/w/api.php?format=json&action=query&generator=random&grnnamespace=0&rvprop=content&grnlimit=1',
     'https://google.com',
     'https://api.example.com/data'];
-    const outputFile = "./wikipediaJSON.txt";
+    var outputstuff;
 
-    var info = wget.download(source[1], "/dev/null/");
-    console.log(`${JSON.parse(JSON.stringify(info))}`)
+ 
+    request.open("GET", source[0]);
+    var xhttp = new XMLHttpRequest();
+    xhttp.onreadystatechange = function() {
+        if (this.readyState == 4 && this.status == 200) {
+        // Typical action to be performed when the document is ready:
+        outputstuff = xhttp.responseText;
+        }
+    };
+    xhttp.open("GET", "filename", true);
+    xhttp.send();
+
+    // var info = wget.download(source[1], "");
+    console.log(`${JSON.parse(JSON.stringify(outputstuff))}`)
     // console.log(`https://en.wikipedia.org/?curid=${JSON.parse(info).query.pages}`);
 
 
