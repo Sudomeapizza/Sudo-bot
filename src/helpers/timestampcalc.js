@@ -1,5 +1,5 @@
 const { dateRegex } = require('./regex.js');
-const { getRegion } = require('../../helpers/user.js');
+const { getRegion } = require('./user.js');
 
 function timeStampCalc(date, time, region, format, internal = false){
     // this is in UTC
