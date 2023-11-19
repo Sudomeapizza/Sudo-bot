@@ -72,6 +72,7 @@ module.exports = (client) => {
 
 function response(message, chance, responseMessage) {
     if (Math.floor(Math.random() * chance) == 0) {
+        console.log(responseMessage);
         message.channel.send(responseMessage);
     }
 }
