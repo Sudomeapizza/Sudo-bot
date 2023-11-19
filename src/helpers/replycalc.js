@@ -43,7 +43,7 @@ function random(array){
 }
 
 function randomWiki(){
-    const link = new getLink();
+    const link = getLink();
     console.log("~~" + link);
     return link;
 }
