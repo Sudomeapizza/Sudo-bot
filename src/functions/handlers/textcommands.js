@@ -1,7 +1,7 @@
 const { timeConvert } = require('../../helpers/timestampcalc.js');
 const { joinVoiceChannel } = require('@discordjs/voice');
 const { getArray } = require('../../helpers/replycalc.js');
-const { website, theLink } = require('./website.js');
+const { website, theLink } = require('../../helpers/website.js');
 
 module.exports = (client) => {
     
