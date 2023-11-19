@@ -52,14 +52,29 @@ function randomWiki(){
  
     // request.open("GET", source[0]);
     
-    XMLHttpRequest.onreadystatechange = function() {
-        if (this.readyState == 4 && this.status == 200) {
-        // Typical action to be performed when the document is ready:
-        outputstuff = XMLHttpRequest.responseText;
+    // XMLHttpRequest.onreadystatechange = function() {
+    //     if (this.readyState == 4 && this.status == 200) {
+    //     // Typical action to be performed when the document is ready:
+    //     outputstuff = XMLHttpRequest.responseText;
+    //     }
+    // };
+    // XMLHttpRequest.open("GET", source[0], true);
+    // XMLHttpRequest.send();
+
+
+    function handler() {
+        if(this.status == 200 &&
+          this.responseXML != null &&
+          this.responseXML.getElementById('test').textContent) {
+          // success!
+          console.log(this.responseXML.getElementById('test').textContent);
         }
-    };
-    XMLHttpRequest.open("GET", source[0], true);
-    XMLHttpRequest.send();
+      }
+      
+      var client = new XMLHttpRequest();
+      client.onload = handler;
+      client.open("GET", "unicorn.xml");
+      client.send();
 
     // var info = wget.download(source[1], "");
     console.log(`${JSON.parse(JSON.stringify(outputstuff))}`)
