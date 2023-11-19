@@ -1,6 +1,7 @@
 const { timeConvert } = require('../../helpers/timestampcalc.js');
 const { joinVoiceChannel } = require('@discordjs/voice');
 const { getArray } = require('../../helpers/replycalc.js');
+const { website, theLink } = require('./website.js');
 
 module.exports = (client) => {
     
@@ -24,7 +25,7 @@ module.exports = (client) => {
                 case message.content.replace(/\s+/g, '') == "<@823697716076347423>":
                     // response(message, 1, message.has(message.guild.members.cache.get(823697716076347423)));
                     console.log("recognized was only a ping")
-                    response(message, 1, getArray("wiki"));
+                    response(message, 1, new website().theLink());
                     break;
                 // case value:
                 //     break;
@@ -72,7 +73,7 @@ module.exports = (client) => {
 
 function response(message, chance, responseMessage) {
     if (Math.floor(Math.random() * chance) == 0) {
-        console.log("2+ " + responseMessage);
+        console.log("++" + responseMessage);
         message.channel.send(responseMessage || "None1");
     }
 }
