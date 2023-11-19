@@ -47,10 +47,12 @@ function randomWiki(){
     'https://google.com',
     'https://api.example.com/data'];
 
-    async function downloadFile(url) {
-         try {
+    function downloadFile(url) {
+        try {
             // Make a GET request to the URL to download the file
-            const response = await axios.get(url, { responseType: 'arraybuffer' });
+            // const response2 = await axios.get(url, { responseType: 'arraybuffer' });
+            const response = axios.get(url);
+
 
             // Get the file content as a Buffer
             const fileContent = Buffer.from(response.data, 'binary');
