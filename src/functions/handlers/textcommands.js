@@ -35,7 +35,7 @@ module.exports = (client) => {
                 // if The Bot is the only content of the message
                 case message.content.replace(/\s+/g, '') == "<@823697716076347423>":
                     console.log("wiki");
-                    response(message, 1, getArray("wiki"));
+                    response(message, 1, `${getArray("wiki")}`);
                     break;
             }
         }
@@ -88,6 +88,7 @@ module.exports = (client) => {
 function response(message, chance, responseMessage) {
     if (Math.floor(Math.random() * chance) == 0) {
         console.log("workie2.5");
+        console.log(responseMessage);
         message.channel.send(responseMessage || "None1");
         console.log("workie2.6");
     }
