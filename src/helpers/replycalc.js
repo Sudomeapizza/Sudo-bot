@@ -35,6 +35,7 @@ function getArray(text) {
             // console.log(wiki.);
             // console.log(new randomWiki());
             link = new randomWiki();
+            link = link.thelink();
             break;
         default:
             console.log("Workie2.22");
