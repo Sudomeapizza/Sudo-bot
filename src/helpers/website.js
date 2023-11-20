@@ -2,7 +2,7 @@
 // const { ReactionCollector } = require('discord.js');
 const shell = require('shelljs');
 
-class Website {
+class website {
   constructor() {
     console.log("Workie13");
     this.fetchLink();
@@ -30,4 +30,4 @@ class Website {
   }
 }
 
-module.exports = { Website };
+module.exports = { website };
