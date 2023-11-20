@@ -2,6 +2,8 @@
 // const { ReactionCollector } = require('discord.js');
 const shell = require('shelljs');
 
+var _link = "blankk";
+
 class website {
   constructor() {
     console.log("Workie13");
