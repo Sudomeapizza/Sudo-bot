@@ -10,13 +10,6 @@ module.exports = (client) => {
 
         //If the bot gets pinged
         if (message.content.includes("<@823697716076347423>")) {
-
-            // if (message.content.replace(/\s+/g, '') == "<@823697716076347423>") {
-            //     console.log("workie0");
-            //         // response(message, 1, getArray("wiki"));
-            //         message.channel.send(`${getArray("wiki")}` || "None2");
-            //         console.log("workie3");
-            // }
             switch (true) {
                 // if " pet " is mentioned
                 case message.content.includes(" pet "):
@@ -27,8 +20,6 @@ module.exports = (client) => {
                 case message.content.replace(/\s+/g, '') == "<@823697716076347423>":
                     response(message, 1, getArray("wiki"));
                     break;
-                // case value:
-                //     break;
                 default:
                     console.log("uh oh");
                     break;
