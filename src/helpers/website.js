@@ -1,5 +1,5 @@
 // remove axios
-const { ReactionCollector } = require('discord.js');
+// const { ReactionCollector } = require('discord.js');
 const shell = require('shelljs');
 
 var _link;
