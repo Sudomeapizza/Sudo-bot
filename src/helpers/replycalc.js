@@ -52,12 +52,13 @@ function random(array){
 function randomWiki(){
     var link = new website();
     console.log("workie1");
+    link = link.theLink();
 
     // both work
     // console.log("a  " + link._link);
     // console.log("b  " + link.theLink());
 
-    return link._link;
+    return link;
 }
 
 module.exports = { getArray }
