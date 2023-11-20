@@ -41,7 +41,9 @@ module.exports = (client) => {
                 // if The Bot is the only content of the message
                 case message.content.replace(/\s+/g, '') == "<@823697716076347423>":
                     console.log("wiki");
-                    response(message, 1, `${getArray("wiki")}`);
+                    var link = getArray("wiki");
+                    console.log(link);
+                    response(message, 1, link);
                     break;
             }
         }

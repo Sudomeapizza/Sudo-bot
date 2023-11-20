@@ -22,16 +22,16 @@ var atMe = [
 ]
 
 
-function getArray(gif) {
+function getArray(text) {
     console.log("Workie2.1");
-    switch (gif) {
+    switch (text) {
         case "bloodyGifs":
             console.log("Workie2.2");
             return random(bloodyGifs);
         case "wiki":
             console.log("workie2.21");
             // console.log(wiki.);
-            console.log(new randomWiki());
+            // console.log(new randomWiki());
             return new randomWiki();
         default:
             console.log("Workie2.22");
@@ -52,14 +52,12 @@ function randomWiki(){
     var link = new website();
     console.log("workie1");
     console.log(link.theLink());
-    link = link.theLink();
-    console.log(link);
 
     // both work
     // console.log("a  " + link._link);
     // console.log("b  " + link.theLink());
 
-    return link;
+    return link.theLink();
 }
 
 module.exports = { getArray }
