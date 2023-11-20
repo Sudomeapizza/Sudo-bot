@@ -53,8 +53,8 @@ function random(array){
 function randomWiki(){
     const link = new website();
     console.log("workie1");
-    console.log(link._link);
-    console.log(link.theLink());
+    console.log("a  " + link._link);
+    console.log("b  " + link.theLink());
 
     return link._link;
 }
