@@ -30,4 +30,4 @@ class website {
   }
 }
 
-module.exports = { website, theLink };
+module.exports = { website };
