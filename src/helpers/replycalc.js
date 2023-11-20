@@ -24,20 +24,25 @@ var atMe = [
 
 function getArray(text) {
     console.log("Workie2.1");
+    var link;
     switch (text) {
         case "bloodyGifs":
             console.log("Workie2.2");
-            return random(bloodyGifs);
+            link = random(bloodyGifs);
+            break;
         case "wiki":
             console.log("workie2.21");
             // console.log(wiki.);
             // console.log(new randomWiki());
-            return new randomWiki();
+            link = new randomWiki();
+            break;
         default:
             console.log("Workie2.22");
             break;
     }
+
     console.log("Workie2.3");
+    return link;
 }
 
 function random(array){

@@ -42,7 +42,7 @@ module.exports = (client) => {
                 case message.content.replace(/\s+/g, '') == "<@823697716076347423>":
                     console.log("wiki");
                     var link = getArray("wiki");
-                    console.log(link);
+                    console.log("test: " + link);
                     response(message, 1, link);
                     break;
             }
