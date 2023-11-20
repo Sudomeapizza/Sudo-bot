@@ -50,7 +50,7 @@ function random(array){
 function randomWiki(){
     const link = new website();
     console.log("workie1");
-    return link.theLink();
+    return link._link;
 }
 
 module.exports = { getArray }
