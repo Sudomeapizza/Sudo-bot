@@ -35,7 +35,7 @@ function getArray(text) {
             
             console.log(new randomWiki());
             link = new randomWiki();
-            console.log(wiki);
+            console.log(link);
             console.log(randomWiki);
             // link = link;
             break;
