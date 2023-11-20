@@ -32,6 +32,9 @@ function getArray(gif) {
             return random(bloodyGifs);
         case "wiki":
             console.log("workie2.21");
+            console.log(wiki);
+            console.log(wiki.theLink());
+            console.log(wiki._theLink);
             return wiki;
         default:
             console.log("Workie2.22");
