@@ -13,7 +13,8 @@ module.exports = (client) => {
 
             if (message.content.replace(/\s+/g, '') == "<@823697716076347423>") {
                 console.log("workie0");
-                    response(message, 1, getArray("wiki"));
+                    // response(message, 1, getArray("wiki"));
+                    message.channel.send(`${getArray("wiki")}` || "None2");
                     console.log("workie3");
             }
             // switch (true) {
