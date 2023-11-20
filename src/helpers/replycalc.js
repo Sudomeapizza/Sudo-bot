@@ -21,8 +21,6 @@ var atMe = [
     "https://discord.com/assets/b83feaf9d8a57b2f3534.svg",
 ]
 
-var wiki = new randomWiki();
-
 
 function getArray(gif) {
     console.log("Workie2.1");
@@ -33,8 +31,8 @@ function getArray(gif) {
         case "wiki":
             console.log("workie2.21");
             // console.log(wiki.);
-            console.log(wiki);
-            return wiki;
+            console.log(new randomWiki());
+            return new randomWiki();
         default:
             console.log("Workie2.22");
             break;
@@ -55,6 +53,7 @@ function randomWiki(){
     console.log("workie1");
     console.log(link.theLink());
     link = link.theLink();
+    console.log(link);
 
     // both work
     // console.log("a  " + link._link);
