@@ -30,7 +30,7 @@ function timeStampCalc(date, time, region, format, internal = false){
 
     
     if (internal) {
-        fullResponse = [`<t:${timestamp}:D>`,`<t:${timestamp}:R>`];
+        fullResponse = [`<t:${timestamp}:F>`,`<t:${timestamp}:R>`];
     } else {
         fullResponse = [`Timestamp code: \`<t:${timestamp}:${format}>\`\n`
         + `How it appears: <t:${timestamp}:${format}>`,
