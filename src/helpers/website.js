@@ -24,10 +24,10 @@ class website {
     this._link = ('https://en.wikipedia.org/?curid=' + pageNumber).replace(/\s+/g, '');
   }
 
-  static get theLink() {
+  theLink() {
     console.log("Workie14");
     return this._link;
   }
 }
 
-module.exports = { website };
+module.exports = { website, theLink };
