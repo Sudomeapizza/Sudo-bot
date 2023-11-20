@@ -32,9 +32,8 @@ function getArray(gif) {
             return random(bloodyGifs);
         case "wiki":
             console.log("workie2.21");
+            // console.log(wiki.);
             console.log(wiki);
-            console.log(wiki.theLink());
-            // console.log(wiki);
             return wiki;
         default:
             console.log("Workie2.22");
@@ -51,10 +50,12 @@ function random(array){
 }
 
 function randomWiki(){
-    const link = new website();
+    var link = new website();
     console.log("workie1");
-    console.log("a  " + link._link);
-    console.log("b  " + link.theLink());
+
+    // both work
+    // console.log("a  " + link._link);
+    // console.log("b  " + link.theLink());
 
     return link._link;
 }
