@@ -32,9 +32,11 @@ function getArray(text) {
             break;
         case "wiki":
             console.log("workie2.21");
-            // console.log(wiki.);
+            
             console.log(new randomWiki());
             link = new randomWiki();
+            console.log(wiki);
+            console.log(randomWiki);
             // link = link;
             break;
             
