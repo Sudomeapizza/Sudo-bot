@@ -7,7 +7,7 @@ var _link;
 class website {
   constructor() {
     console.log("Workie13");
-    this.getLink();
+    this._link;
   }
 
   getLink() {
@@ -34,9 +34,4 @@ class website {
   }
 }
 
-function theLink() {
-    console.log("Workie14");
-    return this._link;
-  }
-
-module.exports = { website, theLink };
+module.exports = { website };
