@@ -34,9 +34,6 @@ function getArray(text) {
             break;
         case "wiki":
             console.log("workie2.21");
-            
-            console.log(fetchLink());
-            // link = link;
             link = fetchLink();
             break;
             

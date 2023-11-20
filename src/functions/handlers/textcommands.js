@@ -11,40 +11,26 @@ module.exports = (client) => {
         //If the bot gets pinged
         if (message.content.includes("<@823697716076347423>")) {
 
-            if (message.content.replace(/\s+/g, '') == "<@823697716076347423>") {
-                console.log("workie0");
-                    // response(message, 1, getArray("wiki"));
-                    message.channel.send(`${getArray("wiki")}` || "None2");
-                    console.log("workie3");
-            }
-            // switch (true) {
-            //     // if " pet " is mentioned
-            //     case message.content.includes(" pet "):
-            //         console.log("pet");
-            //         response(message, 1, `*pets you instead*`);
-            //         break;
-            //     // if The Bot is the only content of the message
-            //     case message.content.replace(/\s+/g, '') == "<@823697716076347423>":
-            //         console.log("workie0");
-            //         response(message, 1, getArray("wiki"));
+            // if (message.content.replace(/\s+/g, '') == "<@823697716076347423>") {
+            //     console.log("workie0");
+            //         // response(message, 1, getArray("wiki"));
+            //         message.channel.send(`${getArray("wiki")}` || "None2");
             //         console.log("workie3");
-            //         break;
-            //     // case value:
-            //     //     break;
-            //     default:
-            //         console.log("uh oh");
-            //         break;
             // }
-        }
-
-        if (message.content.includes("<@823697716076347423>")) {
             switch (true) {
+                // if " pet " is mentioned
+                case message.content.includes(" pet "):
+                    console.log("pet");
+                    response(message, 1, `*pets you instead*`);
+                    break;
                 // if The Bot is the only content of the message
                 case message.content.replace(/\s+/g, '') == "<@823697716076347423>":
-                    console.log("wiki");
-                    var link = getArray("wiki");
-                    console.log("test: " + link);
-                    response(message, 1, link);
+                    response(message, 1, getArray("wiki"));
+                    break;
+                // case value:
+                //     break;
+                default:
+                    console.log("uh oh");
                     break;
             }
         }
