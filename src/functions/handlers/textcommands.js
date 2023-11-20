@@ -5,7 +5,7 @@ const { getArray } = require('../../helpers/replycalc.js');
 module.exports = (client) => {
     
     // I ain't questioning it, but it WORKS
-    client.on("messageCreate", async (message, interaction) => {
+    client.on("messageCreate", async (message) => {
         if (message.author.bot) return false;
 
         //If the bot gets pinged
@@ -57,7 +57,7 @@ module.exports = (client) => {
                 } else {
                     console.log("None.1");
                     message.author.send({
-                        // content: `I'm already in another channel!\nhttps://discord.com/channels/${connection.guildId}/${connection.channelId}`
+                        content: `I'm already in another channel!\nhttps://discord.com/channels/${connection.guildId}/${connection.channelId}`
                     });
                 }
                 console.log("vcdelete");
