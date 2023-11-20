@@ -34,4 +34,4 @@ class website {
   }
 }
 
-module.exports = { website };
+module.exports = { website, theLink };
