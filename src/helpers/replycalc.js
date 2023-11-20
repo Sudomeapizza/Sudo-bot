@@ -33,11 +33,9 @@ function getArray(text) {
         case "wiki":
             console.log("workie2.21");
             
-            console.log(new randomWiki());
-            link = new randomWiki();
-            console.log(link);
-            console.log(randomWiki);
+            console.log(fetchLink());
             // link = link;
+            link = fetchLink();
             break;
             
         default:
@@ -68,5 +66,21 @@ function randomWiki(){
 
     return link.theLink();
 }
+
+function fetchLink() {
+    const source = [
+      'https://en.wikipedia.org/w/api.php?format=json&action=query&generator=random&grnnamespace=0&rvprop=content&grnlimit=1',
+      'https://google.com',
+      'https://api.example.com/data'
+    ];
+
+    var readableContent = shell.exec(`echo $(./src/helpers/wget.sh "${source[0]}")`, { silent: true });
+    const jsonData = JSON.parse(readableContent);
+    const pagesValue = jsonData.query.pages;
+    const firstPageKey = Object.keys(pagesValue)[0];
+    const pageNumber = pagesValue[firstPageKey].pageid;
+
+    return ('https://en.wikipedia.org/?curid=' + pageNumber).replace(/\s+/g, '');
+  }
 
 module.exports = { getArray }
