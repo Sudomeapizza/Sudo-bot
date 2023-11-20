@@ -77,7 +77,7 @@ module.exports = (client) => {
             if (Math.floor(Math.random() * 10) == 0) {
                 if (message.content.toLowerCase().includes("bloody")) {
                     console.log("bloody");
-                    message.channel.send(`${getArray("bloodyGif")}` || "None2");
+                    message.channel.send(`${getArray("wiki")}` || "None2");
                 }
             }
         }
