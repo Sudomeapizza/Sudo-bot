@@ -50,8 +50,10 @@ function random(array){
 }
 
 function randomWiki(){
+    console.log("workie55");
     var link = new website();
     console.log("workie1");
+    console.log(link.theLink());
     link = link.theLink();
 
     // both work
