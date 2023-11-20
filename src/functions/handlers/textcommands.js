@@ -57,7 +57,7 @@ module.exports = (client) => {
                 } else {
                     console.log("None.1");
                     message.author.send({
-                        content: `I'm already in another channel!\nhttps://discord.com/channels/${connection.guildId}/${connection.channelId}`
+                        // content: `I'm already in another channel!\nhttps://discord.com/channels/${connection.guildId}/${connection.channelId}`
                     });
                 }
                 console.log("vcdelete");
