@@ -7,10 +7,10 @@ var _link;
 class website {
   constructor() {
     console.log("Workie13");
-    this._link;
+    this.getLink();
   }
 
-  getLink() {
+  get getLink() {
     const source = [
       'https://en.wikipedia.org/w/api.php?format=json&action=query&generator=random&grnnamespace=0&rvprop=content&grnlimit=1',
       'https://google.com',
@@ -28,7 +28,7 @@ class website {
 
   }
 
-  theLink() {
+  static get theLink() {
     console.log("Workie14");
     return this._link;
   }
