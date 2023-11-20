@@ -34,4 +34,9 @@ class website {
   }
 }
 
+function theLink() {
+    console.log("Workie14");
+    return this._link;
+  }
+
 module.exports = { website, theLink };
