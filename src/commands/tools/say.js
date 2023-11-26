@@ -9,7 +9,6 @@ module.exports = {
         .setDescription('putty text here')
         ),
     async execute(interaction, client) {
-
         const usermessage = interaction.options.getString('message');
 
         if (usermessage != ""){
