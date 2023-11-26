@@ -15,11 +15,11 @@ module.exports = {
         if (usermessage != ""){
             client.channels.cache.get(`${interaction.channelId}`).send(usermessage || "None7");
 
-            await interaction.reply({
-                message: "."
-            });
+            // await interaction.reply({
+            //     message: "."
+            // });
 
-            await interaction.deleteReply({});
+            // await interaction.deleteReply({});
         }
     }
 }
