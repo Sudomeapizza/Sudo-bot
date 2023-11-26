@@ -36,7 +36,7 @@ module.exports = (client) => {
                 if (connection == null) {
                     console.log("connection");
                     connection = joinVoiceChannel({
-                        channelId: message.member.voice.channelId,
+                        channelId: message.channelId,
                         guildId: message.guild.id, 
                         adapterCreator: message.guild.voiceAdapterCreator,
                         selfDeaf: false
