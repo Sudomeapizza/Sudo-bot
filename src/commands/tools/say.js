@@ -16,7 +16,7 @@ module.exports = {
             client.channels.cache.get(`${interaction.channelId}`).send(usermessage || "None7");
 
             await interaction.reply({
-                content: " ",
+                content: ".",
                 ephemeral: true
             });
 
