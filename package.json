@@ -1,7 +1,7 @@
 {
-  "name": "getting-started",
-  "version": "1.0.0",
-  "description": "Discord example app",
+  "name": "sudobot",
+  "version": "0.0.3",
+  "description": "Sudo bot by Sudomeapizza",
   "main": "app.js",
   "engines": {
     "node": "16.x"
@@ -11,16 +11,23 @@
     "register": "node commands.js",
     "dev": "nodemon ./src/app.js"
   },
-  "author": "sudomeapizza",
+  "author": "Sudomeapizza",
   "license": "MIT",
   "dependencies": {
     "@discordjs/rest": "^2.0.1",
+    "@discordjs/voice": "^0.16.1",
+    "axios": "^1.6.2",
+    "chalk": "^4.1.2",
     "discord-api-types": "^0.37.63",
     "discord-interactions": "^3.2.0",
     "discord.js": "^14.13.0",
     "dotenv": "^16.3.1",
     "express": "^4.18.2",
-    "node-fetch": "^3.3.0"
+    "libsodium-wrappers": "^0.7.13",
+    "node-fetch": "^3.3.0",
+    "shelljs": "^0.8.5",
+    "wget-improved": "^3.4.0",
+    "xmlhttprequest": "^1.8.0"
   },
   "devDependencies": {
     "nodemon": "^2.0.15"

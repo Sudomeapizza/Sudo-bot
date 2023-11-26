@@ -1,6 +1,9 @@
+const { InteractionResponse } = require("discord.js");
+
 module.exports = {
     name: "interactionCreate",
     async execute(interaction, client) {
+        
         if (interaction.isChatInputCommand()) {
             const { commands } = client;
             const { commandName } = interaction;
@@ -12,10 +15,12 @@ module.exports = {
             } catch (error) {
                 console.error(error);
                 await interaction.reply({
-                    content: `Something wne wrong while executing this command...`,
+                    content: `Something brokie while executing this command...`,
                     ephemeral: true
                 });
             }
+        } else {
+            
         }
     }
 }
