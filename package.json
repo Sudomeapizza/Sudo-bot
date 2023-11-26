@@ -1,6 +1,6 @@
 {
   "name": "sudobot",
-  "version": "0.0.3",
+  "version": "0.0.4",
   "description": "Sudo bot by Sudomeapizza",
   "main": "app.js",
   "engines": {
