@@ -9,14 +9,14 @@ module.exports = {
         .setDescription('putty text here')
         ),
     async execute(interaction, client) {
-        
+
         const usermessage = interaction.options.getString('message');
 
         if (usermessage != ""){
             client.channels.cache.get(`${interaction.channelId}`).send(usermessage || "None7");
 
             await interaction.reply({
-                content: "."
+                content: ""
             });
 
             await interaction.deleteReply({});
