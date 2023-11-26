@@ -54,8 +54,9 @@ module.exports = (client) => {
             // maybe workie?
             if (message.content.toLowerCase().includes("leavevc")) {
                 console.log("leavevc");
-                connection.disconnect();
+                connection.destroy();
                 connection = null;
+                console.log("leavevcdelete");
                 message.delete();
             }
         }
