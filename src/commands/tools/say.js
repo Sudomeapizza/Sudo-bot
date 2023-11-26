@@ -13,13 +13,14 @@ module.exports = {
         const usermessage = interaction.options.getString('message');
         // var message;
 
-        client.channels.cache.get(`${interaction.channelId}`).send(usermessage || "None7");
+        if (usermessage != ""){
+            client.channels.cache.get(`${interaction.channelId}`).send(usermessage || "None7");
 
-        await interaction.reply({
-            message: " "
-        });
-        await interaction.deleteReply({});
-
+            await interaction.reply({
+                message: "."
+            });
+            await interaction.deleteReply({});
+        }
 
 
     }
