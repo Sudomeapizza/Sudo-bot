@@ -28,7 +28,6 @@ function timeStampCalc(date, time, region, format, internal = false){
             break;
     }
 
-    
     if (internal) {
         fullResponse = [`<t:${timestamp}:F>`,`<t:${timestamp}:R>`];
     } else {
@@ -41,7 +40,6 @@ function timeStampCalc(date, time, region, format, internal = false){
 }
 
 function goToDate(message) {
-    console.log("Workie9");
     // i => itterativeDate
     var idate = new Date();
     var targetDate = dateRegex(message);
@@ -62,11 +60,9 @@ function goToDate(message) {
 function timeConvert(message) {
     if (message.guildId === '1076645110390984714'
     || message.guildId === '351882915153707008') {
-        console.log("workie6");
         if (message.author.bot) {return;}
         var userMessage = message.content;
         const info = dateRegex(userMessage);
-        console.log("workie7");
         if (info[0] != null) {
             const targetDate = goToDate(userMessage);
             var timestamp = timeStampCalc(targetDate, info[0], getRegion(message.author.id), 'D', true);4
@@ -74,13 +70,10 @@ function timeConvert(message) {
             if (timestamp) {
                 message.channel.send(newMessage || "None4");
             } else {
-                console.log("None.1");
                 message.author.send({
                     content: "You do not have a region set internally, please specify your region."
                 });
             }
-        } else {
-            console.log("Workie8");
         }
     }
 }
