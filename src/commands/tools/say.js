@@ -11,7 +11,6 @@ module.exports = {
     async execute(interaction, client) {
 
         const usermessage = interaction.options.getString('message');
-        // var message;
 
         if (usermessage != ""){
             client.channels.cache.get(`${interaction.channelId}`).send(usermessage || "None7");
@@ -19,10 +18,8 @@ module.exports = {
             await interaction.reply({
                 message: "."
             });
+
             await interaction.deleteReply({});
         }
-
-
     }
-
 }
