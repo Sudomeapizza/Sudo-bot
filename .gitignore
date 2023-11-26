@@ -7,3 +7,7 @@ start.sh
 info.txt
 gfile
 update
+handleEvents.js
+handleCommands.js
+app.js
+app-dev.js
