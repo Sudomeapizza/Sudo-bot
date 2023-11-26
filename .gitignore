@@ -5,3 +5,5 @@ config.json
 .git
 start.sh
 info.txt
+gfile
+update

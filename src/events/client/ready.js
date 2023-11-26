@@ -3,5 +3,6 @@ module.exports = {
     once: true,
     async execute(client) {
         console.log(`${client.user.tag} is online`)
+        console.log(`yo`);
     }
 }
