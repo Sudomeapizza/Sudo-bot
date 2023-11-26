@@ -54,8 +54,7 @@ module.exports = (client) => {
             // maybe workie?
             if (message.content.toLowerCase().includes("leavevc")) {
                 console.log("leavevc");
-                connection.destroy();
-                connection = null;
+                interaction.guild.members.me.voice.disconnect()
                 console.log("leavevcdelete");
                 message.delete();
             }
