@@ -82,12 +82,15 @@ function goToDate(message) {
     // i => itterativeDate
     var idate = new Date();
     var targetDate = dateRegex(message);
-    var inputDay;
+    var inputDay, targetDay;
     var options = { weekday: 'short', year: 'numeric', month: 'long', day: 'numeric' };
     options = {weekday: 'short'};
+
     if (!(targetDate[1].toLowerCase() == "today" || targetDate[1].toLowerCase() == "tonight")) {
+        targetDay = getDay(targetDate[1].toLowerCase());
         inputDay = getDay(idate.toLocaleDateString("en-US", options).toLowerCase());
-        while (inputDay != targetDate[1].toLowerCase()) {
+        
+        while (inputDay != targetDay) {
             options = { weekday: 'short', year: 'numeric', month: 'long', day: 'numeric' };
             idate = Date.parse(idate); // convert to num
             idate += 3600*24*1000; // 1 hour in seconds x 24 hours x 1000 miliseconds
