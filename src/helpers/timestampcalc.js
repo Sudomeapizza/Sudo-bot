@@ -4,29 +4,23 @@ const { getRegion } = require('./user.js');
 function timeStampCalc(date, time, region, format, internal = false){
     // this is in UTC
     
-    console.log(time);
     // if using shortened time (EX: "1:40")
     if (time.includes(':') && time.length == 4) {
-        // console.log("param 1");
         time = '0' + time;
 
     // insert colon if using 4 digits (EX: "1200")
     } else if (!time.includes(':') && time.length == 4) {
-        // console.log("param 2");
         time = time.slice(0, 2) + ':' + time.slice(2);
 
     // insert colon if using 3 digits (EX: "100", "010")
     } else if (!time.includes(':') && time.length == 3) {
-        // console.log("param 3");
         time = '0' + time.slice(0, 1) + ':' + time.slice(1);
     }
-
-    console.log(time);
 
     var timestamp = Date.parse(`${date} ${time}`)/1000;
     var fullResponse;
             
-    // hour change by 3,600,000
+    // hour changes by 3,600,000
     const change = 3600;
 
     /**
@@ -103,10 +97,19 @@ function goToDate(message) {
     options = {weekday: 'short'};
 
     if (!(targetDate[1].toLowerCase() == "today" || targetDate[1].toLowerCase() == "tonight")) {
-        targetDay = getDay(targetDate[1].toLowerCase());
-        inputDay = getDay(idate.toLocaleDateString("en-US", options).toLowerCase());
+        if (targetDate[1].toLowerCase() != "tomorrow") {
+            targetDay = getDay(targetDate[1].toLowerCase());
+            inputDay = getDay(idate.toLocaleDateString("en-US", options).toLowerCase());
 
-        while (inputDay != targetDay) {
+            while (inputDay != targetDay) {
+                options = { weekday: 'short', year: 'numeric', month: 'long', day: 'numeric' };
+                idate = Date.parse(idate); // convert to num
+                idate += 3600*24*1000; // 1 hour in seconds x 24 hours x 1000 miliseconds
+                idate = new Date(idate) // convert to date
+                options = {weekday: 'short'};
+                inputDay = getDay(idate.toLocaleDateString("en-US", options).toLowerCase());
+            }
+        } else {
             options = { weekday: 'short', year: 'numeric', month: 'long', day: 'numeric' };
             idate = Date.parse(idate); // convert to num
             idate += 3600*24*1000; // 1 hour in seconds x 24 hours x 1000 miliseconds
