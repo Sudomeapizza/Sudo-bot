@@ -3,8 +3,7 @@ const { getRegion } = require('./user.js');
 
 function timeStampCalc(date, time, region, format, internal = false){
     // this is in UTC
-    var timestamp = Date.parse(`${date} ${time}`)/1000;
-
+    
     // if using shortened time (EX: "1:40")
     if (time.includes(':') && time.length == 4) {
         time = '0' + time;
@@ -17,7 +16,9 @@ function timeStampCalc(date, time, region, format, internal = false){
     } else if (!time.includes(':') && time.length == 3) {
         time = '0' + time.slice(0, 1) + ':' + time.slice(1);
     }
+    console.log(time);
 
+    var timestamp = Date.parse(`${date} ${time}`)/1000;
     var fullResponse;
             
     // hour change by 3,600,000
