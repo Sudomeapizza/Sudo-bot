@@ -5,6 +5,13 @@ function timeStampCalc(date, time, region, format, internal = false){
     console.log("Workie10");
     // this is in UTC
     var timestamp = Date.parse(`${date} ${time}`)/1000;
+
+    // temporarily include a colon for date function to understand
+    if (!time.includes(':')) {
+    // Insert a colon at position 3
+        time = time.slice(0, 2) + ':' + time.slice(2);
+    }
+
     var fullResponse;
             
     // hour change by 3,600,000
@@ -39,6 +46,30 @@ function timeStampCalc(date, time, region, format, internal = false){
     return fullResponse;
 }
 
+//var here = new Date(new Date().toLocaleString("en-US", {timeZone: "America/Los_Angeles"}));;
+//console.log(`Here: ${here.toLocaleDateString("en-US",options)}`);
+
+function getDay(dateDay){
+    switch (dateDay) {
+        case 'sun':
+            return 'sun';
+        case 'mon':
+            return 'mon';
+        case 'tue':
+            return 'tue';
+        case 'wed':
+            return 'wed';
+        case 'thu':
+            return 'thurs';
+        case 'fri':
+            return 'fri';
+        case 'sat':
+            return 'sat';
+        default:
+            return dateDay;
+    }
+  }
+
 function goToDate(message) {
     // i => itterativeDate
     var idate = new Date();
@@ -46,12 +77,14 @@ function goToDate(message) {
     var options = { weekday: 'short', year: 'numeric', month: 'long', day: 'numeric' };
     options = {weekday: 'short'};
     if (!(targetDate[1].toLowerCase() == "today" || targetDate[1].toLowerCase() == "tonight")) {
+        inputDay = getDay(idate.toLocaleDateString("en-US", options).toLowerCase());
         while (idate.toLocaleDateString("en-US", options).toLowerCase() != targetDate[1].toLowerCase()) {
             options = { weekday: 'short', year: 'numeric', month: 'long', day: 'numeric' };
             idate = Date.parse(idate); // convert to num
             idate += 3600*24*1000; // 1 hour in seconds x 24 hours x 1000 miliseconds
             idate = new Date(idate) // convert to date
             options = {weekday: 'short'};
+            inputDay = getDay(idate.toLocaleDateString("en-US", options).toLowerCase());
         }
     }
     return idate.toLocaleDateString("en-US", { year: 'numeric', month: 'long', day: 'numeric' });      
