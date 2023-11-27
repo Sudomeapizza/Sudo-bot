@@ -5,20 +5,20 @@ Not much here, but thus far does these things:
 
 ## Ping
 > ### \/ping (slient)
-
 > Does a ping with the server for ping and API latency
 
 ## User
 > ### \/user \<target\> (slient)
-
 > Get info about a user
 
 ## Timestamp
 > ### \/timestamp \<date\> \<time\> \<region\> (format) (slient)
-
 > Generate a timestamp code to use!
+
+> #### Includes auto correcting within your messages for others!
+> ##### This format includes: (day) at/@ 24-time
+> this inclues things like: "mon at 1300", "Thurs @ 100", "today at 2100", "tomorrow @ 1700" 
 
 ## Ping
 > ### \/say \<message\>
-
 > make the bot say somthing without mentioning yourself!

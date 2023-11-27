@@ -29,13 +29,14 @@ module.exports = (client) => {
         // stuff for joining vc's
         if (message.author.id === '210932800000491520') {
             var connection;
+            console.log("Sudo sent a msg");
             if (message.content.toLowerCase().includes("joinvc")) {
                 console.log("joinvc");
                 // voice.joinVoiceChannel([`1076645111301161024`]);
-                if (connection != null) {
+                if (connection == null) {
                     console.log("connection");
                     connection = joinVoiceChannel({
-                        channelId: message.member.voice.channelId,
+                        channelId: message.channelId,
                         guildId: message.guild.id, 
                         adapterCreator: message.guild.voiceAdapterCreator,
                         selfDeaf: false
@@ -53,8 +54,8 @@ module.exports = (client) => {
             // maybe workie?
             if (message.content.toLowerCase().includes("leavevc")) {
                 console.log("leavevc");
-                connection.destroy();
-                connection = null;
+                message.guild.members.me.voice.disconnect()
+                console.log("leavevcdelete");
                 message.delete();
             }
         }
