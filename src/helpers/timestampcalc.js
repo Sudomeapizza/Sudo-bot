@@ -51,24 +51,32 @@ function timeStampCalc(date, time, region, format, internal = false){
 
 function getDay(dateDay){
     switch (dateDay) {
-        case 'sun' | 'sunday':
+        case 'sun':
+        case 'sunday':
             return 'sun';
-        case 'mon' | 'monday':
+        case 'mon':
+        case 'monday':
             return 'mon';
-        case 'tue' | 'tuesday':
+        case 'tue':
+        case 'tuesday':
             return 'tue';
-        case 'wed' | 'wednesday':
+        case 'wed':
+        case 'wednesday':
             return 'wed';
-        case 'thu' | 'thurs' | 'thursday':
+        case 'thu':
+        case 'thurs':
+        case 'thursday':
             return 'thurs';
-        case 'fri' | 'friday':
+        case 'fri':
+        case 'friday':
             return 'fri';
-        case 'sat' | 'saturday':
+        case 'sat':
+        case 'saturday':
             return 'sat';
         default:
             return false;
     }
-  }
+}
 
 function goToDate(message) {
     // i => itterativeDate
