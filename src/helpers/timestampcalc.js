@@ -4,18 +4,23 @@ const { getRegion } = require('./user.js');
 function timeStampCalc(date, time, region, format, internal = false){
     // this is in UTC
     
+    console.log(time);
     // if using shortened time (EX: "1:40")
     if (time.includes(':') && time.length == 4) {
+        console.log("param 1");
         time = '0' + time;
 
     // insert colon if using 4 digits (EX: "1200")
     } else if (!time.includes(':') && time.length == 4) {
+        console.log("param 1");
         time = time.slice(0, 2) + ':' + time.slice(2);
 
     // insert colon if using 3 digits (EX: "100", "010")
     } else if (!time.includes(':') && time.length == 3) {
+        console.log("param 1");
         time = '0' + time.slice(0, 1) + ':' + time.slice(1);
     }
+
     console.log(time);
 
     var timestamp = Date.parse(`${date} ${time}`)/1000;
