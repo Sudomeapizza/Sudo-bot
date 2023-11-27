@@ -51,22 +51,22 @@ function timeStampCalc(date, time, region, format, internal = false){
 
 function getDay(dateDay){
     switch (dateDay) {
-        case 'sun':
+        case 'sun' | 'sunday':
             return 'sun';
-        case 'mon':
+        case 'mon' | 'monday':
             return 'mon';
-        case 'tue':
+        case 'tue' | 'tuesday':
             return 'tue';
-        case 'wed':
+        case 'wed' | 'wednesday':
             return 'wed';
-        case 'thu':
+        case 'thu' | 'thurs' | 'thursday':
             return 'thurs';
-        case 'fri':
+        case 'fri' | 'friday':
             return 'fri';
-        case 'sat':
+        case 'sat' | 'saturday':
             return 'sat';
         default:
-            return dateDay;
+            return false;
     }
   }
 
