@@ -98,7 +98,6 @@ function goToDate(message) {
 
     if (!(targetDate[1].toLowerCase() == "today" || targetDate[1].toLowerCase() == "tonight")) {
         if (targetDate[1].toLowerCase() != "tomorrow") {
-            console.log("false on tomorrow" + targetDate[1].toLowerCase());
             targetDay = getDay(targetDate[1].toLowerCase());
             inputDay = getDay(idate.toLocaleDateString("en-US", options).toLowerCase());
 
@@ -111,7 +110,6 @@ function goToDate(message) {
                 inputDay = getDay(idate.toLocaleDateString("en-US", options).toLowerCase());
             }
         } else {
-            console.log("true on tomorrow" + targetDate[1].toLowerCase());
             options = { weekday: 'short', year: 'numeric', month: 'long', day: 'numeric' };
             idate = Date.parse(idate); // convert to num
             idate += 3600*24*1000; // 1 hour in seconds x 24 hours x 1000 miliseconds
