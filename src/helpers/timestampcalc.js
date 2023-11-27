@@ -128,11 +128,11 @@ function timeConvert(message) {
             const targetDate = goToDate(userMessage);
             var timestamp = timeStampCalc(targetDate, info[0], getRegion(message.author.id), 'D', true);4
             var newMessage;
-
+            
             // replace it correctly if it contains a "at" or "@"
-            if (userMessage.includes(`${targetDate[1]} at ${targetDate[0]}`)) {
+            if (userMessage.includes(`${info[1]} at ${info[0]}`)) {
                 newMessage = userMessage.replace(`${info[1]} at ${info[0]}`,`${timestamp[0]} ${timestamp[1]}`);
-            } else if (userMessage.includes(`${targetDate[1]} @ ${targetDate[0]}`)) {
+            } else if (userMessage.includes(`${info[1]} at ${info[0]}`)) {
                 newMessage = userMessage.replace(`${info[1]} @ ${info[0]}`,`${timestamp[0]} ${timestamp[1]}`);
             }
 
