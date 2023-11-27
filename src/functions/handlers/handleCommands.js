@@ -1,6 +1,5 @@
 const { REST } = require('@discordjs/rest');
 const { Routes } = require('discord-api-types/v9');
-const { APP_ID, GUILD_ID } = process.env;
 
 const fs = require('fs');
 
@@ -18,9 +17,7 @@ module.exports = (client) => {
                 console.log(`command: ${command.data.name} has passed through the handler`);
             }
         }
-        const clientId = APP_ID;
-        const guildId = GUILD_ID;
-        const rest = new REST({ version: "9" }).setToken(process.env.token);
+        const rest = new REST({ version: "9" }).setToken(process.env.token_2);
         try {
             console.log("Started refreshing application (/) commands.");
             
