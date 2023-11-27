@@ -132,7 +132,7 @@ function timeConvert(message) {
             // replace it correctly if it contains a "at" or "@"
             if (userMessage.includes(`${info[1]} at ${info[0]}`)) {
                 newMessage = userMessage.replace(`${info[1]} at ${info[0]}`,`${timestamp[0]} ${timestamp[1]}`);
-            } else if (userMessage.includes(`${info[1]} at ${info[0]}`)) {
+            } else if (userMessage.includes(`${info[1]} @ ${info[0]}`)) {
                 newMessage = userMessage.replace(`${info[1]} @ ${info[0]}`,`${timestamp[0]} ${timestamp[1]}`);
             }
 
