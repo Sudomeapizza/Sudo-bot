@@ -7,17 +7,17 @@ function timeStampCalc(date, time, region, format, internal = false){
     console.log(time);
     // if using shortened time (EX: "1:40")
     if (time.includes(':') && time.length == 4) {
-        console.log("param 1");
+        // console.log("param 1");
         time = '0' + time;
 
     // insert colon if using 4 digits (EX: "1200")
     } else if (!time.includes(':') && time.length == 4) {
-        console.log("param 1");
+        // console.log("param 2");
         time = time.slice(0, 2) + ':' + time.slice(2);
 
     // insert colon if using 3 digits (EX: "100", "010")
     } else if (!time.includes(':') && time.length == 3) {
-        console.log("param 1");
+        // console.log("param 3");
         time = '0' + time.slice(0, 1) + ':' + time.slice(1);
     }
 
@@ -29,6 +29,13 @@ function timeStampCalc(date, time, region, format, internal = false){
     // hour change by 3,600,000
     const change = 3600;
 
+    /**
+     * Once a DB is setup, make a slash command to set timezones and optional to set date format:
+     * 
+     * var options = { weekday: 'short', year: 'numeric', month: 'long', day: 'numeric' , time: 'short'};
+     * var here = new Date(new Date().toLocaleString("en-US", {timeZone: "America/Los_Angeles"}));;
+     * console.log(`Here: ${here.toLocaleDateString("en-US",options)}`);
+     */
     switch (region) {
         case "pst":
             timestamp += change * 8;
@@ -57,9 +64,6 @@ function timeStampCalc(date, time, region, format, internal = false){
 
     return fullResponse;
 }
-
-//var here = new Date(new Date().toLocaleString("en-US", {timeZone: "America/Los_Angeles"}));;
-//console.log(`Here: ${here.toLocaleDateString("en-US",options)}`);
 
 function getDay(dateDay){
     switch (dateDay) {
@@ -123,7 +127,15 @@ function timeConvert(message) {
         if (info[0] != null) {
             const targetDate = goToDate(userMessage);
             var timestamp = timeStampCalc(targetDate, info[0], getRegion(message.author.id), 'D', true);4
-            var newMessage = userMessage.replace(`${info[1]} at ${info[0]}`,`${timestamp[0]} ${timestamp[1]}`);
+            var newMessage;
+
+            // replace it correctly if it contains a "at" or "@"
+            if (userMessage.includes(`${targetDate[1]} at ${targetDate[0]}`)) {
+                newMessage = userMessage.replace(`${info[1]} at ${info[0]}`,`${timestamp[0]} ${timestamp[1]}`);
+            } else if (userMessage.includes(`${targetDate[1]} @ ${targetDate[0]}`)) {
+                newMessage = userMessage.replace(`${info[1]} @ ${info[0]}`,`${timestamp[0]} ${timestamp[1]}`);
+            }
+
             if (timestamp) {
                 message.channel.send(newMessage || "None4");
             } else {
