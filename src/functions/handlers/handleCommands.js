@@ -17,13 +17,13 @@ module.exports = (client) => {
                 console.log(`command: ${command.data.name} has passed through the handler`);
             }
         }
-        const rest = new REST({ version: "9" }).setToken(process.env.token_2);
+        const rest = new REST({ version: "9" }).setToken(process.env.token);
         try {
             console.log("Started refreshing application (/) commands.");
             
             // Routes.applicationGuildCommands
             //Routes.applicationCommands
-            await rest.put(Routes.applicationGuildCommands(process.env.APP_ID_2, process.env.GUILD_ID_2), {
+            await rest.put(Routes.applicationGuildCommands(process.env.APP_ID, process.env.GUILD_ID), {
                 body: commandArray,
             });
 
