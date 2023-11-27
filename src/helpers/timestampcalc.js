@@ -2,7 +2,6 @@ const { dateRegex } = require('./regex.js');
 const { getRegion } = require('./user.js');
 
 function timeStampCalc(date, time, region, format, internal = false){
-    console.log("Workie10");
     // this is in UTC
     var timestamp = Date.parse(`${date} ${time}`)/1000;
 
