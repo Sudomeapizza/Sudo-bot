@@ -16,7 +16,7 @@ module.exports = (client) => {
     var connection, connectionvalues;
     var stayonvc = false;
 
-    client.on("VoiceStateUpdate", (oldState, newState) => {
+    client.on("voiceStateUpdate", (oldState, newState) => {
         const botId = client.user.id;
         console.log('status change.');
         if (oldState.member.bot) {
