@@ -5,7 +5,7 @@ const { joinVoiceChannel, VoiceConnection, VoiceConnectionStatus, VoiceConnectio
 const { Events } = require('discord.js');
 
 module.exports = {
-    name: 'voicestateupdate',
+    name: 'voiceStateUpdate',
     async execute(client) {
         console.log(`${client.user.tag} is online`);
     }
