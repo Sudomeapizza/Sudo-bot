@@ -25,7 +25,7 @@ module.exports = (client) => {
 
         const guild = newState.guild; // Assuming newState.guild is the guild you are working with
 
-        const membersInChannel = newState.channel.members.size || 0;
+        var membersInChannel = newState.channel.members.size || 0;
     
         if (membersInChannel > 0) {
             console.log(`Members in voice channel ${newState.channel.name}: ${membersInChannel}`);
