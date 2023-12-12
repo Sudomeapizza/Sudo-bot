@@ -85,12 +85,14 @@ module.exports = (client) => {
                         content: `I'm already in another channel!\nhttps://discord.com/channels/${connection.guildId}/${connection.channelId}`
                     });
                 }
-                // console.log("vcdelete");
+                console.log("vcdelete");
+                message.delete();
                 
 
             }
             // maybe workie?
             if (message.content.toLowerCase().includes("leavevc")) {
+                connection = null;
                 console.log("leavevc");
                 message.guild.members.me.voice.disconnect()
                 console.log("leavevcdelete");
