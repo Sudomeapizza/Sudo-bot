@@ -8,7 +8,9 @@ module.exports = (client) => {
     var stayonvc = false;
 
     client.on(VoiceConnectionDisconnectReason.Manual, async (message) => {
+        console.log("DISCONNECTED")
         if (stayonvc) {
+            console.log("RECONNECTED");
             connection = joinVoiceChannel({
                 channelId: connectionvalues.channelId,
                 guildId: connectionvalues.guild.id, 
