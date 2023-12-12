@@ -24,7 +24,7 @@ module.exports = (client) => {
         const guild = newState.guild; // Assuming newState.guild is the guild you are working with
 
         // Get an array of all channels in the guild
-        const channels = guild.channels.cache.array();
+        const channels = guild.channels.cache();
 
         // Initialize an index for the while loop
         let index = 0;
@@ -56,6 +56,8 @@ module.exports = (client) => {
             // Increment the index for the next iteration
             index++;
         }
+
+
 
         if (stayonvc) {
             if (oldState.member && oldState.member.user.id === botId && oldState.channel){
