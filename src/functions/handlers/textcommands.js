@@ -1,8 +1,22 @@
 const { timeConvert } = require('../../helpers/timestampcalc.js');
 const { joinVoiceChannel } = require('@discordjs/voice');
 const { getArray } = require('../../helpers/replycalc.js');
+const { joinVoiceChannel, VoiceConnection, VoiceConnectionStatus, VoiceConnectionDisconnectReason, VoiceChannel, getVoiceConnection } = require('@discordjs/voice');
 
 module.exports = (client) => {
+    var connection, connectionvalues;
+    var stayonvc = false;
+
+    client.on(VoiceConnectionDisconnectReason.Manual, async (message) => {
+        if (stayonvc) {
+            connection = joinVoiceChannel({
+                channelId: connectionvalues.channelId,
+                guildId: connectionvalues.guild.id, 
+                adapterCreator: connectionvalues.guild.voiceAdapterCreator,
+                selfDeaf: false
+            });
+        }
+    })
     
     // I ain't questioning it, but it WORKS
     client.on("messageCreate", async (message) => {
@@ -28,17 +42,18 @@ module.exports = (client) => {
 
         // stuff for joining vc's
         if (message.author.id === '210932800000491520') {
-            var connection;
+            
             console.log("Sudo sent a msg");
             if (message.content.toLowerCase().includes("joinvc")) {
                 console.log("joinvc");
                 // voice.joinVoiceChannel([`1076645111301161024`]);
                 if (connection == null) {
                     console.log("connection");
+                    connectionvalues = message;
                     connection = joinVoiceChannel({
-                        channelId: message.channelId,
-                        guildId: message.guild.id, 
-                        adapterCreator: message.guild.voiceAdapterCreator,
+                        channelId: connectionvalues.channelId,
+                        guildId: connectionvalues.guild.id, 
+                        adapterCreator: connectionvalues.guild.voiceAdapterCreator,
                         selfDeaf: false
                     });
                 } else {
