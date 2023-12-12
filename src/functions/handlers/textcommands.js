@@ -25,7 +25,7 @@ module.exports = (client) => {
 
         const guild = newState.guild; // Assuming newState.guild is the guild you are working with
 
-        const membersInChannel = newState.channel.members.size;
+        const membersInChannel = newState.channel.members.size || 0;
     
         if (membersInChannel > 0) {
             console.log(`Members in voice channel ${newState.channel.name}: ${membersInChannel}`);
@@ -39,6 +39,9 @@ module.exports = (client) => {
                 newState.guild.members.me.voice.disconnect();
                 console.log(`No members in voice channel ${newState.channel.name}`);
             }
+        } else {
+            newState.guild.members.me.voice.disconnect();
+            console.log(`No members in voice channel ${newState.channel.name}`);
         }
 
         if (stayonvc) {
