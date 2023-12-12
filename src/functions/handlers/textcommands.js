@@ -93,7 +93,7 @@ module.exports = (client) => {
             }
             // maybe workie?
             if (message.content.toLowerCase().includes("leavevc")) {
-                connection = null;
+                // connection = null;
                 console.log("leavevc");
                 message.guild.members.me.voice.disconnect()
                 console.log("leavevcdelete");
