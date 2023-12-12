@@ -68,6 +68,7 @@ module.exports = (client) => {
             if (message.content.toLowerCase().includes("joinvc")) {
                 console.log("joinvc");
                 // voice.joinVoiceChannel([`1076645111301161024`]);
+                connection = null;
                 if (connection == null) {
                     console.log("connection");
                     connectionvalues = message;
