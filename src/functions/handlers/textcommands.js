@@ -23,21 +23,26 @@ module.exports = (client) => {
         const botId = client.user.id;
 
         newState.guild.channels.cache.forEach((channel) => {
-            console.log("channel");
+            // console.log("channel");
             if (channel.isVoiceBased()) {
-                console.log('voice');
+                // console.log('voice');
               // Check if there are members in the voice channel
               const membersInChannel = channel.members.size;
         
               if (membersInChannel > 0) {
                 console.log(`Members in voice channel ${channel.name}: ${membersInChannel}`);
-                connection = joinVoiceChannel({
-                    channelId: newState.channelId,
-                    guildId: newState.guild.id,
-                    adapterCreator: newState.guild.voiceAdapterCreator,
-                    selfDeaf: false
-                });
+                setTimeout(function(){ 
+                    if (membersInChannel > 0) {
+                        connection = joinVoiceChannel({
+                            channelId: newState.channelId,
+                            guildId: newState.guild.id,
+                            adapterCreator: newState.guild.voiceAdapterCreator,
+                            selfDeaf: false
+                        });
+                    }
+                }, 3000);  
               } else {
+                newState.guild.members.me.voice.disconnect();
                 console.log(`No members in voice channel ${channel.name}`);
               }
             }
@@ -120,19 +125,6 @@ module.exports = (client) => {
         }
         timeConvert(message);
     })
-
-    // client.addListener("disconnect", async () => {
-    //     console.log("DISCONNECTED")
-    //     if (stayonvc) {
-    //         console.log("RECONNECTED");
-    //         connection = joinVoiceChannel({
-    //             channelId: connectionvalues.channelId,
-    //             guildId: connectionvalues.guild.id, 
-    //             adapterCreator: connectionvalues.guild.voiceAdapterCreator,
-    //             selfDeaf: false
-    //         });
-    //     }
-    // })
 }
 
 function response(message, chance, responseMessage) {
