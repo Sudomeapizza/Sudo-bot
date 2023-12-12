@@ -9,6 +9,10 @@ module.exports = (client) => {
     var connection, connectionvalues;
     var stayonvc = false;
 
+    client.on('voiceStateUpdate', (oldUser, newUser) => {
+        console.log(`voiceStateUpdate: ${oldState} | ${newState}`);
+    });
+
     // I ain't questioning it, but it WORKS
     client.on("messageCreate", async (message) => {
         if (message.author.bot) return false;
