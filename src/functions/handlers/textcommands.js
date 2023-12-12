@@ -9,18 +9,42 @@ module.exports = (client) => {
     var connection, connectionvalues;
     var stayonvc = false;
 
+    function joinVC(connectionvalues) {
+        connection = joinVoiceChannel({
+            channelId: connectionvalues.channelId,
+            guildId: connectionvalues.guild.id,
+            adapterCreator: connectionvalues.guild.voiceAdapterCreator,
+            selfDeaf: false
+        });
+    }
+
     client.on('voiceStateUpdate', (oldState, newState) => {
         console.log("update to voice");
         const botId = client.user.id;
-        if (stayonvc) {
-            if (oldState.member && oldState.member.user.id === botId && oldState.channel){
-                
+
+        guild.channels.cache.forEach((channel) => {
+            if (channel.type === 'GUILD_VOICE') {
+              // Check if there are members in the voice channel
+              const membersInChannel = channel.members.size;
+        
+              if (membersInChannel > 0) {
+                console.log(`Members in voice channel ${channel.name}: ${membersInChannel}`);
+                conn
                 connection = joinVoiceChannel({
-                    channelId: connectionvalues.channelId,
-                    guildId: connectionvalues.guild.id, 
-                    adapterCreator: connectionvalues.guild.voiceAdapterCreator,
+                    channelId: newState.channelId,
+                    guildId: newState.guild.id,
+                    adapterCreator: newState.guild.voiceAdapterCreator,
                     selfDeaf: false
                 });
+              } else {
+                console.log(`No members in voice channel ${channel.name}`);
+              }
+            }
+          });
+
+        if (stayonvc) {
+            if (oldState.member && oldState.member.user.id === botId && oldState.channel){
+                joinVC(connectionValues);
                 console.log(`reconnected!`);
             }
         }
@@ -61,12 +85,7 @@ module.exports = (client) => {
                     connectionvalues = message;
                     stayonvc = true;
                     console.log("stayonvc true");
-                    connection = joinVoiceChannel({
-                        channelId: connectionvalues.channelId,
-                        guildId: connectionvalues.guild.id, 
-                        adapterCreator: connectionvalues.guild.voiceAdapterCreator,
-                        selfDeaf: false
-                    });
+                    joinVC(connectionvalues);
                 } else {
                     console.log("None.1");
                     message.author.send({
