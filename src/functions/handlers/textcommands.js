@@ -9,47 +9,16 @@ module.exports = (client) => {
     var connection, connectionvalues;
     var stayonvc = false;
 
-    function joinVC(connectionvalues) {
-        connection = joinVoiceChannel({
-            channelId: connectionvalues.channelId,
-            guildId: connectionvalues.guild.id,
-            adapterCreator: connectionvalues.guild.voiceAdapterCreator,
-            selfDeaf: false
-        });
-    }
-
     client.on('voiceStateUpdate', (oldState, newState) => {
         console.log("update to voice");
         const botId = client.user.id;
-
-
-        // const guild = newState.guild; // Assuming newState.guild is the guild you are working with
-
-        // var membersInChannel = newState.channel.members.size || 0;
-    
-        // if (membersInChannel > 0) {
-        //     console.log(`Members in voice channel ${newState.channel.name}: ${membersInChannel}`);
-        //     connection = joinVoiceChannel({
-        //         channelId: newState.channelId,
-        //         guildId: newState.guild.id,
-        //         adapterCreator: newState.guild.voiceAdapterCreator,
-        //         selfDeaf: false
-        //     });
-        //     if (membersInChannel == 1) {
-        //         newState.guild.members.me.voice.disconnect();
-        //         console.log(`No members in voice channel ${newState.channel.name}`);
-        //     }
-        // } else {
-        //     newState.guild.members.me.voice.disconnect();
-        //     console.log(`No members in voice channel ${newState.channel.name}`);
-        // }
-
         if (stayonvc) {
             if (oldState.member && oldState.member.user.id === botId && oldState.channel){
+                
                 connection = joinVoiceChannel({
-                    channelId: newState.channelId,
-                    guildId: newState.guild.id,
-                    adapterCreator: newState.guild.voiceAdapterCreator,
+                    channelId: connectionvalues.channelId,
+                    guildId: connectionvalues.guild.id, 
+                    adapterCreator: connectionvalues.guild.voiceAdapterCreator,
                     selfDeaf: false
                 });
                 console.log(`reconnected!`);
@@ -92,7 +61,12 @@ module.exports = (client) => {
                     connectionvalues = message;
                     stayonvc = true;
                     console.log("stayonvc true");
-                    joinVC(connectionvalues);
+                    connection = joinVoiceChannel({
+                        channelId: connectionvalues.channelId,
+                        guildId: connectionvalues.guild.id, 
+                        adapterCreator: connectionvalues.guild.voiceAdapterCreator,
+                        selfDeaf: false
+                    });
                 } else {
                     console.log("None.1");
                     message.author.send({
@@ -126,6 +100,19 @@ module.exports = (client) => {
         }
         timeConvert(message);
     })
+
+    // client.addListener("disconnect", async () => {
+    //     console.log("DISCONNECTED")
+    //     if (stayonvc) {
+    //         console.log("RECONNECTED");
+    //         connection = joinVoiceChannel({
+    //             channelId: connectionvalues.channelId,
+    //             guildId: connectionvalues.guild.id, 
+    //             adapterCreator: connectionvalues.guild.voiceAdapterCreator,
+    //             selfDeaf: false
+    //         });
+    //     }
+    // })
 }
 
 function response(message, chance, responseMessage) {
@@ -136,4 +123,3 @@ function response(message, chance, responseMessage) {
         console.log("workie2.6");
     }
 }
-
