@@ -7,7 +7,7 @@ module.exports = (client) => {
     var connection, connectionvalues;
     var stayonvc = false;
 
-    client.on("VoiceConnectionDisconnectReason", async () => {
+    client.on("disconnect", async () => {
         console.log("DISCONNECTED")
         if (stayonvc) {
             console.log("RECONNECTED");
