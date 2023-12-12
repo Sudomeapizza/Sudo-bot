@@ -1,9 +1,31 @@
 const { timeConvert } = require('../../helpers/timestampcalc.js');
-const { joinVoiceChannel } = require('@discordjs/voice');
+// const { joinVoiceChannel } = require('@discordjs/voice');
 const { getArray } = require('../../helpers/replycalc.js');
+const { joinVoiceChannel, VoiceConnection, VoiceConnectionStatus, VoiceConnectionDisconnectReason, VoiceChannel, getVoiceConnection } = require('@discordjs/voice');
+const { Events } = require('discord.js');
+
 
 module.exports = (client) => {
-    
+    var connection, connectionvalues;
+    var stayonvc = false;
+
+    client.on('voiceStateUpdate', (oldState, newState) => {
+        console.log("update to voice");
+        const botId = client.user.id;
+        if (stayonvc) {
+            if (oldState.member && oldState.member.user.id === botId && oldState.channel){
+                
+                connection = joinVoiceChannel({
+                    channelId: connectionvalues.channelId,
+                    guildId: connectionvalues.guild.id, 
+                    adapterCreator: connectionvalues.guild.voiceAdapterCreator,
+                    selfDeaf: false
+                });
+                console.log(`reconnected!`);
+            }
+        }
+    });
+
     // I ain't questioning it, but it WORKS
     client.on("messageCreate", async (message) => {
         if (message.author.bot) return false;
@@ -28,17 +50,21 @@ module.exports = (client) => {
 
         // stuff for joining vc's
         if (message.author.id === '210932800000491520') {
-            var connection;
+            
             console.log("Sudo sent a msg");
             if (message.content.toLowerCase().includes("joinvc")) {
                 console.log("joinvc");
                 // voice.joinVoiceChannel([`1076645111301161024`]);
+                connection = null;
                 if (connection == null) {
                     console.log("connection");
+                    connectionvalues = message;
+                    stayonvc = true;
+                    console.log("stayonvc true");
                     connection = joinVoiceChannel({
-                        channelId: message.channelId,
-                        guildId: message.guild.id, 
-                        adapterCreator: message.guild.voiceAdapterCreator,
+                        channelId: connectionvalues.channelId,
+                        guildId: connectionvalues.guild.id, 
+                        adapterCreator: connectionvalues.guild.voiceAdapterCreator,
                         selfDeaf: false
                     });
                 } else {
@@ -49,13 +75,17 @@ module.exports = (client) => {
                 }
                 console.log("vcdelete");
                 message.delete();
+                
 
             }
             // maybe workie?
             if (message.content.toLowerCase().includes("leavevc")) {
+                // connection = null;
                 console.log("leavevc");
-                message.guild.members.me.voice.disconnect()
+                message.guild.members.me.voice.disconnect();
                 console.log("leavevcdelete");
+                stayonvc = false;
+                console.log("stayonvc false");
                 message.delete();
             }
         }
@@ -70,6 +100,19 @@ module.exports = (client) => {
         }
         timeConvert(message);
     })
+
+    // client.addListener("disconnect", async () => {
+    //     console.log("DISCONNECTED")
+    //     if (stayonvc) {
+    //         console.log("RECONNECTED");
+    //         connection = joinVoiceChannel({
+    //             channelId: connectionvalues.channelId,
+    //             guildId: connectionvalues.guild.id, 
+    //             adapterCreator: connectionvalues.guild.voiceAdapterCreator,
+    //             selfDeaf: false
+    //         });
+    //     }
+    // })
 }
 
 function response(message, chance, responseMessage) {
