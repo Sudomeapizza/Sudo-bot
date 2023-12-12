@@ -8,8 +8,9 @@ const { Events } = require('discord.js');
 module.exports = (client) => {
     var connection, connectionvalues;
     var stayonvc = false;
+    connection.VoiceConnectionStatus.
 
-    client.on('voiceStateUpdate', (oldState, newState) => {
+    client.on('voiceStateUpdate', async (oldState, newState) => {
     // client.on('voiceStateUpdate', (oldUser, newUser) => {
         console.log(`voiceStateUpdate: ${oldState} | ${newState}`);
     });
