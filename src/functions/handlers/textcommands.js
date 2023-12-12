@@ -35,9 +35,10 @@ module.exports = (client) => {
                 adapterCreator: newState.guild.voiceAdapterCreator,
                 selfDeaf: false
             });
-        } else {
-            newState.guild.members.me.voice.disconnect();
-            console.log(`No members in voice channel ${newState.channel.name}`);
+            if (membersInChannel == 1) {
+                newState.guild.members.me.voice.disconnect();
+                console.log(`No members in voice channel ${newState.channel.name}`);
+            }
         }
 
         if (stayonvc) {
