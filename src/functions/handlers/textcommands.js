@@ -21,7 +21,6 @@ module.exports = (client) => {
     client.on('voiceStateUpdate', (oldState, newState) => {
         console.log("update to voice");
         const botId = client.user.id;
-        var conn = false;
 
         newState.guild.channels.cache.forEach((channel) => {
             // console.log("channel");
@@ -30,21 +29,17 @@ module.exports = (client) => {
                 // Check if there are members in the voice channel
                 const membersInChannel = channel.members.size;
                     
-                if (!conn) {
-                    if (membersInChannel > 0) {
-                        conn = true;
-                        console.log(`Members in voice channel ${channel.name}: ${membersInChannel}`);
-                        connection = joinVoiceChannel({
-                            channelId: newState.channelId,
-                            guildId: newState.guild.id,
-                            adapterCreator: newState.guild.voiceAdapterCreator,
-                            selfDeaf: false
-                        });
-                    } else {
-                        conn = false;
-                        newState.guild.members.me.voice.disconnect();
-                        console.log(`No members in voice channel ${channel.name}`);
-                    }
+                if (membersInChannel > 0) {
+                    console.log(`Members in voice channel ${channel.name}: ${membersInChannel}`);
+                    connection = joinVoiceChannel({
+                        channelId: newState.channelId,
+                        guildId: newState.guild.id,
+                        adapterCreator: newState.guild.voiceAdapterCreator,
+                        selfDeaf: false
+                    });
+                } else {
+                    newState.guild.members.me.voice.disconnect();
+                    console.log(`No members in voice channel ${channel.name}`);
                 }
             }
           });
