@@ -4,12 +4,12 @@ const { getArray } = require('../../helpers/replycalc.js');
 const { joinVoiceChannel, VoiceConnection, VoiceConnectionStatus, VoiceConnectionDisconnectReason, VoiceChannel, getVoiceConnection } = require('@discordjs/voice');
 const { Events } = require('discord.js');
 
-// module.exports = {
-// 	name: Events.VoiceStateUpdate,
-// 	execute(client) {
-// 		console.log(``);
-// 	},
-// };
+module.exports = {
+    name: 'voiceStateUpdate',
+    async execute(client) {
+        console.log(`${client.user.tag} is online`);
+    }
+}
 
 
 module.exports = (client) => {
