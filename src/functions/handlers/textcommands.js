@@ -10,7 +10,15 @@ module.exports = (client) => {
     var stayonvc = false;
 
     client.on('voiceStateUpdate', (oldState, newState) => {
-        console.log(`voiceStateUpdate: ${oldState} | ${newState}`);
+        if (stayonvc) {
+            connection = joinVoiceChannel({
+                channelId: connectionvalues.channelId,
+                guildId: connectionvalues.guild.id, 
+                adapterCreator: connectionvalues.guild.voiceAdapterCreator,
+                selfDeaf: false
+            });
+            console.log(`voiceStateUpdate: ${oldState.channelId.name}`);
+        }
     });
 
     // I ain't questioning it, but it WORKS
