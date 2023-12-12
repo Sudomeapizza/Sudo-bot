@@ -11,14 +11,18 @@ module.exports = (client) => {
 
     client.on('voiceStateUpdate', (oldState, newState) => {
         console.log("update to voice");
-        if (stayonvc && oldState.disconnect(3)) {
-            connection = joinVoiceChannel({
-                channelId: connectionvalues.channelId,
-                guildId: connectionvalues.guild.id, 
-                adapterCreator: connectionvalues.guild.voiceAdapterCreator,
-                selfDeaf: false
-            });
-            console.log(`reconnected!`);
+        const botId = client.user.id;
+        if (stayonvc) {
+            if (oldState.member && oldState.member.user.id === botId && oldState.channel){
+                
+                connection = joinVoiceChannel({
+                    channelId: connectionvalues.channelId,
+                    guildId: connectionvalues.guild.id, 
+                    adapterCreator: connectionvalues.guild.voiceAdapterCreator,
+                    selfDeaf: false
+                });
+                console.log(`reconnected!`);
+            }
         }
     });
 
