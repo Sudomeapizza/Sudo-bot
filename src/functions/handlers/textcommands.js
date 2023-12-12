@@ -6,19 +6,6 @@ const { joinVoiceChannel, VoiceConnection, VoiceConnectionStatus, VoiceConnectio
 module.exports = (client) => {
     var connection, connectionvalues;
     var stayonvc = false;
-
-    client.on("disconnect", async () => {
-        console.log("DISCONNECTED")
-        if (stayonvc) {
-            console.log("RECONNECTED");
-            connection = joinVoiceChannel({
-                channelId: connectionvalues.channelId,
-                guildId: connectionvalues.guild.id, 
-                adapterCreator: connectionvalues.guild.voiceAdapterCreator,
-                selfDeaf: false
-            });
-        }
-    })
     
     // I ain't questioning it, but it WORKS
     client.on("messageCreate", async (message) => {
@@ -90,6 +77,19 @@ module.exports = (client) => {
             }
         }
         timeConvert(message);
+    })
+    
+    connection.on("disconnect", async () => {
+        console.log("DISCONNECTED")
+        if (stayonvc) {
+            console.log("RECONNECTED");
+            connection = joinVoiceChannel({
+                channelId: connectionvalues.channelId,
+                guildId: connectionvalues.guild.id, 
+                adapterCreator: connectionvalues.guild.voiceAdapterCreator,
+                selfDeaf: false
+            });
+        }
     })
 }
 
