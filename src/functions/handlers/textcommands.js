@@ -18,7 +18,7 @@ module.exports = (client) => {
 
     client.on(Events.VoiceStateUpdate, (oldState, newState) => {
         const botId = client.user.id;
-      
+        console.log('status change.');
         // Check if the bot has been disconnected from a voice channel
         if (oldState.member && oldState.member.user.id === botId && !oldState.channel) {
           console.log('Bot has been disconnected from a voice channel.');
