@@ -22,7 +22,7 @@ module.exports = (client) => {
         console.log("update to voice");
         const botId = client.user.id;
 
-        guild.channels.cache.forEach((channel) => {
+        newState.guild.channels.cache.forEach((channel) => {
             if (channel.type === 'GUILD_VOICE') {
               // Check if there are members in the voice channel
               const membersInChannel = channel.members.size;
