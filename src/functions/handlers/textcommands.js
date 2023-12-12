@@ -24,7 +24,7 @@ module.exports = (client) => {
 
         newState.guild.channels.cache.forEach((channel) => {
             console.log("channel");
-            if (channel.type === 'GUILD_VOICE') {
+            if (channel.isVoiceBased()) {
                 console.log('voice');
               // Check if there are members in the voice channel
               const membersInChannel = channel.members.size;
