@@ -40,12 +40,12 @@ module.exports = (client) => {
                             selfDeaf: false
                         });
                     }
-                }, 3000);  
+                }, 500);  
               } else {
                 setTimeout(function(){
                     newState.guild.members.me.voice.disconnect();
                     console.log(`No members in voice channel ${channel.name}`);
-                }, 500);
+                }, 100);
               }
             }
           });
