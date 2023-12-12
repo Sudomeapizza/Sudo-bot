@@ -26,28 +26,21 @@ module.exports = (client) => {
             // console.log("channel");
             if (channel.isVoiceBased()) {
                 // console.log('voice');
-                // Check if there are members in the voice channel
-                const membersInChannel = channel.members.size;
-                if (membersInChannel == 0) {
-                    setTimeout(function(){
-                        newState.guild.members.me.voice.disconnect();
-                        console.log(`No members in voice channel ${channel.name}`);
-                    }, 500);
-                }
-                if (membersInChannel > 0) {
-                    console.log(`Members in voice channel ${channel.name}: ${membersInChannel}`);
-                    setTimeout(function(){ 
-                        if (membersInChannel > 0) {
-                            connection = joinVoiceChannel({
-                                channelId: newState.channelId,
-                                guildId: newState.guild.id,
-                                adapterCreator: newState.guild.voiceAdapterCreator,
-                                selfDeaf: false
-                            });
-                        }
-                    }, 3000);  
+              // Check if there are members in the voice channel
+              const membersInChannel = channel.members.size;
+        
+              if (membersInChannel > 0) {
+                console.log(`Members in voice channel ${channel.name}: ${membersInChannel}`);
+                connection = joinVoiceChannel({
+                    channelId: newState.channelId,
+                    guildId: newState.guild.id,
+                    adapterCreator: newState.guild.voiceAdapterCreator,
+                    selfDeaf: false
+                });
+              } else {
+                newState.guild.members.me.voice.disconnect();
+                console.log(`No members in voice channel ${channel.name}`);
               }
-              
             }
           });
 
