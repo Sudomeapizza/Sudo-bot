@@ -1,5 +1,5 @@
 const { timeConvert } = require('../../helpers/timestampcalc.js');
-const { joinVoiceChannel } = require('@discordjs/voice');
+// const { joinVoiceChannel } = require('@discordjs/voice');
 const { getArray } = require('../../helpers/replycalc.js');
 const { joinVoiceChannel, VoiceConnection, VoiceConnectionStatus, VoiceConnectionDisconnectReason, VoiceChannel, getVoiceConnection } = require('@discordjs/voice');
 
@@ -50,6 +50,8 @@ module.exports = (client) => {
                 if (connection == null) {
                     console.log("connection");
                     connectionvalues = message;
+                    stayonvc = true;
+                    console.log("stayonvc true");
                     connection = joinVoiceChannel({
                         channelId: connectionvalues.channelId,
                         guildId: connectionvalues.guild.id, 
@@ -71,6 +73,8 @@ module.exports = (client) => {
                 console.log("leavevc");
                 message.guild.members.me.voice.disconnect()
                 console.log("leavevcdelete");
+                stayonvc = false;
+                console.log("stayonvc false");
                 message.delete();
             }
         }
