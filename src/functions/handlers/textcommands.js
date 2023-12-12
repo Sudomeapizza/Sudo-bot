@@ -20,7 +20,7 @@ module.exports = (client) => {
 
     client.on('voiceStateUpdate', (oldState, newState) => {
         console.log("update to voice");
-        // const botId = client.user.id;
+        const botId = client.user.id;
 
 
         // const guild = newState.guild; // Assuming newState.guild is the guild you are working with
