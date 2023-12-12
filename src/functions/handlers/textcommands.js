@@ -9,50 +9,10 @@ module.exports = (client) => {
     var connection, connectionvalues;
     var stayonvc = false;
 
-    client.on('voiceStateUpdate', (oldUser, newUser) => {
+    client.on('voiceStateUpdate', (oldState, newState) => {
+    // client.on('voiceStateUpdate', (oldUser, newUser) => {
         console.log(`voiceStateUpdate: ${oldState} | ${newState}`);
     });
-
-    // client.on(Events.VoiceStateUpdate, (oldState, newState) => {
-    //     const botId = client.user.id;
-    //     console.log('status change.');
-    //     if (oldState.member.bot) {
-    //         console.log("Bot dc'd");
-    //     }
-    //     // Check if the bot has been disconnected from a voice channel
-    //     if (oldState.member && oldState.member.user.id === botId && !oldState.channel) {
-    //       console.log('Bot has been disconnected from a voice channel.');
-    //       // Your logic here
-    //     }
-    //     console.log(`Ready! Logged in as ${readyClient.user.tag}`);
-    // });
-    
-
-    // client.on("voiceStateUpdate", (oldState, newState) => {
-    //     const botId = client.user.id;
-    //     console.log('status change.');
-    //     if (oldState.member.bot) {
-    //         console.log("Bot dc'd");
-    //     }
-    //     // Check if the bot has been disconnected from a voice channel
-    //     if (oldState.member && oldState.member.user.id === botId && !oldState.channel) {
-    //       console.log('Bot has been disconnected from a voice channel.');
-    //       // Your logic here
-    //     }
-    //   });
-
-    // connection.on("disconnect", async () => {
-    //     console.log("DISCONNECTED")
-    //     if (stayonvc) {
-    //         console.log("RECONNECTED");
-    //         connection = joinVoiceChannel({
-    //             channelId: connectionvalues.channelId,
-    //             guildId: connectionvalues.guild.id, 
-    //             adapterCreator: connectionvalues.guild.voiceAdapterCreator,
-    //             selfDeaf: false
-    //         });
-    //     }
-    // })
     
     // I ain't questioning it, but it WORKS
     client.on("messageCreate", async (message) => {
