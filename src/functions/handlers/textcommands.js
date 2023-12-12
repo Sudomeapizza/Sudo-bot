@@ -46,7 +46,12 @@ module.exports = (client) => {
 
         if (stayonvc) {
             if (oldState.member && oldState.member.user.id === botId && oldState.channel){
-                joinVC(connectionValues);
+                connection = joinVoiceChannel({
+                    channelId: newState.channelId,
+                    guildId: newState.guild.id,
+                    adapterCreator: newState.guild.voiceAdapterCreator,
+                    selfDeaf: false
+                });
                 console.log(`reconnected!`);
             }
         }
