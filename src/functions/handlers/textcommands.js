@@ -86,7 +86,7 @@ module.exports = (client) => {
                     });
                 }
                 console.log("vcdelete");
-                message.delete();
+                
 
             }
             // maybe workie?
