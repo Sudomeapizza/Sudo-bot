@@ -21,43 +21,24 @@ module.exports = (client) => {
     client.on('voiceStateUpdate', (oldState, newState) => {
         console.log("update to voice");
         const botId = client.user.id;
+
+
         const guild = newState.guild; // Assuming newState.guild is the guild you are working with
 
-        // Get an array of all channels in the guild
-        const channels = guild.channels.cache();
-
-        // Initialize an index for the while loop
-        let index = 0;
-
-        // Iterate through channels using a while loop
-        while (index < channels.length) {
-            const channel = channels[index];
-
-            if (channel.isVoiceBased()) {
-                // console.log('voice');
-                // Check if there are members in the voice channel
-                const membersInChannel = channel.members.size;
-            
-                if (membersInChannel > 0) {
-                    console.log(`Members in voice channel ${channel.name}: ${membersInChannel}`);
-                    connection = joinVoiceChannel({
-                        channelId: newState.channelId,
-                        guildId: newState.guild.id,
-                        adapterCreator: newState.guild.voiceAdapterCreator,
-                        selfDeaf: false
-                    });
-                    break;
-                } else {
-                    newState.guild.members.me.voice.disconnect();
-                    console.log(`No members in voice channel ${channel.name}`);
-                }
-            }
-
-            // Increment the index for the next iteration
-            index++;
+        const membersInChannel = newState.channelId.members.size;
+    
+        if (membersInChannel > 0) {
+            console.log(`Members in voice channel ${channel.name}: ${membersInChannel}`);
+            connection = joinVoiceChannel({
+                channelId: newState.channelId,
+                guildId: newState.guild.id,
+                adapterCreator: newState.guild.voiceAdapterCreator,
+                selfDeaf: false
+            });
+        } else {
+            newState.guild.members.me.voice.disconnect();
+            console.log(`No members in voice channel ${channel.name}`);
         }
-
-
 
         if (stayonvc) {
             if (oldState.member && oldState.member.user.id === botId && oldState.channel){
