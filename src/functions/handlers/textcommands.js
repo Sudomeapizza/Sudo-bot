@@ -4,13 +4,6 @@ const { getArray } = require('../../helpers/replycalc.js');
 const { joinVoiceChannel, VoiceConnection, VoiceConnectionStatus, VoiceConnectionDisconnectReason, VoiceChannel, getVoiceConnection } = require('@discordjs/voice');
 const { Events } = require('discord.js');
 
-module.exports = {
-    name: 'voiceStateUpdate',
-    async execute(client) {
-        console.log(`${client.user.tag} is online`);
-    }
-}
-
 
 module.exports = (client) => {
     var connection, connectionvalues;
@@ -19,34 +12,34 @@ module.exports = (client) => {
     client.on('voiceStateUpdate', (oldUser, newUser) => {
         console.log(`voiceStateUpdate: ${oldState} | ${newState}`);
     });
-    
-    client.on(Events.VoiceStateUpdate, (oldState, newState) => {
-        const botId = client.user.id;
-        console.log('status change.');
-        if (oldState.member.bot) {
-            console.log("Bot dc'd");
-        }
-        // Check if the bot has been disconnected from a voice channel
-        if (oldState.member && oldState.member.user.id === botId && !oldState.channel) {
-          console.log('Bot has been disconnected from a voice channel.');
-          // Your logic here
-        }
-        console.log(`Ready! Logged in as ${readyClient.user.tag}`);
-    });
+
+    // client.on(Events.VoiceStateUpdate, (oldState, newState) => {
+    //     const botId = client.user.id;
+    //     console.log('status change.');
+    //     if (oldState.member.bot) {
+    //         console.log("Bot dc'd");
+    //     }
+    //     // Check if the bot has been disconnected from a voice channel
+    //     if (oldState.member && oldState.member.user.id === botId && !oldState.channel) {
+    //       console.log('Bot has been disconnected from a voice channel.');
+    //       // Your logic here
+    //     }
+    //     console.log(`Ready! Logged in as ${readyClient.user.tag}`);
+    // });
     
 
-    client.on("voiceStateUpdate", (oldState, newState) => {
-        const botId = client.user.id;
-        console.log('status change.');
-        if (oldState.member.bot) {
-            console.log("Bot dc'd");
-        }
-        // Check if the bot has been disconnected from a voice channel
-        if (oldState.member && oldState.member.user.id === botId && !oldState.channel) {
-          console.log('Bot has been disconnected from a voice channel.');
-          // Your logic here
-        }
-      });
+    // client.on("voiceStateUpdate", (oldState, newState) => {
+    //     const botId = client.user.id;
+    //     console.log('status change.');
+    //     if (oldState.member.bot) {
+    //         console.log("Bot dc'd");
+    //     }
+    //     // Check if the bot has been disconnected from a voice channel
+    //     if (oldState.member && oldState.member.user.id === botId && !oldState.channel) {
+    //       console.log('Bot has been disconnected from a voice channel.');
+    //       // Your logic here
+    //     }
+    //   });
 
     // connection.on("disconnect", async () => {
     //     console.log("DISCONNECTED")
@@ -136,18 +129,18 @@ module.exports = (client) => {
         timeConvert(message);
     })
 
-    client.addListener("disconnect", async () => {
-        console.log("DISCONNECTED")
-        if (stayonvc) {
-            console.log("RECONNECTED");
-            connection = joinVoiceChannel({
-                channelId: connectionvalues.channelId,
-                guildId: connectionvalues.guild.id, 
-                adapterCreator: connectionvalues.guild.voiceAdapterCreator,
-                selfDeaf: false
-            });
-        }
-    })
+    // client.addListener("disconnect", async () => {
+    //     console.log("DISCONNECTED")
+    //     if (stayonvc) {
+    //         console.log("RECONNECTED");
+    //         connection = joinVoiceChannel({
+    //             channelId: connectionvalues.channelId,
+    //             guildId: connectionvalues.guild.id, 
+    //             adapterCreator: connectionvalues.guild.voiceAdapterCreator,
+    //             selfDeaf: false
+    //         });
+    //     }
+    // })
 }
 
 function response(message, chance, responseMessage) {
