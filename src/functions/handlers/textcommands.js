@@ -31,7 +31,6 @@ module.exports = (client) => {
         
               if (membersInChannel > 0) {
                 console.log(`Members in voice channel ${channel.name}: ${membersInChannel}`);
-                conn
                 connection = joinVoiceChannel({
                     channelId: newState.channelId,
                     guildId: newState.guild.id,
