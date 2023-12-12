@@ -42,8 +42,10 @@ module.exports = (client) => {
                     }
                 }, 3000);  
               } else {
-                newState.guild.members.me.voice.disconnect();
-                console.log(`No members in voice channel ${channel.name}`);
+                setTimeout(function(){
+                    newState.guild.members.me.voice.disconnect();
+                    console.log(`No members in voice channel ${channel.name}`);
+                }, 500);
               }
             }
           });
