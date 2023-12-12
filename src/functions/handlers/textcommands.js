@@ -16,6 +16,10 @@ module.exports = (client) => {
     var connection, connectionvalues;
     var stayonvc = false;
 
+    client.on('voiceStateUpdate', (oldUser, newUser) => {
+        console.log(`voiceStateUpdate: ${oldState} | ${newState}`);
+    });
+    
     client.on(Events.VoiceStateUpdate, (oldState, newState) => {
         const botId = client.user.id;
         console.log('status change.');
