@@ -9,7 +9,7 @@ module.exports = (client) => {
     var connection, connectionvalues;
     var stayonvc = false;
 
-    client.on('voiceStateUpdate', (oldUser, newUser) => {
+    client.on('voiceStateUpdate', (oldState, newState) => {
         console.log(`voiceStateUpdate: ${oldState} | ${newState}`);
     });
 
