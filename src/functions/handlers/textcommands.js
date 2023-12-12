@@ -20,29 +20,29 @@ module.exports = (client) => {
 
     client.on('voiceStateUpdate', (oldState, newState) => {
         console.log("update to voice");
-        const botId = client.user.id;
+        // const botId = client.user.id;
 
 
-        const guild = newState.guild; // Assuming newState.guild is the guild you are working with
+        // const guild = newState.guild; // Assuming newState.guild is the guild you are working with
 
-        var membersInChannel = newState.channel.members.size || 0;
+        // var membersInChannel = newState.channel.members.size || 0;
     
-        if (membersInChannel > 0) {
-            console.log(`Members in voice channel ${newState.channel.name}: ${membersInChannel}`);
-            connection = joinVoiceChannel({
-                channelId: newState.channelId,
-                guildId: newState.guild.id,
-                adapterCreator: newState.guild.voiceAdapterCreator,
-                selfDeaf: false
-            });
-            if (membersInChannel == 1) {
-                newState.guild.members.me.voice.disconnect();
-                console.log(`No members in voice channel ${newState.channel.name}`);
-            }
-        } else {
-            newState.guild.members.me.voice.disconnect();
-            console.log(`No members in voice channel ${newState.channel.name}`);
-        }
+        // if (membersInChannel > 0) {
+        //     console.log(`Members in voice channel ${newState.channel.name}: ${membersInChannel}`);
+        //     connection = joinVoiceChannel({
+        //         channelId: newState.channelId,
+        //         guildId: newState.guild.id,
+        //         adapterCreator: newState.guild.voiceAdapterCreator,
+        //         selfDeaf: false
+        //     });
+        //     if (membersInChannel == 1) {
+        //         newState.guild.members.me.voice.disconnect();
+        //         console.log(`No members in voice channel ${newState.channel.name}`);
+        //     }
+        // } else {
+        //     newState.guild.members.me.voice.disconnect();
+        //     console.log(`No members in voice channel ${newState.channel.name}`);
+        // }
 
         if (stayonvc) {
             if (oldState.member && oldState.member.user.id === botId && oldState.channel){
