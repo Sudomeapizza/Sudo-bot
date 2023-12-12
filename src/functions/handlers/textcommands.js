@@ -16,9 +16,12 @@ module.exports = (client) => {
     var connection, connectionvalues;
     var stayonvc = false;
 
-    client.on(Events.VoiceStateUpdate, (oldState, newState) => {
+    client.on("VoiceStateUpdate", (oldState, newState) => {
         const botId = client.user.id;
         console.log('status change.');
+        if (oldState.member.bot) {
+            console.log("Bot dc'd");
+        }
         // Check if the bot has been disconnected from a voice channel
         if (oldState.member && oldState.member.user.id === botId && !oldState.channel) {
           console.log('Bot has been disconnected from a voice channel.');
@@ -95,7 +98,7 @@ module.exports = (client) => {
             if (message.content.toLowerCase().includes("leavevc")) {
                 // connection = null;
                 console.log("leavevc");
-                message.guild.members.me.voice.disconnect()
+                message.guild.members.me.voice.disconnect();
                 console.log("leavevcdelete");
                 stayonvc = false;
                 console.log("stayonvc false");
