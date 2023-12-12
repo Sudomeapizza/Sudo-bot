@@ -85,7 +85,7 @@ module.exports = (client) => {
                         content: `I'm already in another channel!\nhttps://discord.com/channels/${connection.guildId}/${connection.channelId}`
                     });
                 }
-                console.log("vcdelete");
+                // console.log("vcdelete");
                 
 
             }
