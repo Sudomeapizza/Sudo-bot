@@ -42,7 +42,7 @@ module.exports = (client) => {
                     }
                 }, 3000);  
               }
-              if (membersInChannel = 0) {
+              if (membersInChannel == 0) {
                 setTimeout(function(){
                     newState.guild.members.me.voice.disconnect();
                     console.log(`No members in voice channel ${channel.name}`);
