@@ -105,6 +105,8 @@ function advanceADay(inputDay, targetDay, nextDay=false){
 
 function goToDate(message) {
     // i => itterativeDate
+    var idate = new Date();
+
     var targetDate = dateRegex(message);
     var inputDay, targetDay;
     var options = { weekday: 'short', year: 'numeric', month: 'long', day: 'numeric' };
@@ -115,7 +117,6 @@ function goToDate(message) {
     switch (targetDate[1].toLowerCase()) {
         case "today":
         case "tonight":
-            var idate = new Date();
             return idate.toLocaleDateString("en-US", { year: 'numeric', month: 'long', day: 'numeric' });
         case "tomorrow":
             return advanceADay();
