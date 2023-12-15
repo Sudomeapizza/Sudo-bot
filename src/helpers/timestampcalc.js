@@ -88,37 +88,40 @@ function getDay(dateDay){
     }
 }
 
+function advanceADay(inputDay, targetDay, nextDay=false){
+    var idate = new Date();
+
+    while (inputDay != targetDay) {
+        options = { weekday: 'short', year: 'numeric', month: 'long', day: 'numeric' };
+        idate = Date.parse(idate); // convert to num
+        idate += 3600*24*1000; // 1 hour in seconds x 24 hours x 1000 miliseconds
+        idate = new Date(idate) // convert to date
+        options = {weekday: 'short'};
+        inputDay = getDay(idate.toLocaleDateString("en-US", options).toLowerCase());
+        if (nextDay) break;
+    }
+    return idate.toLocaleDateString("en-US", { year: 'numeric', month: 'long', day: 'numeric' }); 
+}
+
 function goToDate(message) {
     // i => itterativeDate
-    var idate = new Date();
     var targetDate = dateRegex(message);
     var inputDay, targetDay;
     var options = { weekday: 'short', year: 'numeric', month: 'long', day: 'numeric' };
     options = {weekday: 'short'};
+    targetDay = getDay(targetDate[1].toLowerCase());
+    inputDay = getDay(idate.toLocaleDateString("en-US", options).toLowerCase());
 
-    if (!(targetDate[1].toLowerCase() == "today" || targetDate[1].toLowerCase() == "tonight")) {
-        if (targetDate[1].toLowerCase() != "tomorrow") {
-            targetDay = getDay(targetDate[1].toLowerCase());
-            inputDay = getDay(idate.toLocaleDateString("en-US", options).toLowerCase());
-
-            while (inputDay != targetDay) {
-                options = { weekday: 'short', year: 'numeric', month: 'long', day: 'numeric' };
-                idate = Date.parse(idate); // convert to num
-                idate += 3600*24*1000; // 1 hour in seconds x 24 hours x 1000 miliseconds
-                idate = new Date(idate) // convert to date
-                options = {weekday: 'short'};
-                inputDay = getDay(idate.toLocaleDateString("en-US", options).toLowerCase());
-            }
-        } else {
-            options = { weekday: 'short', year: 'numeric', month: 'long', day: 'numeric' };
-            idate = Date.parse(idate); // convert to num
-            idate += 3600*24*1000; // 1 hour in seconds x 24 hours x 1000 miliseconds
-            idate = new Date(idate) // convert to date
-            options = {weekday: 'short'};
-            inputDay = getDay(idate.toLocaleDateString("en-US", options).toLowerCase());
-        }
-    }
-    return idate.toLocaleDateString("en-US", { year: 'numeric', month: 'long', day: 'numeric' });      
+    switch (targetDate[1].toLowerCase()) {
+        case "today":
+        case "tonight":
+            var idate = new Date();
+            return idate.toLocaleDateString("en-US", { year: 'numeric', month: 'long', day: 'numeric' });
+        case "tomorrow":
+            return advanceADay();
+        default:
+            return advanceADay();
+    } 
 }
 
 function timeConvert(message) {
@@ -129,7 +132,7 @@ function timeConvert(message) {
         const info = dateRegex(userMessage);
         if (info[0] != null) {
             const targetDate = goToDate(userMessage);
-            var timestamp = timeStampCalc(targetDate, info[0], getRegion(message.author.id), 'D', true);4
+            var timestamp = timeStampCalc(targetDate, info[0], getRegion(message.author.id), 'D', true);
             var newMessage;
             
             // replace it correctly if it contains a "at" or "@"
