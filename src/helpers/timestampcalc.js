@@ -92,11 +92,8 @@ function advanceADay(inputDay, targetDay, nextDay=false){
     var idate = new Date();
 
     while (inputDay != targetDay) {
-        console.log("loop!" + inputDay + " " + targetDay);
         options = { weekday: 'short', year: 'numeric', month: 'long', day: 'numeric' };
-        idate = Date.parse(idate); // convert to num
-        idate += 3600*24*1000; // 1 hour in seconds x 24 hours x 1000 miliseconds
-        idate = new Date(idate) // convert to date
+        idate.setDate(idate.getDate() + 1); // Increment the date by one day
         options = {weekday: 'short'};
         inputDay = getDay(idate.toLocaleDateString("en-US", options).toLowerCase());
         if (nextDay) break;
