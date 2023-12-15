@@ -119,9 +119,9 @@ function goToDate(message) {
         case "tonight":
             return idate.toLocaleDateString("en-US", { year: 'numeric', month: 'long', day: 'numeric' });
         case "tomorrow":
-            return advanceADay();
+            return advanceADay(inputDay, targetDate, true);
         default:
-            return advanceADay();
+            return advanceADay(inputDay, targetDate);
     } 
 }
 
