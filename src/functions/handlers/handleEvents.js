@@ -34,7 +34,7 @@ module.exports = (client) => {
                                 event.ecevute(...args, client)
                             );
                         }
-                    }    
+                    }
                 break;
             
                 default:
