@@ -1,5 +1,6 @@
 require('dotenv').config();
-const { token_2 } = process.env;
+const { token_2, databaseToken } = process.env;
+const { connect } = require('mongoose');
 const { Client, Collection, GatewayIntentBits } = require('discord.js');
 const fs = require('fs');
 
@@ -29,3 +30,6 @@ client.handleEvents();
 client.handleCommands();
 // client.textCommands();
 client.login(token_2);
+(async () => {
+    connect(databaseToken).catch(console.error);
+})();
