@@ -19,7 +19,7 @@ module.exports = (client) => {
                     for (const file of eventFiles) {
                         const event = require (`../../events/${folder}/${file}`);
                         if (event.once) {
-                            connection.once(event.BUBBLING_PHASE, (...args) =>
+                            connection.once(event.name, (...args) =>
                                 event.execute(...args, client)
                             );
                         } else {
