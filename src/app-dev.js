@@ -31,5 +31,5 @@ client.handleCommands();
 // client.textCommands();
 client.login(token_2);
 (async () => {
-    connect(databaseToken).catch(console.error);
+    await connect(databaseToken).catch(console.error);
 })();
