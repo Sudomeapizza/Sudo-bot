@@ -16,7 +16,7 @@ module.exports = {
 
         if (!guildProfile) {
             guildProfile = await new Guild({
-                _id: mongoose.Types.ObjectId(),
+                _id: new mongoose.Types.ObjectId(),
                 guildId: interaction.guild.id,
                 guildName: interaction.guild.guildNamel,
                 guildIcon: interaction.guild.iconURL() ? interaction.guild.iconURL() : "None..",
