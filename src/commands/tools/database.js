@@ -12,7 +12,7 @@ module.exports = {
         ),
     async execute(interaction, client) {
 
-        const guildProfile = await Guild.findOne({ guildId: interaction.guild.id });
+        var guildProfile = await Guild.findOne({ guildId: interaction.guild.id });
 
         if (!guildProfile) {
             guildProfile = await new Guild({
