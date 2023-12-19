@@ -1,6 +1,5 @@
 const chalk = require("chalk");
 
-console.log("added 4");
 module.exports = {
     name: "err",
     execute() {

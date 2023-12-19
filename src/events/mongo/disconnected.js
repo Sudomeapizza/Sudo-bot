@@ -1,6 +1,5 @@
 const chalk = require("chalk");
 
-console.log("added 3");
 module.exports = {
     name: "disconnected",
     execute() {
