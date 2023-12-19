@@ -51,7 +51,7 @@ module.exports = (client) => {
         // stuff for joining vc's
         if (message.author.id === '210932800000491520') {
             
-            console.log("Sudo sent a msg");
+            // console.log("Sudo sent a msg");
             if (message.content.toLowerCase().includes("joinvc")) {
                 console.log("joinvc");
                 // voice.joinVoiceChannel([`1076645111301161024`]);
