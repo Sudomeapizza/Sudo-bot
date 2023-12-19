@@ -1,5 +1,6 @@
 const chalk = require("chalk");
 
+console.log("added 2");
 module.export = {
     name: "connecting",
     async execute(client) {
