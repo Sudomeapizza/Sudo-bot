@@ -18,7 +18,7 @@ module.exports = {
             guildProfile = await new Guild({
                 _id: new mongoose.Types.ObjectId(),
                 guildId: interaction.guild.id,
-                guildName: interaction.guild.guildNamel,
+                guildName: interaction.guild.guildName,
                 guildIcon: interaction.guild.iconURL() ? interaction.guild.iconURL() : "None..",
             })
             await guildProfile.save().catch(console.error);
