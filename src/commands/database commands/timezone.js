@@ -68,7 +68,7 @@ module.exports = {
             })
         }
 
-        const timezone = await client.getTimeZone(user,timezone);
+        // const timezone = await client.getTimeZone(user,timezone);
         
     }
 
