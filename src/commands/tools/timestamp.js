@@ -19,10 +19,8 @@ module.exports = {
         )
     .addStringOption(option =>
         option.setName('time_region')
-        .setDescription('PST/MST/CST/EST')
+        .setDescription('Time Region code. Ex: UTC. (Optional if already setup with bot, otherwise required)')
         // .setRequired(true) // somehow make optional based on DB?
-        .setMaxLength(4)
-        .setMinLength(3)
         )
     .addStringOption(option =>
         option.setName('format')
