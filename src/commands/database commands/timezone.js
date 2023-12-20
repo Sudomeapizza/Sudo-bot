@@ -2,9 +2,9 @@ const { SlashCommandBuilder, EmbedBuilder } = require('discord.js')
 
 module.exports = {
     data: new SlashCommandBuilder()
-    .setName('setTimeZone')
+    .setName('set time zone')
     .setDescription("Set your timezone for auto converting messages.")
-    .addStringOption(option =>
+    .addStringOption((option) =>
         option.setName('timezone')
         .setDescription('The region to which you reside.')
         .setRequired(true)
