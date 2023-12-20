@@ -44,7 +44,7 @@ module.exports = {
         const user = interaction.user;
         const desiredTimeZone = interaction.options.getString('timezone');
 
-        if (!(new Date().toLocaleString('en-US', { timeZone: desireTimeZone }))) return await interaction.reply({
+        if (!(new Date().toLocaleString('en-US', { timeZone: desiredTimeZone }))) return await interaction.reply({
             content: `"${desiredTimeZone}" is not a valid timezone`,
             ephemeral: true   
         });
