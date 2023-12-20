@@ -5,4 +5,4 @@ const guildSchema = new Schema({
     timeZone: { type: String },
 });
 
-module.exports = model("Guild", guildSchema, "guilds");
+module.exports = model("data", guildSchema, "guilds");

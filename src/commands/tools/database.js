@@ -5,11 +5,7 @@ const mongoose = require('mongoose');
 module.exports = {
     data: new SlashCommandBuilder()
     .setName('database')
-    .setDescription("Returns info from a database")
-    .addBooleanOption(option =>
-        option.setName('silents')
-        .setDescription('shhhhh (true)')
-        ),
+    .setDescription("Returns info from a database"),
     async execute(interaction, client) {
 
         var guildProfile = await Guild.findOne({ guildId: interaction.guild.id });
