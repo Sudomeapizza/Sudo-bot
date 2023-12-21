@@ -2,7 +2,7 @@ const { dateRegex } = require('./regex.js');
 const { getRegion } = require('./user.js');
 const { getTimeZone } = require('../functions/Database/getTimeZone.js');
 
-function timeStampCalc(date, time, region, format, internal = false, userId, client){
+function timeStampCalc(date, time, region, format, internal = false, userId){
     // this is in UTC
     var time1, time2;
     
