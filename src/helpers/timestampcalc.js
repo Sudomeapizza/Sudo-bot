@@ -108,7 +108,7 @@ function advanceADay(inputDay, targetDay, nextDay=false){
     while (inputDay != targetDay) {
         options = { weekday: 'short', year: 'numeric', month: 'long', day: 'numeric' };
         idate.setDate(idate.getDate() + 1); // Increment the date by one day
-        options = {weekday: 'short'};
+        options = { weekday: 'short' };
         inputDay = getDay(idate.toLocaleDateString("en-US", options).toLowerCase());
         if (nextDay) break;
     }
@@ -122,15 +122,17 @@ function goToDate(message) {
     var targetDate = dateRegex(message);
     var inputDay, targetDay;
     var options = { weekday: 'short', year: 'numeric', month: 'long', day: 'numeric' };
-    options = {weekday: 'short'};
+    options = { weekday: 'short' };
     targetDay = getDay(targetDate[1].toLowerCase());
     inputDay = getDay(idate.toLocaleDateString("en-US", options).toLowerCase());
 
     switch (targetDate[1].toLowerCase()) {
         case "today":
         case "tonight":
+            console.log("same day");
             return idate.toLocaleDateString("en-US", { year: 'numeric', month: 'long', day: 'numeric' });
         case "tomorrow":
+            console.log("tomorrow");
             return advanceADay(inputDay, targetDate, true);
         default:
             console.log("other day");
