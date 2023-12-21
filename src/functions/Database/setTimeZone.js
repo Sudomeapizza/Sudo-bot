@@ -11,7 +11,7 @@ module.exports = (client) => {
         console.log(userTimeZone);
         if (!userTimeZone) {
             userTimeZone = await new timeZone({
-                _id: mongoose.Types.ObjectId(),
+                _id: new mongoose.Types.ObjectId(),
                 userId: userId,
                 guildId: guildId,
                 timeZone: inputTimeZone,
