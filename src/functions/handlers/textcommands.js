@@ -100,7 +100,7 @@ module.exports = (client) => {
         }
 
         // convert messages
-        timeConvert(message);
+        timeConvert(message, client);
     })
 }
 

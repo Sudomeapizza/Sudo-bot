@@ -2,7 +2,7 @@ const { dateRegex } = require('./regex.js');
 const { getRegion } = require('./user.js');
 const { getTimeZone } = require('../functions/Database/getTimeZone.js');
 
-function timeStampCalc(date, time, region, format, internal = false, userId){
+function timeStampCalc(date, time, region, format, internal = false, userId, client){
     // this is in UTC
     var time1, time2;
     
@@ -33,24 +33,24 @@ function timeStampCalc(date, time, region, format, internal = false, userId){
 
     // var options = { weekday: 'short', year: 'numeric', month: 'long', day: 'numeric' , time: 'short'};
 
-    var timestamp = new Date(new Date().toLocaleString("en-US", {timeZone: getTimeZone(userId)})).setHours(time1, time2, 0, 0);
+    var timestamp = new Date(new Date().toLocaleString("en-US", {timeZone: client.getTimeZone(userId)})).setHours(time1, time2, 0, 0);
 
-    switch (region) {
-        case "pst":
-            timestamp;
-            break;
-        case "mst":
-            timestamp -= change * 1;
-            break;
-        case "cst":
-            timestamp -= change * 2;
-            break;
-        case "est":
-            timestamp -= change * 3;
-            break;
-        default:
-            return false;
-    }
+    // switch (region) {
+    //     case "pst":
+    //         timestamp;
+    //         break;
+    //     case "mst":
+    //         timestamp -= change * 1;
+    //         break;
+    //     case "cst":
+    //         timestamp -= change * 2;
+    //         break;
+    //     case "est":
+    //         timestamp -= change * 3;
+    //         break;
+    //     default:
+    //         return false;
+    // }
 
     if (internal) {
         fullResponse = [`<t:${timestamp}:F>`,`<t:${timestamp}:R>`];
@@ -128,7 +128,7 @@ function goToDate(message) {
     } 
 }
 
-function timeConvert(message) {
+function timeConvert(message, client) {
     
     // if bot, return
     if (message.author.bot) {return;}
@@ -143,7 +143,7 @@ function timeConvert(message) {
     if (info[0] != null) {
         // 
         const targetDate = goToDate(userMessage);
-        var timestamp = timeStampCalc(targetDate, info[0], getRegion(message.author.id), 'D', true, message.author.id);
+        var timestamp = timeStampCalc(targetDate, info[0], getRegion(message.author.id), 'D', true, message.author.id, client);
         var newMessage;
         
         // replace it correctly if it contains a "at" or "@"
