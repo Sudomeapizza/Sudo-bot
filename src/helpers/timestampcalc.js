@@ -37,7 +37,10 @@ function timeStampCalc(date, time, region, format, internal = false, userId, cli
         console.log("was false");
         return false;
     } else {
-        timestamp = new Date(new Date().toLocaleString("en-US", {timeZone: client.getTimeZone(userId)})).setHours(time1, time2, 0, 0);
+        timestamp = new Date(new Date()
+            .toLocaleString("en-US", {
+                timeZone: client.getTimeZone(userId)
+            })).setHours(time1, time2, 0, 0);
         if (internal) {
             fullResponse = [`<t:${timestamp}:F>`,`<t:${timestamp}:R>`];
         } else {
