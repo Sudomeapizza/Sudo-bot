@@ -1,9 +1,9 @@
 const { Schema, model } = require('mongoose');
-const guildSchema = new Schema({
+const dataSchema = new Schema({
     _id: Schema.Types.ObjectId,
     guildId: Number,
     userId: String,
-    timeZone: { type: String },
+    timeZone: String
 });
 
-module.exports = model("data", guildSchema, "timezonedata");
+module.exports = model("data", dataSchema, "timezonedata");
