@@ -15,13 +15,49 @@ module.exports = (client) => {
                 guildId: guildId,
                 timeZone: inputTimeZone,
             });
-            await userTimeZone
-                .save()
-                .then( async (data) => {
-                    console.log(`[TimeZone] saved region for ${data.userId}`);
-                })
-                .catch(console.error);
+            await userTimeZone.save().catch(console.error);
+                await interaction.reply({
+                    content: `Server Name: ${userTimeZone.guildName}`,
+                });
+                console.log(userTimeZone);
             return userTimeZone;
-        } else return userTimeZone;
+        } else {
+            await interaction.reply({
+                content: `Server ID: ${userTimeZone.guildId}`,
+            });
+            console.log(userTimeZone);
+            return userTimeZone;
+        }
+
+        //     await userTimeZone.save().catch(console.error);
+        //         await interaction.reply({
+        //             content: `Server Name: ${userTimeZone.guildName}`,
+        //         });
+        //         console.log(userTimeZone);
+        //     } else {
+        //         await interaction.reply({
+        //             content: `Server ID: ${userTimeZone.guildId}`,
+        //         });
+        //         console.log(userTimeZone);
+        //     }
+
+        // if (!userTimeZone) {
+        //     userTimeZone = await new Guild({
+        //         _id: Types.ObjectId(),
+        //         userId: userId,
+        //         guildId: guildId,
+        //         timeZone: inputTimeZone,
+        //     })
+        //     await userTimeZone.save().catch(console.error);
+        //     await interaction.reply({
+        //         content: `Server Name: ${userTimeZone.guildName}`,
+        //     });
+        //     console.log(userTimeZone);
+        // } else {
+        //     await interaction.reply({
+        //         content: `Server ID: ${userTimeZone.guildId}`,
+        //     });
+        //     console.log(userTimeZone);
+        // }
     }
 }
