@@ -40,29 +40,24 @@ module.exports = {
         const user = interaction.user;
         const desiredTimeZone = interaction.options.getString('timezone');
 
-        if (!(new Date().toLocaleString('en-US', { timeZone: desiredTimeZone }))) return await interaction.reply({
-            content: `"${desiredTimeZone}" is not a valid timezone`,
-            ephemeral: true   
-        });
-        else {
-            const embed = new EmbedBuilder()
-                .setTitle(`You have updated your time region to:`)
-                .setTimestamp()
-                .addFields([
-                    {
-                        name: `${desiredTimeZone}`,
-                        value: `\u200b`,
-                    },
-                ])
-                .setFooter({
-                    text: client.user.tag,
-                    iconURL: client.user.displayAvatarURL(),
-                });
-            await interaction.reply({
-                embeds: [embed],
-                ephemeral: true,
-            })
-        }
+        desiredTimeZone = await client.setTimeZone(interaction.member.id, interaction.guild.id, desiredTimeZone);
+        const embed = new EmbedBuilder()
+            .setTitle(`You have updated your time region to:`)
+            .setTimestamp()
+            .addFields([
+                {
+                    name: `${desiredTimeZone}`,
+                    value: `\u200b`,
+                },
+            ])
+            .setFooter({
+                text: client.user.tag,
+                iconURL: client.user.displayAvatarURL(),
+            });
+        await interaction.reply({
+            embeds: [embed],
+            ephemeral: true,
+        })
 
         // const timezone = await client.getTimeZone(user,timezone);
         
