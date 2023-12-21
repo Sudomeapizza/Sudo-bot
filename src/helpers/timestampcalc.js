@@ -43,7 +43,7 @@ function timeStampCalc(date, time, region, format, internal = false){
 
         var timestamp = new Date(new Date().toLocaleString("en-US", {timeZone: region}));
         timestamp.setHours(time1, time2, 0, 0);
-        timestamp = here.getTime()/1000;
+        timestamp = timestamp.getTime()/1000;
         if (internal) {
             fullResponse = [`<t:${timestamp}:F>`,`<t:${timestamp}:R>`];
         } else {
