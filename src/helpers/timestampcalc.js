@@ -32,7 +32,7 @@ function timeStampCalc(date, time, region, format, internal = false, userId){
     const change = 3600;
 
     // var options = { weekday: 'short', year: 'numeric', month: 'long', day: 'numeric' , time: 'short'};
-    region = region[0].timeZone;
+    region = region.timeZone;
     console.log("lala: " + region);
     if (region) {
         console.log("was false");
