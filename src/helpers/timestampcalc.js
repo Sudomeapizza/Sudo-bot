@@ -29,9 +29,6 @@ function timeStampCalc(date, time, region, format, internal = false){
 
     // var timestamp = Date.parse(`${date} ${time}`)/1000;
     var fullResponse, timestamp;
-    
-    // hour changes by 3,600,000
-    const change = 3600;
 
     // var options = { weekday: 'short', year: 'numeric', month: 'long', day: 'numeric' , time: 'short'};
     region = region.timeZone;
@@ -40,7 +37,7 @@ function timeStampCalc(date, time, region, format, internal = false){
         console.log("was false");
         return false;
     } else {
-        console.log(date.toLocaleString("en-US"));
+        console.log(date.toLocaleDateString("en-US"));
         var timestamp = new Date(date.toLocaleString("en-US", {timeZone: region}));
         console.log(timestamp);
         timestamp.setHours(time1, time2, 0, 0);
