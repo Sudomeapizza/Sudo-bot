@@ -88,6 +88,7 @@ function advanceADay(inputDay, targetDay, nextDay=false){
     var idate = new Date();
     var counter = 0;
     while (inputDay != targetDay) {
+        console.log(`${inputDay} ${targetDay}`);
         options = { weekday: 'short', year: 'numeric', month: 'long', day: 'numeric' };
         idate.setDate(idate.getDate() + 1); // Increment the date by one day
         options = { weekday: 'short' };
@@ -96,6 +97,7 @@ function advanceADay(inputDay, targetDay, nextDay=false){
         if (counter >= 50) {
             console.error("INFINITE LOOP IN ADVANCE A DAY"); break; 
         } else counter++;
+        console.log(`-${inputDay} ${targetDay}`);
     }
     return idate.toLocaleDateString("en-US", { year: 'numeric', month: 'long', day: 'numeric' }); 
 }
