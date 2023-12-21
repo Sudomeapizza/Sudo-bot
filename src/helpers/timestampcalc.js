@@ -16,7 +16,7 @@ function timeStampCalc(date, time, region, format, internal = false, userId){
     } else if (!time.includes(':') && time.length == 4) {
         time = time.slice(0, 2) + ':' + time.slice(2);
         time1 = time.slice(0,2);
-        time2 = time.slice(3,5);
+        time2 = time.slice(2,4);
 
     // insert colon if using 3 digits (EX: "100", "010")
     } else if (!time.includes(':') && time.length == 3) {
@@ -24,6 +24,8 @@ function timeStampCalc(date, time, region, format, internal = false, userId){
         time1 = time.slice(0,1);
         time2 = time.slice(1,3);
     }
+    time1 = time.slice(0,2);
+    time2 = time.slice(3,5);
 
     // var timestamp = Date.parse(`${date} ${time}`)/1000;
     var fullResponse, timestamp;
