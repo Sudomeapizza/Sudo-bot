@@ -26,14 +26,27 @@ function timeStampCalc(date, time, region, format, internal = false, userId, cli
     }
 
     // var timestamp = Date.parse(`${date} ${time}`)/1000;
-    var fullResponse;
-
+    var fullResponse, timestamp;
+    
     // hour changes by 3,600,000
     const change = 3600;
 
     // var options = { weekday: 'short', year: 'numeric', month: 'long', day: 'numeric' , time: 'short'};
-
-    var timestamp = new Date(new Date().toLocaleString("en-US", {timeZone: client.getTimeZone(userId)})).setHours(time1, time2, 0, 0);
+    var localTimeZone = client.getTimeZone(userId);
+    if (!localTimeZone) {
+        console.log("was false");
+        return false;
+    } else {
+        timestamp = new Date(new Date().toLocaleString("en-US", {timeZone: client.getTimeZone(userId)})).setHours(time1, time2, 0, 0);
+        if (internal) {
+            fullResponse = [`<t:${timestamp}:F>`,`<t:${timestamp}:R>`];
+        } else {
+            fullResponse = [`Timestamp code: \`<t:${timestamp}:${format}>\`\n`
+            + `How it appears: <t:${timestamp}:${format}>`,
+            `<t:${timestamp}:${format}>`];
+        }
+        return fullResponse;
+    }
 
     // switch (region) {
     //     case "pst":
@@ -51,16 +64,6 @@ function timeStampCalc(date, time, region, format, internal = false, userId, cli
     //     default:
     //         return false;
     // }
-
-    if (internal) {
-        fullResponse = [`<t:${timestamp}:F>`,`<t:${timestamp}:R>`];
-    } else {
-        fullResponse = [`Timestamp code: \`<t:${timestamp}:${format}>\`\n`
-        + `How it appears: <t:${timestamp}:${format}>`,
-        `<t:${timestamp}:${format}>`];
-    }
-
-    return fullResponse;
 }
 
 function getDay(dateDay){
