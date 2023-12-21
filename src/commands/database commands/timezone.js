@@ -38,7 +38,7 @@ module.exports = {
     ),
     async execute(interaction, client) {
         const user = interaction.user;
-        const desiredTimeZone = interaction.options.getString('timezone');
+        var desiredTimeZone = interaction.options.getString('timezone');
 
         desiredTimeZone = await client.setTimeZone(interaction.member.id, interaction.guild.id, desiredTimeZone);
         const embed = new EmbedBuilder()
