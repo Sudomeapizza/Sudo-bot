@@ -33,13 +33,14 @@ function timeStampCalc(date, time, region, format, internal = false, userId, cli
 
     // var options = { weekday: 'short', year: 'numeric', month: 'long', day: 'numeric' , time: 'short'};
     var localTimeZone = client.getTimeZone(userId);
+    console.log(localTimeZone);
     if (!localTimeZone) {
         console.log("was false");
         return false;
     } else {
         timestamp = new Date(new Date()
             .toLocaleString("en-US", {
-                timeZone: localTimeZone
+                timeZone: "pst"
             })).setHours(time1, time2, 0, 0);
         if (internal) {
             fullResponse = [`<t:${timestamp}:F>`,`<t:${timestamp}:R>`];
