@@ -53,23 +53,6 @@ function timeStampCalc(date, time, region, format, internal = false){
         }
         return fullResponse;
     }
-
-    // switch (region) {
-    //     case "pst":
-    //         timestamp;
-    //         break;
-    //     case "mst":
-    //         timestamp -= change * 1;
-    //         break;
-    //     case "cst":
-    //         timestamp -= change * 2;
-    //         break;
-    //     case "est":
-    //         timestamp -= change * 3;
-    //         break;
-    //     default:
-    //         return false;
-    // }
 }
 
 function getDay(dateDay){
@@ -103,13 +86,16 @@ function getDay(dateDay){
 
 function advanceADay(inputDay, targetDay, nextDay=false){
     var idate = new Date();
-
+    var counter = 0;
     while (inputDay != targetDay) {
         options = { weekday: 'short', year: 'numeric', month: 'long', day: 'numeric' };
         idate.setDate(idate.getDate() + 1); // Increment the date by one day
         options = { weekday: 'short' };
         inputDay = getDay(idate.toLocaleDateString("en-US", options).toLowerCase());
         if (nextDay) break;
+        if (counter >= 50) {
+            console.error("INFINITE LOOP IN ADVANCE A DAY"); break; 
+        } else counter++;
     }
     return idate.toLocaleDateString("en-US", { year: 'numeric', month: 'long', day: 'numeric' }); 
 }
