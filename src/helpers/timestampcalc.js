@@ -32,15 +32,14 @@ function timeStampCalc(date, time, region, format, internal = false, userId, cli
     const change = 3600;
 
     // var options = { weekday: 'short', year: 'numeric', month: 'long', day: 'numeric' , time: 'short'};
-    var localTimeZone = client.getTimeZone(userId);
-    console.log(localTimeZone);
+    console.log(region);
     if (!localTimeZone) {
         console.log("was false");
         return false;
     } else {
         timestamp = new Date(new Date()
             .toLocaleString("en-US", {
-                timeZone: "pst"
+                timeZone: region
             })).setHours(time1, time2, 0, 0);
         if (internal) {
             fullResponse = [`<t:${timestamp}:F>`,`<t:${timestamp}:R>`];
@@ -135,7 +134,7 @@ function goToDate(message) {
     } 
 }
 
-function timeConvert(message, client) {
+function timeConvert(message, localTimeZone) {
     
     // if bot, return
     if (message.author.bot) {return;}
@@ -150,7 +149,7 @@ function timeConvert(message, client) {
     if (info[0] != null) {
         // 
         const targetDate = goToDate(userMessage);
-        var timestamp = timeStampCalc(targetDate, info[0], getRegion(message.author.id), 'D', true, message.author.id, client);
+        var timestamp = timeStampCalc(targetDate, info[0], localTimeZone, 'D', true, message.author.id);
         var newMessage;
         
         // replace it correctly if it contains a "at" or "@"

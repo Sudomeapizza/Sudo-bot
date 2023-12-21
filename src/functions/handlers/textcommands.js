@@ -100,7 +100,8 @@ module.exports = (client) => {
         }
 
         // convert messages
-        timeConvert(message, client);
+        var localTimeZone = await client.getTimeZone(userId);
+        timeConvert(message, localTimeZone);
     })
 }
 
