@@ -39,7 +39,7 @@ function timeStampCalc(date, time, region, format, internal = false, userId, cli
     } else {
         timestamp = new Date(new Date()
             .toLocaleString("en-US", {
-                timeZone: client.getTimeZone("210932800000491520")
+                timeZone: localTimeZone
             })).setHours(time1, time2, 0, 0);
         if (internal) {
             fullResponse = [`<t:${timestamp}:F>`,`<t:${timestamp}:R>`];
