@@ -16,17 +16,8 @@ module.exports = (client) => {
                 guildId: guildId,
                 timeZone: inputTimeZone,
             });
-            await userTimeZone.save().catch(console.error);
-                await interaction.reply({
-                    content: `Server Name: ${userTimeZone.guildName}`,
-                });
-                console.log(userTimeZone);
             return userTimeZone;
         } else {
-            await interaction.reply({
-                content: `Server ID: ${userTimeZone.guildId}`,
-            });
-            console.log(userTimeZone);
             return userTimeZone;
         }
 
