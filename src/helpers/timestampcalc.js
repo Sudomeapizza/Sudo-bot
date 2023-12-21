@@ -35,7 +35,7 @@ function timeStampCalc(date, time, region, format, internal = false, userId){
 
     // var options = { weekday: 'short', year: 'numeric', month: 'long', day: 'numeric' , time: 'short'};
     region = region.timeZone;
-    console.log(`lala: ${region} time1: ${time1} time2: ${time2}`);
+    console.log(`lala: ${region} time1: ${time1} time2: ${time2} time: ${timestamp}`);
     if (region == false) {
         console.log("was false");
         return false;
@@ -44,6 +44,7 @@ function timeStampCalc(date, time, region, format, internal = false, userId){
             .toLocaleString("en-US", {
                 timeZone: region
             })).setHours(time1, time2, 0, 0);
+            timestamp = timestamp.getTime()/1000;
         if (internal) {
             fullResponse = [`<t:${timestamp}:F>`,`<t:${timestamp}:R>`];
         } else {
