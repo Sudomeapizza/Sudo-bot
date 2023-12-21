@@ -32,14 +32,15 @@ function timeStampCalc(date, time, region, format, internal = false, userId){
     const change = 3600;
 
     // var options = { weekday: 'short', year: 'numeric', month: 'long', day: 'numeric' , time: 'short'};
-    console.log("lala: " + region.timeZone);
-    if (region.timeZone) {
+    region = region[0].region;
+    console.log("lala: " + region);
+    if (region) {
         console.log("was false");
         return false;
     } else {
         timestamp = new Date(new Date()
             .toLocaleString("en-US", {
-                timeZone: region.timeZone
+                timeZone: region
             })).setHours(time1, time2, 0, 0);
         if (internal) {
             fullResponse = [`<t:${timestamp}:F>`,`<t:${timestamp}:R>`];
