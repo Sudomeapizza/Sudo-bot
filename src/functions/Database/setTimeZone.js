@@ -4,7 +4,7 @@ const mongoose = require("mongoose");
 module.exports = (client) => {
     client.setTimeZone = async (userId, guildId, inputTimeZone) => {
         console.log("test");
-        const userTimeZone = await timeZone.findOne({
+        var userTimeZone = await timeZone.findOne({
             userId: userId,
             timeZone: inputTimeZone,
         });
