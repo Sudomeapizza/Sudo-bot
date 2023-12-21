@@ -110,6 +110,7 @@ function goToDate(message) {
     var inputDay, targetDay;
     var options = { weekday: 'short', year: 'numeric', month: 'long', day: 'numeric' };
     options = { weekday: 'short' };
+    console.log(targetDate);
     targetDay = getDay(targetDate[1].toLowerCase());
     inputDay = getDay(idate.toLocaleDateString("en-US", options).toLowerCase());
 
@@ -120,10 +121,10 @@ function goToDate(message) {
             return idate.toLocaleDateString("en-US", { year: 'numeric', month: 'long', day: 'numeric' });
         case "tomorrow":
             console.log("tomorrow");
-            return advanceADay(inputDay, targetDate, true);
+            return advanceADay(inputDay, targetDay, true);
         default:
             console.log("other day");
-            return advanceADay(inputDay, targetDate);
+            return advanceADay(inputDay, targetDay);
     } 
 }
 
