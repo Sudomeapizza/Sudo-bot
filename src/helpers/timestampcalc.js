@@ -37,7 +37,7 @@ function timeStampCalc(date, time, region, format, internal = false){
         console.log("was false");
         return false;
     } else {
-        console.log(date.toLocaleDateString("en-US"));
+        console.log(new Date(date.toLocaleString("en-US")));
         var timestamp = new Date(date.toLocaleString("en-US", {timeZone: region}));
         console.log(timestamp);
         timestamp.setHours(time1, time2, 0, 0);
