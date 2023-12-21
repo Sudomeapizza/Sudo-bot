@@ -44,7 +44,7 @@ function timeStampCalc(date, time, region, format, internal = false, userId){
             .toLocaleString("en-US", {
                 timeZone: region
             })).setHours(time1, time2, 0, 0);
-            timestamp = timestamp.getTime()/1000;
+            timestamp = timestamp/1000;
         if (internal) {
             fullResponse = [`<t:${timestamp}:F>`,`<t:${timestamp}:R>`];
         } else {
