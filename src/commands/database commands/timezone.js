@@ -1,9 +1,5 @@
 const { SlashCommandBuilder, EmbedBuilder } = require('discord.js')
 
-const regions = [  
-    
-];
-
 module.exports = {
     data: new SlashCommandBuilder()
     .setName('settimezone')
@@ -50,7 +46,7 @@ module.exports = {
         });
         else {
             const embed = new EmbedBuilder()
-                .setTitle(`Time zone for ${user} has updated:`)
+                .setTitle(`You have updated your time region to:`)
                 .setTimestamp()
                 .addFields([
                     {

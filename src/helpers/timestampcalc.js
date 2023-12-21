@@ -1,35 +1,40 @@
 const { dateRegex } = require('./regex.js');
 const { getRegion } = require('./user.js');
+const { getTimeZone } = require('../functions/Database/getTimeZone.js');
 
-function timeStampCalc(date, time, region, format, internal = false){
+function timeStampCalc(date, time, region, format, internal = false, userId){
     // this is in UTC
+    var time1, time2;
     
     // if using shortened time (EX: "1:40")
     if (time.includes(':') && time.length == 4) {
         time = '0' + time;
+        time1 = time.slice(1,2);
+        time2 = time.slice(3,5);
 
     // insert colon if using 4 digits (EX: "1200")
     } else if (!time.includes(':') && time.length == 4) {
         time = time.slice(0, 2) + ':' + time.slice(2);
+        time1 = time.slice(0,2);
+        time2 = time.slice(3,5);
 
     // insert colon if using 3 digits (EX: "100", "010")
     } else if (!time.includes(':') && time.length == 3) {
         time = '0' + time.slice(0, 1) + ':' + time.slice(1);
+        time1 = time.slice(0,1);
+        time2 = time.slice(1,3);
     }
 
-    var timestamp = Date.parse(`${date} ${time}`)/1000;
+    // var timestamp = Date.parse(`${date} ${time}`)/1000;
     var fullResponse;
-            
+
     // hour changes by 3,600,000
     const change = 3600;
 
-    /**
-     * Once a DB is setup, make a slash command to set timezones and optional to set date format:
-     * 
-     * var options = { weekday: 'short', year: 'numeric', month: 'long', day: 'numeric' , time: 'short'};
-     * var here = new Date(new Date().toLocaleString("en-US", {timeZone: "America/Los_Angeles"}));;
-     * console.log(`Here: ${here.toLocaleDateString("en-US",options)}`);
-     */
+    // var options = { weekday: 'short', year: 'numeric', month: 'long', day: 'numeric' , time: 'short'};
+
+    var timestamp = new Date(new Date().toLocaleString("en-US", {timeZone: getTimeZone(userId)})).setHours(time1, time2, 0, 0);
+
     switch (region) {
         case "pst":
             timestamp;
@@ -45,7 +50,6 @@ function timeStampCalc(date, time, region, format, internal = false){
             break;
         default:
             return false;
-            break;
     }
 
     if (internal) {
@@ -125,32 +129,38 @@ function goToDate(message) {
 }
 
 function timeConvert(message) {
-    // if (message.guildId === '1076645110390984714'
-    // || message.guildId === '351882915153707008') {
-        if (message.author.bot) {return;}
-        var userMessage = message.content;
-        const info = dateRegex(userMessage);
-        if (info[0] != null) {
-            const targetDate = goToDate(userMessage);
-            var timestamp = timeStampCalc(targetDate, info[0], getRegion(message.author.id), 'D', true);
-            var newMessage;
-            
-            // replace it correctly if it contains a "at" or "@"
-            if (userMessage.includes(`${info[1]} at ${info[0]}`)) {
-                newMessage = userMessage.replace(`${info[1]} at ${info[0]}`,`${timestamp[0]} ${timestamp[1]}`);
-            } else if (userMessage.includes(`${info[1]} @ ${info[0]}`)) {
-                newMessage = userMessage.replace(`${info[1]} @ ${info[0]}`,`${timestamp[0]} ${timestamp[1]}`);
-            }
+    
+    // if bot, return
+    if (message.author.bot) {return;}
+    
+    // easy access to variable
+    var userMessage = message.content;
+    
+    // try getting values from Regex
+    const info = dateRegex(userMessage);
 
-            if (timestamp) {
-                message.channel.send(newMessage || "None4");
-            } else {
-                message.author.send({
-                    content: "You do not have a region set internally, please specify your region."
-                });
-            }
+    // if there's content: continue, else ignore message.
+    if (info[0] != null) {
+        // 
+        const targetDate = goToDate(userMessage);
+        var timestamp = timeStampCalc(targetDate, info[0], getRegion(message.author.id), 'D', true, message.author.id);
+        var newMessage;
+        
+        // replace it correctly if it contains a "at" or "@"
+        if (userMessage.includes(`${info[1]} at ${info[0]}`)) {
+            newMessage = userMessage.replace(`${info[1]} at ${info[0]}`,`${timestamp[0]} ${timestamp[1]}`);
+        } else if (userMessage.includes(`${info[1]} @ ${info[0]}`)) {
+            newMessage = userMessage.replace(`${info[1]} @ ${info[0]}`,`${timestamp[0]} ${timestamp[1]}`);
         }
-    // }
+
+        if (timestamp) {
+            message.channel.send(newMessage || "None4");
+        } else {
+            message.author.send({
+                content: "You do not have a region set internally, please specify your region."
+            });
+        }
+    }
 }
 
 module.exports = { timeStampCalc, goToDate, timeConvert };

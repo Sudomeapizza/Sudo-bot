@@ -2,7 +2,7 @@ const timeZone = require("../../schemas/data");
 const Types = require("mongoose");
 
 module.exports = (client) => {
-    client.setTimeZone = async (userId, inputTimeZone) => {
+    client.setTimeZone = async (userId, guildId, inputTimeZone) => {
         const userTimeZone = await timeZone.findOne({
             userId: userId,
             timeZone: inputTimeZone,
@@ -12,6 +12,7 @@ module.exports = (client) => {
             userTimeZone = await new timeZone({
                 _id: Types.ObjectId(),
                 userId: userId,
+                guildId: guildId,
                 timeZone: inputTimeZone,
             });
             await userTimeZone

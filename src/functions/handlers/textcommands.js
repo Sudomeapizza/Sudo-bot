@@ -98,21 +98,10 @@ module.exports = (client) => {
                 }
             }
         }
+
+        // convert messages
         timeConvert(message);
     })
-
-    // client.addListener("disconnect", async () => {
-    //     console.log("DISCONNECTED")
-    //     if (stayonvc) {
-    //         console.log("RECONNECTED");
-    //         connection = joinVoiceChannel({
-    //             channelId: connectionvalues.channelId,
-    //             guildId: connectionvalues.guild.id, 
-    //             adapterCreator: connectionvalues.guild.voiceAdapterCreator,
-    //             selfDeaf: false
-    //         });
-    //     }
-    // })
 }
 
 function response(message, chance, responseMessage) {
