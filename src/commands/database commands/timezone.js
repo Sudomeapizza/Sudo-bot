@@ -46,7 +46,7 @@ module.exports = {
             .setTimestamp()
             .addFields([
                 {
-                    name: `${desiredTimeZone}`,
+                    name: `${desiredTimeZone.timeZone}`,
                     value: `\u200b`,
                 },
             ])
