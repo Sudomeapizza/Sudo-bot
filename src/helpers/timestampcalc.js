@@ -43,6 +43,7 @@ function timeStampCalc(date, time, region, format, internal = false){
         // add/subtract based on pi's timezone
         var timestamp = adjustTime(date, region);
 
+
         // var timestamp = new Date(date.toLocaleString("en-US", {timeZone: region}));
         // console.log(timestamp);
         // timestamp.setHours(time1, time2, 0, 0);
@@ -89,8 +90,10 @@ function adjustTime(date, region) {
         {name: "AKST", value: "-7"},
     ];
     for (var i = 0; i < reference.length; i++) {
-        if (reference[i].name() == region) {
-            return date.setHours(date.getHours() + reference[i].value());
+        if (reference[i].name() == region) { 
+            console.log(`${date}\n${date + reference[i].value()}`)
+            return date + reference[i].value();
+            // return date.setHours(date.getHours() + reference[i].value());
             break;
         }
     }
