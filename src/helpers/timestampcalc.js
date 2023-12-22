@@ -39,11 +39,11 @@ function timeStampCalc(date, time, region, format, internal = false){
     } else {
         console.log(new Date(date.toLocaleString("en-US")));
         date = new Date(date);
-        date.setHours(time1, time2, 0, 0);
-        // set time
         // add/subtract based on pi's timezone
         var timestamp = adjustTime(date, region);
 
+        timestamp.setHours(time1, time2, 0, 0);
+        // set time
 
         // var timestamp = new Date(date.toLocaleString("en-US", {timeZone: region}));
         // console.log(timestamp);
