@@ -91,9 +91,9 @@ function adjustTime(date, region) {
         {name: "AKST", value: "-7"},
     ];
     for (var i = 0; i < reference.length; i++) {
-        if (reference[i].name() == region) { 
-            console.log(`${date}\n${date + reference[i].value()}`)
-            return date + reference[i].value();
+        if (reference[i].name == region) { 
+            console.log(`${date}\n${date + reference[i].value}`)
+            return date + reference[i].value;
             // return date.setHours(date.getHours() + reference[i].value());
             break;
         }
