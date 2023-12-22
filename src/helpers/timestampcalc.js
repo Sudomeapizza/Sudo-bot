@@ -49,7 +49,7 @@ function timeStampCalc(date, time, region, format, internal = false){
         // console.log(timestamp);
         // timestamp.setHours(time1, time2, 0, 0);
         console.log(timestamp);
-        timestamp = timestamp.getTime()/1000;
+        // timestamp = timestamp.getTime()/1000;
         if (internal) {
             fullResponse = [`<t:${timestamp}:F>`,`<t:${timestamp}:R>`];
         } else {
