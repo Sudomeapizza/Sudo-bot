@@ -48,7 +48,7 @@ module.exports = {
         console.log(region.timeZone);
 
         if (interaction.options.getString('time_region') == null ) {
-            if (region == null) {
+            if (region) {
                 region = false;
             }
         }

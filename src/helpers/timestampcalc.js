@@ -28,12 +28,9 @@ function timeStampCalc(date, time, region, format, internal = false){
     time1 = time.slice(0,2);
     time2 = time.slice(3,5);
 
-    // var timestamp = Date.parse(`${date} ${time}`)/1000;
     var fullResponse, timestamp;
 
-    // var options = { weekday: 'short', year: 'numeric', month: 'long', day: 'numeric' , time: 'short'};
     region = region.timeZone;
-    // console.log(`lala: ${region} time1: ${time1} time2: ${time2} time: ${timestamp}`);
     if (region == false) {
         console.log("was false");
         return false;
@@ -64,7 +61,6 @@ function timeStampCalc(date, time, region, format, internal = false){
 }
 
 function adjustTime(region) {
-    //
     const reference = [
         {name: "JST", value: 17},
         {name: "SGT", value: 16},
@@ -133,7 +129,6 @@ function advanceADay(inputDay, targetDay, nextDay=false){
     var idate = new Date();
     var counter = 0;
     while (inputDay != targetDay) {
-        // console.log(`${inputDay} ${targetDay}`);
         options = { weekday: 'short', year: 'numeric', month: 'long', day: 'numeric' };
         idate.setDate(idate.getDate() + 1); // Increment the date by one day
         options = { weekday: 'short' };
@@ -142,7 +137,6 @@ function advanceADay(inputDay, targetDay, nextDay=false){
         if (counter >= 50) {
             console.error("INFINITE LOOP IN ADVANCE A DAY"); break; 
         } else counter++;
-        // console.log(`-${inputDay} ${targetDay}`);
     }
     return counter; 
 }
@@ -175,13 +169,10 @@ function goToDate(message) {
     switch (targetDate[1].toLowerCase()) {
         case "today":
         case "tonight":
-            // console.log("same day");
             return 0;
         case "tomorrow":
-            // console.log("tomorrow");
             return 1;
         default:
-            // console.log("other day");
             return advanceADay(inputDay, targetDay);
     } 
 }
