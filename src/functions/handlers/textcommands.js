@@ -14,28 +14,21 @@ module.exports = (client) => {
     client.on('guildCreate', async (guild) => {
         console.log(`Bot joined a new guild: ${guild.name} (id: ${guild.id}).`);
             
+        guildProfile = await new Guild({
+            _id: new mongoose.Types.ObjectId(),
+            guildId: guild.id,
+            guildName: guild.name,
+            guildIcon: guild.iconURL() ? guild.iconURL() : "None..",
+        })
+        await guildProfile.save().catch(console.error);
         
-        var guildProfile = await Guild.findOne({ guildId: guild.id });
-            if (!guildProfile) {
-                guildProfile = await new Guild({
-                    _id: new mongoose.Types.ObjectId(),
-                    guildId: guild.id,
-                    guildName: guild.name,
-                    guildIcon: guild.iconURL() ? guild.iconURL() : "None..",
-                })
-                await guildProfile.save().catch(console.error);
-                
-                console.log(guildProfile);
-            } else {
-                console.log(guildProfile);
-            }
-
+        console.log(guildProfile);
 
         // Perform actions when the bot joins a guild
         try {
             // Find a text channel by its name for testing purposes
             const channel = guild.channels.cache.find(
-                (ch) => ch.type === 'GUILD_TEXT' && ch.name === 'general' // Replace 'general' with your desired channel name
+                (ch) => ch.isTextBased() && ch.type === 2 // Replace 'general' with your desired channel name
             );
     
             // Log available channels for debugging
