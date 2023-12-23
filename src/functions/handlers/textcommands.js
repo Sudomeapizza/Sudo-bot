@@ -11,31 +11,51 @@ module.exports = (client) => {
     var connection, connectionvalues;
     var stayonvc = false;
 
-    client.on('guildCreate', (g) => {
-        const channel = g.channels.cache.find(channel => channel.type === 'GUILD_TEXT' && channel.permissionsFor(g.me).has('SEND_MESSAGES'))
-        async (interaction) => {
-            var guildProfile = await Guild.findOne({ guildId: interaction.guild.id });
-        if (!guildProfile) {
-            guildProfile = await new Guild({
-                _id: new mongoose.Types.ObjectId(),
-                guildId: interaction.guild.id,
-                guildName: interaction.guild.name,
-                guildIcon: interaction.guild.iconURL() ? interaction.guild.iconURL() : "None..",
-            })
-            await guildProfile.save().catch(console.error);
-            await interaction.reply({
-                content: `Server Name: ${guildProfile.guildName}`,
-            });
-            console.log(guildProfile);
-        } else {
-            await interaction.reply({
-                content: `Server ID: ${guildProfile.guildId}`,
-            });
-            console.log(guildProfile);
+    // client.on('guildCreate', (g) => {
+    //     const channel = g.channels.cache.find(channel => channel.type === 'GUILD_TEXT' && channel.permissionsFor(g.me).has('SEND_MESSAGES'))
+    //     channel.send("Thank you for inviting me!");
+    //     async (interaction) => {
+    //         var guildProfile = await Guild.findOne({ guildId: interaction.guild.id });
+    //         if (!guildProfile) {
+    //             guildProfile = await new Guild({
+    //                 _id: new mongoose.Types.ObjectId(),
+    //                 guildId: interaction.guild.id,
+    //                 guildName: interaction.guild.name,
+    //                 guildIcon: interaction.guild.iconURL() ? interaction.guild.iconURL() : "None..",
+    //             })
+    //             await guildProfile.save().catch(console.error);
+    //             await interaction.reply({
+    //                 content: `Server Name: ${guildProfile.guildName}`,
+    //             });
+    //             console.log(guildProfile);
+    //         } else {
+    //             await interaction.reply({
+    //                 content: `Server ID: ${guildProfile.guildId}`,
+    //             });
+    //             console.log(guildProfile);
+    //         }
+    //     }
+        
+    // })
+
+    client.on('guildCreate', async (guild) => {
+        console.log(`Bot joined a new guild: ${guild.name} (id: ${guild.id}).`);
+    
+        // Perform actions when the bot joins a new guild
+        try {
+            // Send a welcome message to a specific channel (you can modify the channel ID)
+            const channel = guild.channels.cache.find(
+                (ch) => ch.type === 'GUILD_TEXT' && ch.permissionsFor(guild.me).has('SEND_MESSAGES')
+            );
+            if (channel) {
+                await channel.send('Thanks for inviting me! I am here to assist you.');
+            }
+            
+            // You can add more actions like creating roles, channels, or setting up configurations
+        } catch (error) {
+            console.error('Error encountered:', error);
         }
-        }
-        channel.send("Thank you for inviting me!");
-    })
+    });
 
     client.on('voiceStateUpdate', (oldState, newState) => {
         console.log("update to voice");
