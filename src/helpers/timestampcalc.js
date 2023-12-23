@@ -1,5 +1,4 @@
 const { dateRegex } = require('./regex.js');
-const { getRegion } = require('./user.js');
 const { getTimeZone } = require('../functions/Database/getTimeZone.js');
 
 function timeStampCalc(date, time, region, format, internal = false){
@@ -38,36 +37,15 @@ function timeStampCalc(date, time, region, format, internal = false){
         return false;
     } else {
 
-        
-        // var timestamp = new Date();
-        // console.log(timestamp.toLocaleString());
-        // console.log(`::${date}\n::${adjustTime(region)}`);
-        // console.log(`<t:${timestamp.getTime().toString().slice(0, -3)}:F>`,`<t:${timestamp.getTime().toString().slice(0, -3)}:R>`);
-
-        // var timeToAdjust = adjustTime(region) + date * 24;
-        // console.log(`::: ${timeToAdjust}`);
-
-        // timestamp.setTime(timestamp.getTime() + timeToAdjust * 60 * 60 * 1000);
-        
         var timestamp = new Date();
-        console.log(`::${date} ::${adjustTime(region)}`);
-        console.log("1: " + timestamp.toLocaleString());
 
         timestamp.setHours(time1, time2);
-        console.log("2: " + timestamp.toLocaleString());
-
-        // console.log(`<t:${timestamp.getTime().toString().slice(0, -3)}:F>`,
-        // `<t:${timestamp.getTime().toString().slice(0, -3)}:R>`);
-        // console.log(timestamp.toLocaleString());
 
         timestamp.setHours(timestamp.getHours() + adjustTime(region));
-        console.log("3: " + timestamp.toLocaleString());
 
         timestamp.setHours(timestamp.getHours() + (date * 24));
-        console.log("4: " + timestamp.toLocaleString());
 
         timestamp = timestamp.getTime().toString().slice(0, -3);
-        console.log(`5: <t:${timestamp}:F>`,`<t:${timestamp}:R>`);
         if (internal) {
             fullResponse = [`<t:${timestamp}:F>`,`<t:${timestamp}:R>`];
         } else {
@@ -109,9 +87,7 @@ function adjustTime(region) {
         {name: "AKST", value: -7},
     ];
     for (var i = 0; i < reference.length; i++) {
-        // console.log(`${reference[i].name} : ${region}`);
         if (reference[i].name == region.toLocaleUpperCase()) { 
-        //   console.log(reference[i].value);
             return reference[i].value;
         }
     }
@@ -151,7 +127,7 @@ function advanceADay(inputDay, targetDay, nextDay=false){
     var idate = new Date();
     var counter = 0;
     while (inputDay != targetDay) {
-        console.log(`${inputDay} ${targetDay}`);
+        // console.log(`${inputDay} ${targetDay}`);
         options = { weekday: 'short', year: 'numeric', month: 'long', day: 'numeric' };
         idate.setDate(idate.getDate() + 1); // Increment the date by one day
         options = { weekday: 'short' };
@@ -160,7 +136,7 @@ function advanceADay(inputDay, targetDay, nextDay=false){
         if (counter >= 50) {
             console.error("INFINITE LOOP IN ADVANCE A DAY"); break; 
         } else counter++;
-        console.log(`-${inputDay} ${targetDay}`);
+        // console.log(`-${inputDay} ${targetDay}`);
     }
     return counter; 
 }
@@ -180,13 +156,13 @@ function goToDate(message) {
     switch (targetDate[1].toLowerCase()) {
         case "today":
         case "tonight":
-            console.log("same day");
+            // console.log("same day");
             return 0;
         case "tomorrow":
-            console.log("tomorrow");
+            // console.log("tomorrow");
             return 1;
         default:
-            console.log("other day");
+            // console.log("other day");
             return advanceADay(inputDay, targetDay);
     } 
 }
