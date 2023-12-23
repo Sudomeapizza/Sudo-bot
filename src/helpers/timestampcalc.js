@@ -42,7 +42,10 @@ function timeStampCalc(date, time, region, format, internal = false){
         // add/subtract based on pi's timezone
         var timestamp = adjustTime(date, region);
 
-        timestamp = new Date(timestamp).setHours(time1, time2, 0, 0);
+        timestamp = new Date(timestamp)
+        console.log(timestamp);
+        timestamp.setHours(time1, time2, 0, 0);
+        console.log(timestamp);
         // set time
 
         // var timestamp = new Date(date.toLocaleString("en-US", {timeZone: region}));
