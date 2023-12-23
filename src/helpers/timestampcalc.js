@@ -39,9 +39,9 @@ function timeStampCalc(date, time, region, format, internal = false){
     } else {
 
         
-        var timestamp = new Date(date);
+        var timestamp = new Date();
         console.log(timestamp);
-        timestamp.setHours(timestamp.getHours() + adjustTime(region));
+        timestamp.setHours(timestamp.getHours() + adjustTime(region) + date * 24);
         console.log(`<t:${timestamp}:F>`,`<t:${timestamp}:R>`);
 
         timestamp = timestamp.getTime().toString().slice(0, -3);
@@ -139,7 +139,7 @@ function advanceADay(inputDay, targetDay, nextDay=false){
         } else counter++;
         console.log(`-${inputDay} ${targetDay}`);
     }
-    return idate.toLocaleDateString("en-US", { year: 'numeric', month: 'long', day: 'numeric' }); 
+    return counter; 
 }
 
 function goToDate(message) {
@@ -158,10 +158,10 @@ function goToDate(message) {
         case "today":
         case "tonight":
             console.log("same day");
-            return idate.toLocaleDateString("en-US", { year: 'numeric', month: 'long', day: 'numeric' });
+            return 0;
         case "tomorrow":
             console.log("tomorrow");
-            return advanceADay(inputDay, targetDay, true);
+            return 1;
         default:
             console.log("other day");
             return advanceADay(inputDay, targetDay);
