@@ -24,28 +24,33 @@ module.exports = (client) => {
                     guildIcon: guild.iconURL() ? guild.iconURL() : "None..",
                 })
                 await guildProfile.save().catch(console.error);
-                await interaction.reply({
-                    content: `Server Name: ${guildProfile.guildName}`,
-                });
+                
                 console.log(guildProfile);
             } else {
-                await interaction.reply({
-                    content: `Server ID: ${guildProfile.guildId}`,
-                });
                 console.log(guildProfile);
             }
 
-        // Perform actions when the bot joins a new guild
+
+        // Perform actions when the bot joins a guild
         try {
-            // Send a welcome message to a specific channel (you can modify the channel ID)
+            // Find a text channel by its name for testing purposes
             const channel = guild.channels.cache.find(
-                (ch) => ch.type === 'GUILD_TEXT' && ch.permissionsFor(guild.me).has('SEND_MESSAGES')
+                (ch) => ch.type === 'GUILD_TEXT' && ch.name === 'general' // Replace 'general' with your desired channel name
             );
+    
+            // Log available channels for debugging
+            console.log('Available channels:', guild.channels.cache.map(ch => `${ch.name} (${ch.type})`));
+    
             if (channel) {
-                await channel.send('Thanks for inviting me! I am here to assist you.');
+                // Check if the bot has permission to send messages in the channel
+                if (channel.permissionsFor(guild.me).has('SEND_MESSAGES')) {
+                    await channel.send('Thanks for inviting me! I am here to assist you.');
+                } else {
+                    console.log('Bot does not have permission to send messages in the channel.');
+                }
+            } else {
+                console.log('Channel not found or is not a text channel.');
             }
-            
-            // You can add more actions like creating roles, channels, or setting up configurations
         } catch (error) {
             console.error('Error encountered:', error);
         }
