@@ -40,6 +40,7 @@ function timeStampCalc(date, time, region, format, internal = false){
         console.log(new Date(date.toLocaleString("en-US")));
         date = new Date(date);
         // add/subtract based on pi's timezone
+        console.log(`${time1} ${time2}`);
         var timestamp = adjustTime(date, region);
 
         timestamp = new Date(timestamp)
