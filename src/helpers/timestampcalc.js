@@ -150,12 +150,24 @@ function advanceADay(inputDay, targetDay, nextDay=false){
 function goToDate(message) {
     // i => itterativeDate
     var idate = new Date();
+    var targetDate;
 
-    var targetDate = dateRegex(message);
+    if (message.toLowerCase() == "sun" ||
+        message.toLowerCase() == "mon" ||
+        message.toLowerCase() == "tue" ||
+        message.toLowerCase() == "wed" ||
+        message.toLowerCase() == "thurs" ||
+        message.toLowerCase() == "fri" ||
+        message.toLowerCase() == "sat") {
+        
+            targetDate = ["", message];
+    } else {
+        targetDate = dateRegex(message);
+    }
+    
     var inputDay, targetDay;
     var options = { weekday: 'short', year: 'numeric', month: 'long', day: 'numeric' };
     options = { weekday: 'short' };
-    // console.log(targetDate);
     console.log(targetDate);
     targetDay = getDay(targetDate[1].toLowerCase());
     inputDay = getDay(idate.toLocaleDateString("en-US", options).toLowerCase());
