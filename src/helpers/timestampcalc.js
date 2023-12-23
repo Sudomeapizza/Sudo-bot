@@ -44,7 +44,10 @@ function timeStampCalc(date, time, region, format, internal = false){
         console.log(`${date} ${adjustTime(region)}`);
         console.log(`<t:${timestamp.getTime().toString().slice(0, -3)}:F>`,`<t:${timestamp.getTime().toString().slice(0, -3)}:R>`);
 
-        timestamp.setHours(timestamp.getHours() + adjustTime(region) + date * 24);
+        var timeToAdjust = adjustTime(region) + date * 24;
+        console.log(timeToAdjust);
+
+        timestamp.setHours(timestamp.getHours() + timeToAdjust);
 
         timestamp = timestamp.getTime().toString().slice(0, -3);
         console.log(`<t:${timestamp}:F>`,`<t:${timestamp}:R>`);
