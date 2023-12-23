@@ -1,6 +1,5 @@
 const { SlashCommandBuilder } = require('discord.js')
 const { timeStampCalc } = require('../../helpers/timestampcalc.js')
-const { getRegion } = require('../../helpers/user.js');
 
 module.exports = {
     data: new SlashCommandBuilder()
@@ -44,12 +43,10 @@ module.exports = {
         ),
 
     async execute(interaction, client) {
-        var region;
+        var region = await client.getTimeZone(message.author.id);
 
         if (interaction.options.getString('time_region') == null) {
-            if (getRegion(interaction.user.id) != null) {
-                region = getRegion(interaction.user.id);
-            } else {
+            if (region == null) {
                 region = null;
             }
         }
