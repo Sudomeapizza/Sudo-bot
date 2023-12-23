@@ -31,7 +31,7 @@ function timeStampCalc(date, time, region, format, internal = false){
 
     // var options = { weekday: 'short', year: 'numeric', month: 'long', day: 'numeric' , time: 'short'};
     region = region.timeZone;
-    console.log(`lala: ${region} time1: ${time1} time2: ${time2} time: ${timestamp}`);
+    // console.log(`lala: ${region} time1: ${time1} time2: ${time2} time: ${timestamp}`);
     if (region == false) {
         console.log("was false");
         return false;
@@ -149,7 +149,7 @@ function goToDate(message) {
     var inputDay, targetDay;
     var options = { weekday: 'short', year: 'numeric', month: 'long', day: 'numeric' };
     options = { weekday: 'short' };
-    console.log(targetDate);
+    // console.log(targetDate);
     targetDay = getDay(targetDate[1].toLowerCase());
     inputDay = getDay(idate.toLocaleDateString("en-US", options).toLowerCase());
 
