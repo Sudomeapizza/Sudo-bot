@@ -58,9 +58,10 @@ module.exports = {
         const format = interaction.options.getString('format') || 'R';
         const silence = interaction.options.getBoolean('silent') || false;
         const mobile = interaction.options.getBoolean('mobile') || false;
-        const targetDate = goToDate(date);
+        
+        console.log(date);
 
-        const response = timeStampCalc(targetDate, time, region, format);
+        const response = timeStampCalc(goToDate(new Date(date).toLocaleDateString("en-US", { weekday: 'short' })), time, region, format);
 
         if (response == false) {
 
