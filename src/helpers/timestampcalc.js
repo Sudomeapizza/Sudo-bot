@@ -37,24 +37,32 @@ function timeStampCalc(date, time, region, format, internal = false){
         console.log("was false");
         return false;
     } else {
-        console.log(new Date(date.toLocaleString("en-US")));
-        date = new Date(date);
-        // add/subtract based on pi's timezone
-        console.log(`${time1} ${time2}`);
-        var timestamp = adjustTime(date, region);
 
-        timestamp = new Date(timestamp)
-        console.log(timestamp);
+
+        var timestamp = new Date(new Date().toLocaleString("en-US", {timeZone: region}));
         timestamp.setHours(time1, time2, 0, 0);
-        console.log(timestamp);
-        // set time
+        // here.setHours(here.getHours() + 24);
+        console.log(`Here: ${timestamp.toLocaleString("en-US",{time: 'short'})}`);
 
-        // var timestamp = new Date(date.toLocaleString("en-US", {timeZone: region}));
+
+        // console.log(new Date(date.toLocaleString("en-US")));
+        // date = new Date(date);
+        // // add/subtract based on pi's timezone
+        // console.log(`${time1} ${time2}`);
+        // var timestamp = adjustTime(date, region);
+
+        // timestamp = new Date(timestamp)
         // console.log(timestamp);
         // timestamp.setHours(time1, time2, 0, 0);
-        console.log(timestamp);
-        timestamp = new Date(timestamp).getTime()/1000;
-        console.log(timestamp);
+        // console.log(timestamp);
+        // // set time
+
+        // // var timestamp = new Date(date.toLocaleString("en-US", {timeZone: region}));
+        // // console.log(timestamp);
+        // // timestamp.setHours(time1, time2, 0, 0);
+        // console.log(timestamp);
+        // timestamp = new Date(timestamp).getTime()/1000;
+        // console.log(timestamp);
         if (internal) {
             fullResponse = [`<t:${timestamp}:F>`,`<t:${timestamp}:R>`];
         } else {
