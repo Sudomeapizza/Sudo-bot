@@ -14,15 +14,20 @@ module.exports = (client) => {
     client.on('guildCreate', async (guild) => {
         console.log(`Bot joined a new guild: ${guild.name} (id: ${guild.id}).`);
             
-        guildProfile = await new Guild({
-            _id: new mongoose.Types.ObjectId(),
-            guildId: guild.id,
-            guildName: guild.name,
-            guildIcon: guild.iconURL() ? guild.iconURL() : "None..",
-        })
-        await guildProfile.save().catch(console.error);
-        
-        console.log(guildProfile);
+        var guildProfile = await Guild.findOne({ guildId: interaction.guild.id });
+        if (!guildProfile) {
+            guildProfile = await new Guild({
+                _id: new mongoose.Types.ObjectId(),
+                guildId: interaction.guild.id,
+                guildName: interaction.guild.name,
+                guildIcon: interaction.guild.iconURL() ? interaction.guild.iconURL() : "None..",
+            })
+            await guildProfile.save().catch(console.error);
+            await interaction.reply({
+                content: `Server Name: ${guildProfile.guildName}`,
+            });
+            console.log(guildProfile);
+        }
 
         // Perform actions when the bot joins a guild
         try {
@@ -36,7 +41,7 @@ module.exports = (client) => {
     
             if (channel) {
                 // Check if the bot has permission to send messages in the channel
-                if (channel.permissionsFor(guild.me).has('SEND_MESSAGES')) {
+                if (channel.permissionsFor(guild.me).includes('SEND_MESSAGES')) {
                     await channel.send('Thanks for inviting me! I am here to assist you.');
                 } else {
                     console.log('Bot does not have permission to send messages in the channel.');
@@ -66,7 +71,7 @@ module.exports = (client) => {
     
             if (channel) {
                 // Check if the bot has permission to send messages in the channel
-                if (channel.permissionsFor(guild.me).has('SEND_MESSAGES')) {
+                if (channel.permissionsFor(guild.me).includes('SEND_MESSAGES')) {
                     await channel.send('Sad to leave this server! Goodbye everyone.');
                 } else {
                     console.log('Bot does not have permission to send messages in the channel.');
