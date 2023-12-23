@@ -46,8 +46,10 @@ module.exports = {
         var region = await client.getTimeZone(interaction.member.id);
         console.log(region.timeZone);
 
-        if (interaction.options.getString('time_region') == null && region.timeZone != null) {
-            region = null;
+        if (interaction.options.getString('time_region') == null ) {
+            if (region == null) {
+                region = false;
+            }
         }
 
         const date = interaction.options.getString('date');
@@ -56,7 +58,7 @@ module.exports = {
         const silence = interaction.options.getBoolean('silent') || false;
         const mobile = interaction.options.getBoolean('mobile') || false;
 
-        const response = timeStampCalc(date, time, region.timeZone, format);
+        const response = timeStampCalc(date, time, region, format);
 
         if (response == false) {
 
