@@ -32,16 +32,16 @@ function timeStampCalc(date, time, region, format, internal = false){
      */
     switch (region) {
         case "pst":
-            timestamp += change * 8;
+            timestamp;
             break;
         case "mst":
-            timestamp += change * 7;
+            timestamp -= change * 1;
             break;
         case "cst":
-            timestamp += change * 6;
+            timestamp -= change * 2;
             break;
         case "est":
-            timestamp += change * 5;
+            timestamp -= change * 3;
             break;
         default:
             return false;
