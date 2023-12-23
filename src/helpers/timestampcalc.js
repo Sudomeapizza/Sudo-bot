@@ -62,6 +62,9 @@ function timeStampCalc(date, time, region, format, internal = false){
 
         timestamp.setHours(timestamp.getHours() + adjustTime(region));
         console.log(timestamp.toLocaleString());
+        
+        timestamp.setHours(timestamp.getHours() + date * 24);
+        console.log(timestamp.toLocaleString());
 
         timestamp = timestamp.getTime().toString().slice(0, -3);
         console.log(`<t:${timestamp}:F>`,`<t:${timestamp}:R>`);
@@ -79,31 +82,31 @@ function timeStampCalc(date, time, region, format, internal = false){
 function adjustTime(region) {
     //
     const reference = [
-        {name: "JST", value: "17"},
-        {name: "CST", value: "16"},
-        {name: "WIB", value: "15"},
-        {name: "BST", value: "14"},
-        {name: "UZT", value: "13"},
-        {name: "GST", value: "12"},
-        {name: "MSK", value: "11"},
-        {name: "EET", value: "10"},
-        {name: "CET", value: "9"},
-        {name: "GMT", value: "8"},
-        {name: "CVT", value: "7"},
-        {name: "CGT", value: "6"},
-        {name: "ART", value: "5"},
-        {name: "VET", value: "4"},
-        {name: "EST", value: "3"},
-        {name: "CST", value: "2"},
-        {name: "MST", value: "1"},
-        {name: "PST", value: "0"},
-        {name: "HST", value: "-1"},
-        {name: "NUT", value: "-2"},
-        {name: "AoE", value: "-3"},
-        {name: "ANAT", value: "-4"},
-        {name: "AEDT", value: "-5"},
-        {name: "AEST", value: "-6"},
-        {name: "AKST", value: "-7"},
+        {name: "JST", value: 17},
+        {name: "SGT", value: 16},
+        {name: "WIB", value: 15},
+        {name: "BST", value: 14},
+        {name: "UZT", value: 13},
+        {name: "GST", value: 12},
+        {name: "MSK", value: 11},
+        {name: "EET", value: 10},
+        {name: "CET", value: 9},
+        {name: "GMT", value: 8},
+        {name: "CVT", value: 7},
+        {name: "CGT", value: 6},
+        {name: "ART", value: 5},
+        {name: "VET", value: 4},
+        {name: "EST", value: 3},
+        {name: "CST", value: 2},
+        {name: "MST", value: 1},
+        {name: "PST", value: 0},
+        {name: "HST", value: -1},
+        {name: "NUT", value: -2},
+        {name: "AoE", value: -3},
+        {name: "ANAT", value: -4},
+        {name: "AEDT", value: -5},
+        {name: "AEST", value: -6},
+        {name: "AKST", value: -7},
     ];
     for (var i = 0; i < reference.length; i++) {
         console.log(`${reference[i].name} : ${region}`);
