@@ -1,5 +1,6 @@
 const { SlashCommandBuilder } = require('discord.js')
 const { timeStampCalc } = require('../../helpers/timestampcalc.js')
+const { goToDate } = require('../../helpers/timestampcalc.js');
 
 module.exports = {
     data: new SlashCommandBuilder()
@@ -52,11 +53,12 @@ module.exports = {
             }
         }
 
-        const date = interaction.options.getString('date');
+        var date = interaction.options.getString('date');
         const time = interaction.options.getString('time');
         const format = interaction.options.getString('format') || 'R';
         const silence = interaction.options.getBoolean('silent') || false;
         const mobile = interaction.options.getBoolean('mobile') || false;
+        const targetDate = goToDate(userMessage);
 
         const response = timeStampCalc(date, time, region, format);
 

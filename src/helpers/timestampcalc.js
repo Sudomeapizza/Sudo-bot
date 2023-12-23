@@ -3,8 +3,6 @@ const { getTimeZone } = require('../functions/Database/getTimeZone.js');
 
 function timeStampCalc(date, time, region, format, internal = false){
     
-    var targetDate = goToDate(date);
-
     console.log(region.timeZone);
     // this is in UTC
     var time1, time2;
@@ -189,8 +187,8 @@ function timeConvert(message, localTimeZone) {
     // if there's content: continue, else ignore message.
     if (info[0] != null) {
         // 
-        // const targetDate = goToDate(userMessage);
-        var timestamp = timeStampCalc(userMessage, info[0], localTimeZone, 'D', true, message.author.id);
+        const targetDate = goToDate(userMessage);
+        var timestamp = timeStampCalc(targetDate, info[0], localTimeZone, 'D', true, message.author.id);
         var newMessage;
         
         // replace it correctly if it contains a "at" or "@"
