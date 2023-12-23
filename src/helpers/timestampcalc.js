@@ -63,6 +63,7 @@ function timeStampCalc(date, time, region, format, internal = false){
         // console.log(timestamp);
         // timestamp = new Date(timestamp).getTime()/1000;
         // console.log(timestamp);
+        timestamp = timestamp.getTime();
         if (internal) {
             fullResponse = [`<t:${timestamp}:F>`,`<t:${timestamp}:R>`];
         } else {
