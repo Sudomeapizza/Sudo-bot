@@ -37,7 +37,7 @@ function timeStampCalc(date, time, region, format, internal = false){
         console.log("was false");
         return false;
     } else {
-
+        console.log(`::${date} ::${adjustTime(region)}`);
         var timestamp = new Date();
         console.log(timestamp.toLocaleString());
 
