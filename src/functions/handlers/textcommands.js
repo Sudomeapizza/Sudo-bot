@@ -11,33 +11,6 @@ module.exports = (client) => {
     var connection, connectionvalues;
     var stayonvc = false;
 
-    // client.on('guildCreate', (g) => {
-    //     const channel = g.channels.cache.find(channel => channel.type === 'GUILD_TEXT' && channel.permissionsFor(g.me).has('SEND_MESSAGES'))
-    //     channel.send("Thank you for inviting me!");
-    //     async (interaction) => {
-    //         var guildProfile = await Guild.findOne({ guildId: interaction.guild.id });
-    //         if (!guildProfile) {
-    //             guildProfile = await new Guild({
-    //                 _id: new mongoose.Types.ObjectId(),
-    //                 guildId: interaction.guild.id,
-    //                 guildName: interaction.guild.name,
-    //                 guildIcon: interaction.guild.iconURL() ? interaction.guild.iconURL() : "None..",
-    //             })
-    //             await guildProfile.save().catch(console.error);
-    //             await interaction.reply({
-    //                 content: `Server Name: ${guildProfile.guildName}`,
-    //             });
-    //             console.log(guildProfile);
-    //         } else {
-    //             await interaction.reply({
-    //                 content: `Server ID: ${guildProfile.guildId}`,
-    //             });
-    //             console.log(guildProfile);
-    //         }
-    //     }
-        
-    // })
-
     client.on('guildCreate', async (guild) => {
         console.log(`Bot joined a new guild: ${guild.name} (id: ${guild.id}).`);
             
@@ -73,6 +46,28 @@ module.exports = (client) => {
             }
             
             // You can add more actions like creating roles, channels, or setting up configurations
+        } catch (error) {
+            console.error('Error encountered:', error);
+        }
+    });
+
+    client.on('guildDelete', async (guild) => {
+        console.log(`Bot left a guild: ${guild.name} (id: ${guild.id}).`);
+    
+        await Guild.findOneAndDelete({ guildId: guild.id });
+
+        // Perform actions when the bot leaves a guild
+        try {
+            // For example, you might want to log the event or notify a specific channel.
+            // Here's how you can find a channel by its name and send a message:
+            const channel = guild.channels.cache.find(
+                (ch) => ch.type === 'GUILD_TEXT' // You can change 'general' to your desired channel name
+            );
+            if (channel) {
+                channel.send('Sad to leave this server! Goodbye everyone.');
+            }
+            
+            // You can add more actions like removing configurations or cleaning up data related to the guild.
         } catch (error) {
             console.error('Error encountered:', error);
         }
