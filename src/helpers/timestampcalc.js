@@ -99,6 +99,7 @@ function adjustTime(date, region) {
         console.log(`${reference[i].name} : ${region}`);
         if (reference[i].name == region) { 
             console.log(`${reference[i].name} :: ${region}`);
+            date.setHours(date.getHours() + reference[i].value);
             console.log(`${new Date(date).getTime() + 60*60*1000* reference[i].value}`)
             console.log(`::${date}\n::${reference[i].value}\n::${date + reference[i].value}`)
             return date + reference[i].value;
