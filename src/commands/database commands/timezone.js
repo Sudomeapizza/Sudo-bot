@@ -41,12 +41,13 @@ module.exports = {
         var desiredTimeZone = interaction.options.getString('timezone');
 
         desiredTimeZone = await client.setTimeZone(interaction.member.id, interaction.guild.id, desiredTimeZone);
+        var updatedTimeZone = await client.getTimeZone(interaction.member.id);
         const embed = new EmbedBuilder()
             .setTitle(`You have updated your time region to:`)
             .setTimestamp()
             .addFields([
                 {
-                    name: `${desiredTimeZone.timeZone}`,
+                    name: `${updatedTimeZone.timeZone}`,
                     value: `\u200b`,
                 },
             ])
