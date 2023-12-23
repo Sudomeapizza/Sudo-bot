@@ -2,6 +2,7 @@ const { dateRegex } = require('./regex.js');
 const { getTimeZone } = require('../functions/Database/getTimeZone.js');
 
 function timeStampCalc(date, time, region, format, internal = false){
+    console.log(region.timeZone);
     // this is in UTC
     var time1, time2;
     
@@ -38,12 +39,16 @@ function timeStampCalc(date, time, region, format, internal = false){
     } else {
 
         var timestamp = new Date();
+        console.log(timestamp.toLocaleString());
 
         timestamp.setHours(time1, time2);
+        console.log(timestamp.toLocaleString());
 
         timestamp.setHours(timestamp.getHours() + adjustTime(region));
+        console.log(timestamp.toLocaleString());
 
         timestamp.setHours(timestamp.getHours() + (date * 24));
+        console.log(timestamp.toLocaleString());
 
         timestamp = timestamp.getTime().toString().slice(0, -3);
         if (internal) {
