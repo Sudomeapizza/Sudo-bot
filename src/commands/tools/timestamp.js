@@ -43,7 +43,7 @@ module.exports = {
         ),
 
     async execute(interaction, client) {
-        var region = await client.getTimeZone(interaction.author.id);
+        var region = await client.getTimeZone(interaction.member.id);
 
         if (interaction.options.getString('time_region') == null) {
             if (region == null) {
