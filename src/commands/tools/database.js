@@ -1,11 +1,12 @@
 const Guild = require('../../schemas/guild');
-const { SlashCommandBuilder } = require('discord.js');
+const { SlashCommandBuilder, PermissionFlagsBits } = require('discord.js');
 const mongoose = require('mongoose');
 
 module.exports = {
     data: new SlashCommandBuilder()
     .setName('database')
-    .setDescription("Returns info from a database"),
+    .setDescription("Returns info from a database")
+    .setDefaultMemberPermissions(PermissionFlagsBits.Administrator),
     async execute(interaction) {
 
         var guildProfile = await Guild.findOne({ guildId: interaction.guild.id });
