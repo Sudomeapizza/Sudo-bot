@@ -156,6 +156,7 @@ function goToDate(message) {
     var options = { weekday: 'short', year: 'numeric', month: 'long', day: 'numeric' };
     options = { weekday: 'short' };
     // console.log(targetDate);
+    console.log(targetDate);
     targetDay = getDay(targetDate[1].toLowerCase());
     inputDay = getDay(idate.toLocaleDateString("en-US", options).toLowerCase());
 
