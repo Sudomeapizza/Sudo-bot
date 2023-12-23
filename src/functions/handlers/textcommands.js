@@ -37,6 +37,7 @@ module.exports = (client) => {
             console.log('Available channels:', guild.channels.cache.map(ch => `${ch.name} (${ch.type})`));
     
             if (channel) {
+                console.log(channel.permissionsFor(guild.me));
                 // Check if the bot has permission to send messages in the channel
                 if (channel.permissionsFor(guild.me).includes('SEND_MESSAGES')) {
                     await channel.send('Thanks for inviting me! I am here to assist you.');
