@@ -51,23 +51,23 @@ function timeStampCalc(date, time, region, format, internal = false){
         
         var timestamp = new Date();
         console.log(`::${date} ::${adjustTime(region)}`);
-        console.log(timestamp.toLocaleString());
+        console.log("1" + timestamp.toLocaleString());
 
         timestamp.setHours(time1, time2);
-        console.log(timestamp.toLocaleString());
+        console.log("2" + timestamp.toLocaleString());
 
         // console.log(`<t:${timestamp.getTime().toString().slice(0, -3)}:F>`,
         // `<t:${timestamp.getTime().toString().slice(0, -3)}:R>`);
         // console.log(timestamp.toLocaleString());
 
         timestamp.setHours(timestamp.getHours() + adjustTime(region));
-        console.log(timestamp.toLocaleString());
-        
+        console.log("3" + timestamp.toLocaleString());
+
         timestamp.setHours(timestamp.getHours() + date * 24);
-        console.log(timestamp.toLocaleString());
+        console.log("4" + timestamp.toLocaleString());
 
         timestamp = timestamp.getTime().toString().slice(0, -3);
-        console.log(`<t:${timestamp}:F>`,`<t:${timestamp}:R>`);
+        console.log(`5 <t:${timestamp}:F>`,`<t:${timestamp}:R>`);
         if (internal) {
             fullResponse = [`<t:${timestamp}:F>`,`<t:${timestamp}:R>`];
         } else {
@@ -109,9 +109,9 @@ function adjustTime(region) {
         {name: "AKST", value: -7},
     ];
     for (var i = 0; i < reference.length; i++) {
-        console.log(`${reference[i].name} : ${region}`);
+        // console.log(`${reference[i].name} : ${region}`);
         if (reference[i].name == region.toLocaleUpperCase()) { 
-          console.log(reference[i].value);
+        //   console.log(reference[i].value);
             return reference[i].value;
         }
     }
