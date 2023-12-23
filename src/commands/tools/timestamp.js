@@ -44,6 +44,7 @@ module.exports = {
 
     async execute(interaction, client) {
         var region = await client.getTimeZone(interaction.member.id);
+        console.log(region.timeZone);
 
         if (interaction.options.getString('time_region') == null) {
             region = null;
@@ -55,7 +56,7 @@ module.exports = {
         const silence = interaction.options.getBoolean('silent') || false;
         const mobile = interaction.options.getBoolean('mobile') || false;
 
-        const response = timeStampCalc(date, time, region, format);
+        const response = timeStampCalc(date, time, region.timeZone, format);
 
         if (response == false) {
 
