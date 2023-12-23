@@ -3,11 +3,35 @@ const { timeConvert } = require('../../helpers/timestampcalc.js');
 const { getArray } = require('../../helpers/replycalc.js');
 const { joinVoiceChannel, VoiceConnection, VoiceConnectionStatus, VoiceConnectionDisconnectReason, VoiceChannel, getVoiceConnection } = require('@discordjs/voice');
 const { Events } = require('discord.js');
+const Guild = require('../../schemas/guild');
+const mongoose = require('mongoose');
 
 
 module.exports = (client) => {
     var connection, connectionvalues;
     var stayonvc = false;
+
+    client.on('guildCreate', async (guild) => {
+        console.log(`Bot joined a new guild: ${guild.name} (id: ${guild.id}).`);
+            
+        var guildProfile = await Guild.findOne({ guildId: guild.id });
+        if (!guildProfile) {
+            guildProfile = await new Guild({
+                _id: new mongoose.Types.ObjectId(),
+                guildId: guild.id,
+                guildName: guild.name,
+                guildIcon: guild.iconURL() ? guild.iconURL() : "None..",
+            })
+            await guildProfile.save().catch(console.error);
+            console.log(guildProfile);
+        }
+    });
+
+    client.on('guildDelete', async (guild) => {
+        console.log(`Bot left a guild: ${guild.name} (id: ${guild.id}).`);
+    
+        await Guild.findOneAndDelete({ guildId: guild.id });
+    });
 
     client.on('voiceStateUpdate', (oldState, newState) => {
         console.log("update to voice");
@@ -51,7 +75,7 @@ module.exports = (client) => {
         // stuff for joining vc's
         if (message.author.id === '210932800000491520') {
             
-            console.log("Sudo sent a msg");
+            // console.log("Sudo sent a msg");
             if (message.content.toLowerCase().includes("joinvc")) {
                 console.log("joinvc");
                 // voice.joinVoiceChannel([`1076645111301161024`]);
@@ -98,21 +122,16 @@ module.exports = (client) => {
                 }
             }
         }
-        timeConvert(message);
-    })
 
-    // client.addListener("disconnect", async () => {
-    //     console.log("DISCONNECTED")
-    //     if (stayonvc) {
-    //         console.log("RECONNECTED");
-    //         connection = joinVoiceChannel({
-    //             channelId: connectionvalues.channelId,
-    //             guildId: connectionvalues.guild.id, 
-    //             adapterCreator: connectionvalues.guild.voiceAdapterCreator,
-    //             selfDeaf: false
-    //         });
-    //     }
-    // })
+        // convert messages
+        var localTimeZone = await client.getTimeZone(message.author.id);
+        if (localTimeZone) {
+            timeConvert(message, localTimeZone);
+        } else {
+            // maybe something?
+            console.log(`No time region set for {${message.author.tag} : ${message.author.id}}`);
+        }
+    })
 }
 
 function response(message, chance, responseMessage) {

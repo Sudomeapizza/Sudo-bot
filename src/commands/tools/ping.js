@@ -1,4 +1,4 @@
-const { SlashCommandBuilder } = require('discord.js')
+const { SlashCommandBuilder, PermissionFlagsBits } = require('discord.js')
 
 module.exports = {
     data: new SlashCommandBuilder()
@@ -7,7 +7,9 @@ module.exports = {
     .addBooleanOption(option =>
         option.setName('silents')
         .setDescription('shhhhh (true)')
-        ),
+        )
+    .setDefaultMemberPermissions(PermissionFlagsBits.ManageGuild)
+    .setDMPermission(false),
     async execute(interaction, client) {
 
         const silence = interaction.options.getBoolean('silents') || false;

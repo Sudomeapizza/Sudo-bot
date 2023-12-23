@@ -1,6 +1,6 @@
 const { SlashCommandBuilder } = require('discord.js')
 const { timeStampCalc } = require('../../helpers/timestampcalc.js')
-const { getRegion } = require('../../helpers/user.js');
+const { goToDate } = require('../../helpers/timestampcalc.js');
 
 module.exports = {
     data: new SlashCommandBuilder()
@@ -19,10 +19,8 @@ module.exports = {
         )
     .addStringOption(option =>
         option.setName('time_region')
-        .setDescription('PST/MST/CST/EST')
+        .setDescription('Time Region code. Ex: UTC. (Optional if already setup with bot, otherwise required)')
         // .setRequired(true) // somehow make optional based on DB?
-        .setMaxLength(4)
-        .setMinLength(3)
         )
     .addStringOption(option =>
         option.setName('format')
@@ -46,23 +44,24 @@ module.exports = {
         ),
 
     async execute(interaction, client) {
-        var region;
+        var region = await client.getTimeZone(interaction.member.id);
+        console.log(region.timeZone);
 
-        if (interaction.options.getString('time_region') == null) {
-            if (getRegion(interaction.user.id) != null) {
-                region = getRegion(interaction.user.id);
-            } else {
-                region = null;
+        if (interaction.options.getString('time_region') == null ) {
+            if (region) {
+                region = false;
             }
         }
 
-        const date = interaction.options.getString('date');
+        var date = interaction.options.getString('date');
         const time = interaction.options.getString('time');
         const format = interaction.options.getString('format') || 'R';
         const silence = interaction.options.getBoolean('silent') || false;
         const mobile = interaction.options.getBoolean('mobile') || false;
+        
+        console.log(date);
 
-        const response = timeStampCalc(date, time, region, format);
+        const response = timeStampCalc(goToDate(new Date(date).toLocaleDateString("en-US", { weekday: 'short' })), time, region, format);
 
         if (response == false) {
 

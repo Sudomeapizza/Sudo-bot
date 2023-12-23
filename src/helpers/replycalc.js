@@ -59,10 +59,6 @@ function randomWiki(){
     console.log("workie1");
     console.log(link.theLink());
 
-    // both work
-    // console.log("a  " + link._link);
-    // console.log("b  " + link.theLink());
-
     return link.theLink();
 }
 

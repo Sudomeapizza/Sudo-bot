@@ -1,8 +1,8 @@
 const chalk = require("chalk");
 
-module.export = {
+module.exports = {
     name: "disconnected",
-    execute(client) {
+    execute() {
         console.log(chalk.red("[Database Status]: Disconnected"));
     },
 };

@@ -24,7 +24,7 @@ module.exports = (client) => {
                             );
                         } else {
                             connection.on(event.name, (...args) =>
-                                event.ecevute(...args, client)
+                                event.execute(...args, client)
                             );
                         }
                     }    
