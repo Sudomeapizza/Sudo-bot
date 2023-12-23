@@ -6,7 +6,7 @@ module.exports = {
     data: new SlashCommandBuilder()
     .setName('database')
     .setDescription("Returns info from a database"),
-    async execute(interaction, client) {
+    async execute(interaction) {
 
         var guildProfile = await Guild.findOne({ guildId: interaction.guild.id });
         if (!guildProfile) {

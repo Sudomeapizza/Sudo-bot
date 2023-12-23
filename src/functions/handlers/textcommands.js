@@ -3,16 +3,39 @@ const { timeConvert } = require('../../helpers/timestampcalc.js');
 const { getArray } = require('../../helpers/replycalc.js');
 const { joinVoiceChannel, VoiceConnection, VoiceConnectionStatus, VoiceConnectionDisconnectReason, VoiceChannel, getVoiceConnection } = require('@discordjs/voice');
 const { Events } = require('discord.js');
+const Guild = require('../../schemas/guild');
+const mongoose = require('mongoose');
 
 
 module.exports = (client) => {
     var connection, connectionvalues;
     var stayonvc = false;
 
-    // client.on('guildCreate', (g) => {
-    //     const channel = g.channels.cache.find(channel => channel.type === 'GUILD_TEXT' && channel.permissionsFor(g.me).has('SEND_MESSAGES'))
-    //     channel.send("Thank you for inviting me!")
-    // })
+    client.on('guildCreate', (g) => {
+        const channel = g.channels.cache.find(channel => channel.type === 'GUILD_TEXT' && channel.permissionsFor(g.me).has('SEND_MESSAGES'))
+        async (interaction) => {
+            var guildProfile = await Guild.findOne({ guildId: interaction.guild.id });
+        if (!guildProfile) {
+            guildProfile = await new Guild({
+                _id: new mongoose.Types.ObjectId(),
+                guildId: interaction.guild.id,
+                guildName: interaction.guild.name,
+                guildIcon: interaction.guild.iconURL() ? interaction.guild.iconURL() : "None..",
+            })
+            await guildProfile.save().catch(console.error);
+            await interaction.reply({
+                content: `Server Name: ${guildProfile.guildName}`,
+            });
+            console.log(guildProfile);
+        } else {
+            await interaction.reply({
+                content: `Server ID: ${guildProfile.guildId}`,
+            });
+            console.log(guildProfile);
+        }
+        }
+        channel.send("Thank you for inviting me!");
+    })
 
     client.on('voiceStateUpdate', (oldState, newState) => {
         console.log("update to voice");
@@ -110,7 +133,7 @@ module.exports = (client) => {
             timeConvert(message, localTimeZone);
         } else {
             // maybe something?
-            console.log(`No time region set for {${message.author.id}}`);
+            console.log(`No time region set for {${message.author.tag} : ${message.author.id}}`);
         }
     })
 }
