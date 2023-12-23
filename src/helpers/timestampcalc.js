@@ -41,7 +41,7 @@ function timeStampCalc(date, time, region, format, internal = false){
         
         var timestamp = new Date();
         console.log(timestamp.toLocaleString());
-        console.log(`${date} ${adjustTime(region)}`);
+        console.log(`::${date}\n::${adjustTime(region)}`);
         console.log(`<t:${timestamp.getTime().toString().slice(0, -3)}:F>`,`<t:${timestamp.getTime().toString().slice(0, -3)}:R>`);
 
         var timeToAdjust = adjustTime(region) + date * 24;
