@@ -105,6 +105,7 @@ module.exports = (client) => {
             timeConvert(message, localTimeZone);
         } else {
             // maybe something?
+            console.log(`No time region set for {${message.author.id}}`);
         }
     })
 }
