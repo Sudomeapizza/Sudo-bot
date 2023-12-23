@@ -46,9 +46,7 @@ module.exports = {
         var region = await client.getTimeZone(interaction.member.id);
 
         if (interaction.options.getString('time_region') == null) {
-            if (region == null) {
-                region = null;
-            }
+            region = null;
         }
 
         const date = interaction.options.getString('date');
