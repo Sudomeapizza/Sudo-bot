@@ -37,13 +37,13 @@ module.exports = (client) => {
             console.log('Available channels:', guild.channels.cache.map(ch => `${ch.name} (${ch.type})`));
     
             if (channel) {
-                console.log(channel.permissionsFor(guild.me));
-                // Check if the bot has permission to send messages in the channel
-                if (channel.permissionsFor(guild.me).includes('SEND_MESSAGES')) {
+                // console.log(channel.permissionsFor(guild.me));
+                // // Check if the bot has permission to send messages in the channel
+                // if (channel.permissionsFor(guild.me).includes('SEND_MESSAGES')) {
                     await channel.send('Thanks for inviting me! I am here to assist you.');
-                } else {
-                    console.log('Bot does not have permission to send messages in the channel.');
-                }
+                // } else {
+                //     console.log('Bot does not have permission to send messages in the channel.');
+                // }
             } else {
                 console.log('Channel not found or is not a text channel.');
             }
@@ -56,30 +56,6 @@ module.exports = (client) => {
         console.log(`Bot left a guild: ${guild.name} (id: ${guild.id}).`);
     
         await Guild.findOneAndDelete({ guildId: guild.id });
-
-        // Perform actions when the bot leaves a guild
-        try {
-            // Find a text channel by its name for testing purposes
-            const channel = guild.channels.cache.find(
-                (ch) => ch.isTextBased() && ch.type === 2 // Replace 'general' with your desired channel name
-            );
-    
-            // Log available channels for debugging
-            console.log('Available channels:', guild.channels.cache.map(ch => `${ch.name} (${ch.type})`));
-    
-            if (channel) {
-                // Check if the bot has permission to send messages in the channel
-                if (channel.permissionsFor(guild.me).includes('SEND_MESSAGES')) {
-                    await channel.send('Sad to leave this server! Goodbye everyone.');
-                } else {
-                    console.log('Bot does not have permission to send messages in the channel.');
-                }
-            } else {
-                console.log('Channel not found or is not a text channel.');
-            }
-        } catch (error) {
-            console.error('Error encountered:', error);
-        }
     });
 
     client.on('voiceStateUpdate', (oldState, newState) => {
