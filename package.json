@@ -25,6 +25,7 @@
     "express": "^4.18.2",
     "jslint": "^0.12.1",
     "libsodium-wrappers": "^0.7.13",
+    "mongoose": "^8.0.3",
     "node-fetch": "^3.3.0",
     "shelljs": "^0.8.5",
     "wget-improved": "^3.4.0",
