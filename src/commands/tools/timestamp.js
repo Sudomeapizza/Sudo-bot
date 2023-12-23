@@ -58,9 +58,9 @@ module.exports = {
         const format = interaction.options.getString('format') || 'R';
         const silence = interaction.options.getBoolean('silent') || false;
         const mobile = interaction.options.getBoolean('mobile') || false;
-        const targetDate = goToDate(userMessage);
+        const targetDate = goToDate(date);
 
-        const response = timeStampCalc(date, time, region, format);
+        const response = timeStampCalc(targetDate, time, region, format);
 
         if (response == false) {
 
