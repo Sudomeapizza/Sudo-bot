@@ -41,6 +41,7 @@ function timeStampCalc(date, time, region, format, internal = false){
         
         var timestamp = new Date();
         console.log(timestamp);
+        console.log(date);
         console.log(`<t:${timestamp.getTime().toString().slice(0, -3)}:F>`,`<t:${timestamp.getTime().toString().slice(0, -3)}:R>`);
 
         timestamp.setHours(timestamp.getHours() + adjustTime(region) + date * 24);
