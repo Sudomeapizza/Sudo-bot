@@ -39,32 +39,10 @@ function timeStampCalc(date, time, region, format, internal = false){
     } else {
 
 
-        var timestamp = new Date(new Date().toLocaleString("en-US", {timeZone: region}));
-        console.log(`Here: ${timestamp.toLocaleString("en-US",{time: 'short'})}`);
-        timestamp.setHours(time1, time2, 0, 0);
-        // here.setHours(here.getHours() + 24);
-        console.log(`Here: ${timestamp.toLocaleString("en-US",{time: 'short'})}`);
+        var timestamp = new Date();
+        timestamp.setHours(day.getHours() + adjustTime(region));
 
-
-        // console.log(new Date(date.toLocaleString("en-US")));
-        // date = new Date(date);
-        // // add/subtract based on pi's timezone
-        // console.log(`${time1} ${time2}`);
-        // var timestamp = adjustTime(date, region);
-
-        // timestamp = new Date(timestamp)
-        // console.log(timestamp);
-        // timestamp.setHours(time1, time2, 0, 0);
-        // console.log(timestamp);
-        // // set time
-
-        // // var timestamp = new Date(date.toLocaleString("en-US", {timeZone: region}));
-        // // console.log(timestamp);
-        // // timestamp.setHours(time1, time2, 0, 0);
-        // console.log(timestamp);
-        // timestamp = new Date(timestamp).getTime()/1000;
-        // console.log(timestamp);
-        timestamp = timestamp.getTime()/1000;
+        timestamp = timestamp.getTime().toString().slice(0, -3);
         if (internal) {
             fullResponse = [`<t:${timestamp}:F>`,`<t:${timestamp}:R>`];
         } else {
@@ -76,7 +54,7 @@ function timeStampCalc(date, time, region, format, internal = false){
     }
 }
 
-function adjustTime(date, region) {
+function adjustTime(region) {
     //
     const reference = [
         {name: "JST", value: "17"},
@@ -107,14 +85,9 @@ function adjustTime(date, region) {
     ];
     for (var i = 0; i < reference.length; i++) {
         console.log(`${reference[i].name} : ${region}`);
-        if (reference[i].name == region) { 
-            console.log(`${reference[i].name} :: ${region}`);
-            date.setHours(date.getHours() + reference[i].value);
-            console.log(`${new Date(date).getTime() + 60*60*1000* reference[i].value}`)
-            console.log(`::${date}\n::${reference[i].value}\n::${date + reference[i].value}`)
-            return date + reference[i].value;
-            // return date.setHours(date.getHours() + reference[i].value());
-            break;
+        if (reference[i].name == region.toLocaleUpperCase()) { 
+          console.log(reference[i].value);
+            return reference[i].value;
         }
     }
     return false;
