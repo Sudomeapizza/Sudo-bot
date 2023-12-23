@@ -40,6 +40,7 @@ function timeStampCalc(date, time, region, format, internal = false){
 
 
         var timestamp = new Date(new Date().toLocaleString("en-US", {timeZone: region}));
+        console.log(`Here: ${timestamp.toLocaleString("en-US",{time: 'short'})}`);
         timestamp.setHours(time1, time2, 0, 0);
         // here.setHours(here.getHours() + 24);
         console.log(`Here: ${timestamp.toLocaleString("en-US",{time: 'short'})}`);
