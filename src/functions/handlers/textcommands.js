@@ -14,13 +14,13 @@ module.exports = (client) => {
     client.on('guildCreate', async (guild) => {
         console.log(`Bot joined a new guild: ${guild.name} (id: ${guild.id}).`);
             
-        var guildProfile = await Guild.findOne({ guildId: interaction.guild.id });
+        var guildProfile = await Guild.findOne({ guildId: guild.id });
         if (!guildProfile) {
             guildProfile = await new Guild({
                 _id: new mongoose.Types.ObjectId(),
-                guildId: interaction.guild.id,
-                guildName: interaction.guild.name,
-                guildIcon: interaction.guild.iconURL() ? interaction.guild.iconURL() : "None..",
+                guildId: guild.id,
+                guildName: guild.name,
+                guildIcon: guild.iconURL() ? guild.iconURL() : "None..",
             })
             await guildProfile.save().catch(console.error);
             console.log(guildProfile);
