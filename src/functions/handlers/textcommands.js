@@ -42,7 +42,7 @@ module.exports = (client) => {
         console.log(`Bot joined a new guild: ${guild.name} (id: ${guild.id}).`);
             
         
-        var guildProfile = await guild.findOne({ guildId: guild.id });
+        var guildProfile = await Guild.findOne({ guildId: guild.id });
             if (!guildProfile) {
                 guildProfile = await new Guild({
                     _id: new mongoose.Types.ObjectId(),
