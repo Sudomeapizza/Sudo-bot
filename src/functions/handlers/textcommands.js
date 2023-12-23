@@ -40,7 +40,28 @@ module.exports = (client) => {
 
     client.on('guildCreate', async (guild) => {
         console.log(`Bot joined a new guild: ${guild.name} (id: ${guild.id}).`);
-    
+            
+        
+        var guildProfile = await guild.findOne({ guildId: guild.id });
+            if (!guildProfile) {
+                guildProfile = await new Guild({
+                    _id: new mongoose.Types.ObjectId(),
+                    guildId: guild.id,
+                    guildName: guild.name,
+                    guildIcon: guild.iconURL() ? guild.iconURL() : "None..",
+                })
+                await guildProfile.save().catch(console.error);
+                await interaction.reply({
+                    content: `Server Name: ${guildProfile.guildName}`,
+                });
+                console.log(guildProfile);
+            } else {
+                await interaction.reply({
+                    content: `Server ID: ${guildProfile.guildId}`,
+                });
+                console.log(guildProfile);
+            }
+
         // Perform actions when the bot joins a new guild
         try {
             // Send a welcome message to a specific channel (you can modify the channel ID)
