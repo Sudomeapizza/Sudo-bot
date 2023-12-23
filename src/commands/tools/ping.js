@@ -7,7 +7,9 @@ module.exports = {
     .addBooleanOption(option =>
         option.setName('silents')
         .setDescription('shhhhh (true)')
-        ),
+        )
+    .setDefaultMemberPermissions(PermissionFlagsBits.Administrator || PermissionFlagsBits.ManageGuild)
+    .setDMPermission(false),
     async execute(interaction, client) {
 
         const silence = interaction.options.getBoolean('silents') || false;

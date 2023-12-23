@@ -1,4 +1,4 @@
-const { SlashCommandBuilder } = require('discord.js')
+const { SlashCommandBuilder, PermissionFlagsBits } = require('discord.js')
 
 module.exports = {
     data: new SlashCommandBuilder()
@@ -7,7 +7,9 @@ module.exports = {
     .addStringOption(option =>
         option.setName('message')
         .setDescription('putty text here')
-        ),
+        )
+    .setDefaultMemberPermissions(PermissionFlagsBits.Administrator || PermissionFlagsBits.ManageGuild)
+    .setDMPermission(false),
     async execute(interaction, client) {
         const usermessage = interaction.options.getString('message');
 

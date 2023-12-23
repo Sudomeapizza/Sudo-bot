@@ -9,7 +9,6 @@ module.exports = {
     async execute(interaction, client) {
 
         var guildProfile = await Guild.findOne({ guildId: interaction.guild.id });
-
         if (!guildProfile) {
             guildProfile = await new Guild({
                 _id: new mongoose.Types.ObjectId(),

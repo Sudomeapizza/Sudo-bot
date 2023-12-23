@@ -9,6 +9,11 @@ module.exports = (client) => {
     var connection, connectionvalues;
     var stayonvc = false;
 
+    // client.on('guildCreate', (g) => {
+    //     const channel = g.channels.cache.find(channel => channel.type === 'GUILD_TEXT' && channel.permissionsFor(g.me).has('SEND_MESSAGES'))
+    //     channel.send("Thank you for inviting me!")
+    // })
+
     client.on('voiceStateUpdate', (oldState, newState) => {
         console.log("update to voice");
         const botId = client.user.id;
