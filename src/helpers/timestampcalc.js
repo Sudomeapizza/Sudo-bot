@@ -39,8 +39,8 @@ function timeStampCalc(date, time, region, format, internal = false){
     } else {
 
 
-        var timestamp = new Date();
-        timestamp.setHours(day.getHours() + adjustTime(region));
+        var timestamp = new Date(date);
+        timestamp.setHours(timestamp.getHours() + adjustTime(region));
 
         timestamp = timestamp.getTime().toString().slice(0, -3);
         if (internal) {
