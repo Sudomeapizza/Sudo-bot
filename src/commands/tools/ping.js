@@ -8,7 +8,7 @@ module.exports = {
         option.setName('silents')
         .setDescription('shhhhh (true)')
         )
-    .setDefaultMemberPermissions(PermissionFlagsBits.Administrator || PermissionFlagsBits.ManageGuild)
+    .setDefaultMemberPermissions(PermissionFlagsBits.ManageGuild)
     .setDMPermission(false),
     async execute(interaction, client) {
 

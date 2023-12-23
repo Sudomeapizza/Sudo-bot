@@ -8,7 +8,7 @@ module.exports = {
         option.setName('message')
         .setDescription('putty text here')
         )
-    .setDefaultMemberPermissions(PermissionFlagsBits.Administrator || PermissionFlagsBits.ManageGuild)
+    .setDefaultMemberPermissions(PermissionFlagsBits.ManageGuild)
     .setDMPermission(false),
     async execute(interaction, client) {
         const usermessage = interaction.options.getString('message');
