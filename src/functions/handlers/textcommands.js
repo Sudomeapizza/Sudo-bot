@@ -23,9 +23,6 @@ module.exports = (client) => {
                 guildIcon: interaction.guild.iconURL() ? interaction.guild.iconURL() : "None..",
             })
             await guildProfile.save().catch(console.error);
-            await interaction.reply({
-                content: `Server Name: ${guildProfile.guildName}`,
-            });
             console.log(guildProfile);
         }
 
