@@ -39,15 +39,29 @@ function timeStampCalc(date, time, region, format, internal = false){
     } else {
 
         
+        // var timestamp = new Date();
+        // console.log(timestamp.toLocaleString());
+        // console.log(`::${date}\n::${adjustTime(region)}`);
+        // console.log(`<t:${timestamp.getTime().toString().slice(0, -3)}:F>`,`<t:${timestamp.getTime().toString().slice(0, -3)}:R>`);
+
+        // var timeToAdjust = adjustTime(region) + date * 24;
+        // console.log(`::: ${timeToAdjust}`);
+
+        // timestamp.setTime(timestamp.getTime() + timeToAdjust * 60 * 60 * 1000);
+        
         var timestamp = new Date();
+        console.log(`::${date} ::${adjustTime(region)}`);
         console.log(timestamp.toLocaleString());
-        console.log(`::${date}\n::${adjustTime(region)}`);
-        console.log(`<t:${timestamp.getTime().toString().slice(0, -3)}:F>`,`<t:${timestamp.getTime().toString().slice(0, -3)}:R>`);
 
-        var timeToAdjust = adjustTime(region) + date * 24;
-        console.log(`::: ${timeToAdjust}`);
+        timestamp.setHours(time1, time2);
+        console.log(timestamp.toLocaleString());
 
-        timestamp.setTime(timestamp.getTime() + timeToAdjust * 60 * 60 * 1000);
+        // console.log(`<t:${timestamp.getTime().toString().slice(0, -3)}:F>`,
+        // `<t:${timestamp.getTime().toString().slice(0, -3)}:R>`);
+        // console.log(timestamp.toLocaleString());
+
+        timestamp.setHours(timestamp.getHours() + adjustTime(region));
+        console.log(timestamp.toLocaleString());
 
         timestamp = timestamp.getTime().toString().slice(0, -3);
         console.log(`<t:${timestamp}:F>`,`<t:${timestamp}:R>`);
