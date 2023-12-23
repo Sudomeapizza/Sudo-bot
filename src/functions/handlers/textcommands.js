@@ -58,7 +58,7 @@ module.exports = (client) => {
         try {
             // Find a text channel by its name for testing purposes
             const channel = guild.channels.cache.find(
-                (ch) => ch.type === 'GUILD_TEXT' && ch.name === 'general' // Replace 'general' with your desired channel name
+                (ch) => ch.isTextBased() && ch.type === 2 // Replace 'general' with your desired channel name
             );
     
             // Log available channels for debugging
