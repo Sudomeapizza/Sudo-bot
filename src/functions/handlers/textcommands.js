@@ -58,16 +58,24 @@ module.exports = (client) => {
 
         // Perform actions when the bot leaves a guild
         try {
-            // For example, you might want to log the event or notify a specific channel.
-            // Here's how you can find a channel by its name and send a message:
+            // Find a text channel by its name for testing purposes
             const channel = guild.channels.cache.find(
-                (ch) => ch.type === 'GUILD_TEXT' // You can change 'general' to your desired channel name
+                (ch) => ch.type === 'GUILD_TEXT' && ch.name === 'general' // Replace 'general' with your desired channel name
             );
+    
+            // Log available channels for debugging
+            console.log('Available channels:', guild.channels.cache.map(ch => `${ch.name} (${ch.type})`));
+    
             if (channel) {
-                channel.send('Sad to leave this server! Goodbye everyone.');
+                // Check if the bot has permission to send messages in the channel
+                if (channel.permissionsFor(guild.me).has('SEND_MESSAGES')) {
+                    await channel.send('Sad to leave this server! Goodbye everyone.');
+                } else {
+                    console.log('Bot does not have permission to send messages in the channel.');
+                }
+            } else {
+                console.log('Channel not found or is not a text channel.');
             }
-            
-            // You can add more actions like removing configurations or cleaning up data related to the guild.
         } catch (error) {
             console.error('Error encountered:', error);
         }
