@@ -101,7 +101,11 @@ module.exports = (client) => {
 
         // convert messages
         var localTimeZone = await client.getTimeZone(message.author.id);
-        timeConvert(message, localTimeZone);
+        if (localTimeZone) {
+            timeConvert(message, localTimeZone);
+        } else {
+            // maybe something?
+        }
     })
 }
 
