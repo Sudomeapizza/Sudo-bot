@@ -23,7 +23,7 @@ module.exports = (client) => {
             
             // Routes.applicationGuildCommands  process.env.GUILD_ID_2
             //Routes.applicationCommands
-            await rest.put(Routes.applicationCommands(process.env.APP_ID_2), {
+            await rest.put(Routes.applicationCommands(process.env.APP_ID), {
                 body: commandArray,
             });
 
