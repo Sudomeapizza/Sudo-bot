@@ -17,7 +17,7 @@ module.exports = (client) => {
                 console.log(`command: ${command.data.name} has passed through the handler`);
             }
         }
-        const rest = new REST({ version: "9" }).setToken(process.env.token_2);
+        const rest = new REST({ version: "9" }).setToken(process.env.token);
         try {
             console.log("Started refreshing application (/) commands.");
             
