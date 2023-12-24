@@ -39,9 +39,12 @@ module.exports = {
     async execute(interaction, client) {
         const user = interaction.user;
         var desiredTimeZone = interaction.options.getString('timezone');
+        console.log(desiredTimeZone);
 
         desiredTimeZone = await client.setTimeZone(interaction.member.id, interaction.guild.id, desiredTimeZone);
+        console.log(desiredTimeZone);
         var updatedTimeZone = await client.getTimeZone(interaction.member.id);
+        console.log(updatedTimeZone);
         const embed = new EmbedBuilder()
             .setTitle(`You have updated your time region to:`)
             .setTimestamp()
