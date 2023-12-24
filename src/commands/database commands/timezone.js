@@ -10,7 +10,7 @@ module.exports = {
         .setRequired(true)
         .addChoices(
             {name: "JST/Tokyo", value: "JST"},
-            {name: "CST/Beijing", value: "CST"},
+            {name: "HKT/Hong Kong Time", value: "HKT"},
             {name: "WIB/Jakarta", value: "WIB"},
             {name: "BST/Dhaka", value: "BST"},
             {name: "UZT/Tashkent", value: "UZT"},
