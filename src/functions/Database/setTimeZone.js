@@ -5,7 +5,7 @@ module.exports = (client) => {
     client.setTimeZone = async (userId, guildId, inputTimeZone) => {
         var userTimeZone = await timeZone.findOneAndUpdate({
             userId: userId,
-            guildId: guildId,
+            // guildId: guildId,
             timeZone: inputTimeZone,
         });
         if (!userTimeZone) {
