@@ -9,5 +9,6 @@ gfile
 update
 handleEvents.js
 handleCommands.js
+ready.js
 app.js
 app-dev.js
