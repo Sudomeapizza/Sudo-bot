@@ -3,7 +3,7 @@ const mongoose = require("mongoose");
 
 module.exports = (client) => {
     client.setTimeZone = async (userId, guildId, inputTimeZone) => {
-        var userTimeZone = await timeZone.findOne({
+        var userTimeZone = await timeZone.findOneAndUpdate({
             userId: userId,
             guildId: guildId,
             timeZone: inputTimeZone,
@@ -18,11 +18,6 @@ module.exports = (client) => {
             await userTimeZone.save().catch(console.error);
             return userTimeZone;
         } else {
-            userTimeZone = await timeZone.findOneAndUpdate({
-                userId: userId,
-                guildId: guildId,
-                timeZone: inputTimeZone,
-            });
             return userTimeZone;
         }
     }
