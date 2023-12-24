@@ -42,7 +42,7 @@ function timeStampCalc(date, time, region, format, internal = false){
         timestamp.setHours(time1, time2);
         console.log(timestamp.toLocaleString());
 
-        timestamp.setHours(timestamp.getHours() + adjustTime(region));
+        timestamp.setHours(timestamp.getHours() - adjustTime(region));
         console.log(timestamp.toLocaleString());
 
         timestamp.setHours(timestamp.getHours() + (date * 24));
