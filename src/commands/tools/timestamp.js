@@ -87,12 +87,12 @@ module.exports = {
         const silence = interaction.options.getBoolean('silent') || false;
         const mobile = interaction.options.getBoolean('mobile') || false;
         
-        console.log(date);
-        console.log(timeRegion);
+        console.log("1 " + date);
+        console.log("2 " + timeRegion);
 
         const response = timeStampCalc(goToDate(new Date(date).toLocaleDateString("en-US", { weekday: 'short' })), time, timeRegion, format);
 
-        console.log(response);
+        console.log("3 " + response);
         if (response == false) {
 
             await interaction.reply({
