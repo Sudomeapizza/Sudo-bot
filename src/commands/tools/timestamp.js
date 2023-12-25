@@ -21,6 +21,33 @@ module.exports = {
         option.setName('time_region')
         .setDescription('Time Region code. Ex: UTC. (Optional if already setup with bot, otherwise required)')
         // .setRequired(true) // somehow make optional based on DB?
+        .addChoices(
+            {name: "JST/Tokyo", value: "JST"},
+            {name: "HKT/Hong Kong Time", value: "HKT"},
+            {name: "WIB/Jakarta", value: "WIB"},
+            {name: "BST/Dhaka", value: "BST"},
+            {name: "UZT/Tashkent", value: "UZT"},
+            {name: "GST/Dubai", value: "GST"},
+            {name: "MSK/Moscow", value: "MSK"},
+            {name: "EET/Cairo", value: "EET"},
+            {name: "CET/Brussels", value: "CET"},
+            {name: "GMT/London", value: "GMT"},
+            {name: "CVT/Praia", value: "CVT"},
+            {name: "CGT/Nuuk", value: "CGT"},
+            {name: "ART/Buenos Aires", value: "ART"},
+            {name: "VET/Caracas", value: "VET"},
+            {name: "EST/New York", value: "EST"},
+            {name: "CST/Mexico City", value: "CST"},
+            {name: "MST/Calgary", value: "MST"},
+            {name: "PST/Los Angeles", value: "PST"},
+            {name: "HST/Honolulu", value: "HST"},
+            {name: "NUT/Alofi", value: "NUT"},
+            {name: "AoE/Baker Island", value: "AoE"},
+            {name: "ANAT/Anadyr", value: "ANAT"},
+            {name: "AEDT/Melbourne", value: "AEDT"},
+            {name: "AEST/Brisbane", value: "AEST"},
+            {name: "AKST/Anchorage", value: "AKST"},
+        )
         )
     .addStringOption(option =>
         option.setName('format')
@@ -44,25 +71,36 @@ module.exports = {
         ),
 
     async execute(interaction, client) {
-        var region = await client.getTimeZone(interaction.member.id);
-        console.log(region.timeZone);
-
+        var region;
+        
         if (interaction.options.getString('time_region') == null ) {
-            if (region) {
-                region = false;
+            console.log("path1");
+            region = await client.getTimeZone(interaction.member.id);
+            region = region.timeZone;
+            if (!region) {
+                console.log("path1.5");
+                region = interaction.options.getString('time_region') || false;
             }
+        } else {
+            console.log("path2");
+            region = interaction.options.getString('time_region') || false;
         }
 
+        console.log("0" + region);
+        
         var date = interaction.options.getString('date');
         const time = interaction.options.getString('time');
+        // const timeRegion = interaction.options.getString('time_region') || false;
         const format = interaction.options.getString('format') || 'R';
         const silence = interaction.options.getBoolean('silent') || false;
         const mobile = interaction.options.getBoolean('mobile') || false;
         
-        console.log(date);
+        console.log("1 " + date);
+        console.log("2 " + region);
 
         const response = timeStampCalc(goToDate(new Date(date).toLocaleDateString("en-US", { weekday: 'short' })), time, region, format);
 
+        console.log("3 " + response);
         if (response == false) {
 
             await interaction.reply({

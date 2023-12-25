@@ -3,7 +3,7 @@ const { getTimeZone } = require('../functions/Database/getTimeZone.js');
 
 function timeStampCalc(date, time, region, format, internal = false){
     
-    console.log(region.timeZone);
+    console.log(region);
     // this is in UTC
     var time1, time2;
     
@@ -30,7 +30,7 @@ function timeStampCalc(date, time, region, format, internal = false){
 
     var fullResponse, timestamp;
 
-    region = region.timeZone;
+    // region = region.timeZone;
     if (region == false) {
         console.log("was false");
         return false;
