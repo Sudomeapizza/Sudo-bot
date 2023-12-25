@@ -78,20 +78,20 @@ module.exports = {
         } else {
             region = interaction.options.getString('time_region');
         }
-        
+
         console.log("0" + region.timeZone);
         
         var date = interaction.options.getString('date');
         const time = interaction.options.getString('time');
-        const timeRegion = interaction.options.getString('time_region') || false;
+        // const timeRegion = interaction.options.getString('time_region') || false;
         const format = interaction.options.getString('format') || 'R';
         const silence = interaction.options.getBoolean('silent') || false;
         const mobile = interaction.options.getBoolean('mobile') || false;
         
         console.log("1 " + date);
-        console.log("2 " + timeRegion);
+        console.log("2 " + region);
 
-        const response = timeStampCalc(goToDate(new Date(date).toLocaleDateString("en-US", { weekday: 'short' })), time, timeRegion, format);
+        const response = timeStampCalc(goToDate(new Date(date).toLocaleDateString("en-US", { weekday: 'short' })), time, region, format);
 
         console.log("3 " + response);
         if (response == false) {
