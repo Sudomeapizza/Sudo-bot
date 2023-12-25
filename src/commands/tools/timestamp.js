@@ -74,23 +74,25 @@ module.exports = {
         var region = await client.getTimeZone(interaction.member.id);
         console.log(region.timeZone);
 
-        if (interaction.options.getString('time_region') == null ) {
-            if (region) {
-                region = false;
-            }
-        }
+        // if (interaction.options.getString('time_region') == null ) {
+        //     if (region) {
+        //         region = false;
+        //     }
+        // }
 
         var date = interaction.options.getString('date');
         const time = interaction.options.getString('time');
-        const timeRegion = interaction.options.getString('time_region');
+        const timeRegion = interaction.options.getString('time_region') || false;
         const format = interaction.options.getString('format') || 'R';
         const silence = interaction.options.getBoolean('silent') || false;
         const mobile = interaction.options.getBoolean('mobile') || false;
         
         console.log(date);
+        console.log(timeRegion);
 
         const response = timeStampCalc(goToDate(new Date(date).toLocaleDateString("en-US", { weekday: 'short' })), time, timeRegion, format);
 
+        console.log(response);
         if (response == false) {
 
             await interaction.reply({
