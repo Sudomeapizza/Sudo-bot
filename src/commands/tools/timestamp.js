@@ -71,15 +71,16 @@ module.exports = {
         ),
 
     async execute(interaction, client) {
-        var region = await client.getTimeZone(interaction.member.id);
-        console.log(region.timeZone);
-
-        // if (interaction.options.getString('time_region') == null ) {
-        //     if (region) {
-        //         region = false;
-        //     }
-        // }
-
+        var region;
+        
+        if (interaction.options.getString('time_region') == null ) {
+            region = await client.getTimeZone(interaction.member.id);
+        } else {
+            region = interaction.options.getString('time_region');
+        }
+        
+        console.log("0" + region.timeZone);
+        
         var date = interaction.options.getString('date');
         const time = interaction.options.getString('time');
         const timeRegion = interaction.options.getString('time_region') || false;
