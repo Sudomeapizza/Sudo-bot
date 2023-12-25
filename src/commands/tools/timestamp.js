@@ -77,7 +77,7 @@ module.exports = {
             region = await client.getTimeZone(interaction.member.id);
             region = region.timeZone;
         } else {
-            region = interaction.options.getString('time_region');
+            region = interaction.options.getString('time_region') || false;
         }
 
         console.log("0" + region);
