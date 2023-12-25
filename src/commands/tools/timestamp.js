@@ -21,6 +21,33 @@ module.exports = {
         option.setName('time_region')
         .setDescription('Time Region code. Ex: UTC. (Optional if already setup with bot, otherwise required)')
         // .setRequired(true) // somehow make optional based on DB?
+        .addChoices(
+            {name: "JST/Tokyo", value: "JST"},
+            {name: "HKT/Hong Kong Time", value: "HKT"},
+            {name: "WIB/Jakarta", value: "WIB"},
+            {name: "BST/Dhaka", value: "BST"},
+            {name: "UZT/Tashkent", value: "UZT"},
+            {name: "GST/Dubai", value: "GST"},
+            {name: "MSK/Moscow", value: "MSK"},
+            {name: "EET/Cairo", value: "EET"},
+            {name: "CET/Brussels", value: "CET"},
+            {name: "GMT/London", value: "GMT"},
+            {name: "CVT/Praia", value: "CVT"},
+            {name: "CGT/Nuuk", value: "CGT"},
+            {name: "ART/Buenos Aires", value: "ART"},
+            {name: "VET/Caracas", value: "VET"},
+            {name: "EST/New York", value: "EST"},
+            {name: "CST/Mexico City", value: "CST"},
+            {name: "MST/Calgary", value: "MST"},
+            {name: "PST/Los Angeles", value: "PST"},
+            {name: "HST/Honolulu", value: "HST"},
+            {name: "NUT/Alofi", value: "NUT"},
+            {name: "AoE/Baker Island", value: "AoE"},
+            {name: "ANAT/Anadyr", value: "ANAT"},
+            {name: "AEDT/Melbourne", value: "AEDT"},
+            {name: "AEST/Brisbane", value: "AEST"},
+            {name: "AKST/Anchorage", value: "AKST"},
+        )
         )
     .addStringOption(option =>
         option.setName('format')
@@ -55,13 +82,14 @@ module.exports = {
 
         var date = interaction.options.getString('date');
         const time = interaction.options.getString('time');
+        const timeRegion = interaction.options.getString('time_region');
         const format = interaction.options.getString('format') || 'R';
         const silence = interaction.options.getBoolean('silent') || false;
         const mobile = interaction.options.getBoolean('mobile') || false;
         
         console.log(date);
 
-        const response = timeStampCalc(goToDate(new Date(date).toLocaleDateString("en-US", { weekday: 'short' })), time, region, format);
+        const response = timeStampCalc(goToDate(new Date(date).toLocaleDateString("en-US", { weekday: 'short' })), time, timeRegion, format);
 
         if (response == false) {
 
