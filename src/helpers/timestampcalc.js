@@ -241,8 +241,8 @@ function timeConvert(message, localTimeZone) {
                         console.log("__" + RegexMatch[2][0].split(":")[0]);
                         
                         // if only numbers, then grab the hours portion
-                        if (!RegexMatch[2][0].toString().includes(":")) {
-                            console.log("has :");
+                        // if (!RegexMatch[2][0].toString().includes(":")) {
+                        //     console.log("has :");
                             if (RegexMatch[2][0].toString().length == 3) {
                                 tempMatch = RegexMatch[2][0].toString().slice(0,1);
                                 console.log(`splitting "${RegexMatch[2][0]} into ${tempMatch}`);
@@ -250,7 +250,7 @@ function timeConvert(message, localTimeZone) {
                                 tempMatch = RegexMatch[2][0].toString().slice(0,2);
                                 console.log(`splitting "${RegexMatch[2][0]} into ${tempMatch}`);
                             }
-                        }
+                        // }
                         console.log(tempMatch);
                         if (tempMatch <= 12) {
                             console.log("under/equals 12 hours ");
