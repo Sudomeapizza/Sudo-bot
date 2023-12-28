@@ -201,7 +201,7 @@ function timeConvert(message, localTimeZone) {
     // easy access to variable
     var userMessage = message.content;
     
-    const regexDay = /\b(?:mon|tue|wed|thu|thurs|fri|sat|sun|monday|tuesday|wednesday|thursday|friday|saturday|sunday|today|tonight|tomorrow)\b/gi;
+    const regexDay = /\b(?:in|mon|tue|wed|thu|thurs|fri|sat|sun|monday|tuesday|wednesday|thursday|friday|saturday|sunday|today|tonight|tomorrow)\b/gi;
     const regexAt = /\b(?:at|@)\b/gi;
     const regexTime = /([0-2]?[0-9]|1[0-2]|2[0-3])(:?[0-5][0-9])?/gi;
     const regex_AMPM = /(?:am|pm)/gi;
@@ -224,6 +224,10 @@ function timeConvert(message, localTimeZone) {
         if (RegexMatch[0] = resultingMessage[i].match(regexDay)){
 
             console.log("~" + resultingMessage[i + 1]);
+
+            // `in`
+            // if (RegexMatch[0] == "")
+
             // today `at`
             if (i + 1 < resultingMessage.length && (RegexMatch[1] = resultingMessage[i + 1].match(regexAt))){
 
@@ -239,18 +243,17 @@ function timeConvert(message, localTimeZone) {
 
                     if (RegexMatch[3]) {
                         console.log("__" + RegexMatch[2][0].split(":")[0]);
+                        // 9:00am | 900am | 
                         
-                        // if only numbers, then grab the hours portion
-                        // if (!RegexMatch[2][0].toString().includes(":")) {
-                        //     console.log("has :");
-                            if (RegexMatch[2][0].toString().length == 3) {
-                                tempMatch = RegexMatch[2][0].toString().slice(0,1);
-                                console.log(`splitting "${RegexMatch[2][0]} into ${tempMatch}`);
-                            } else {
-                                tempMatch = RegexMatch[2][0].toString().slice(0,2);
-                                console.log(`splitting "${RegexMatch[2][0]} into ${tempMatch}`);
-                            }
-                        // }
+                        if (RegexMatch[2][0].toString().length == 4) {
+                            tempMatch = RegexMatch[2][0].toString().slice(0,1);
+                            console.log(`1splitting "${RegexMatch[2][0]} into ${tempMatch}`);
+                        } else {
+                            tempMatch = RegexMatch[2][0].toString().slice(0,2);
+                            console.log(`2splitting "${RegexMatch[2][0]} into ${tempMatch}`);
+                        }
+
+
                         console.log(tempMatch);
                         if (tempMatch <= 12) {
                             console.log("under/equals 12 hours ");
@@ -300,10 +303,23 @@ function timeConvert(message, localTimeZone) {
                             console.log("can't do more than 12hours in am/pm1");
                         }
                         
-                        // today at 9:00 `am`
+                    // today at 9:00 `am`
                     } else if (i + 3 < resultingMessage.length && (RegexMatch[3] = resultingMessage[i + 3].match(regexAMPM))){
                         
-                        if (RegexMatch[2][0].split(":")[0] <= 12) {
+                        console.log("__" + RegexMatch[2][0].split(":")[0]);
+                        // 9:00am | 900am | 
+                        
+                        if (RegexMatch[2][0].toString().length == 4) {
+                            tempMatch = RegexMatch[2][0].toString().slice(0,1);
+                            console.log(`1splitting "${RegexMatch[2][0]} into ${tempMatch}`);
+                        } else {
+                            tempMatch = RegexMatch[2][0].toString().slice(0,2);
+                            console.log(`2splitting "${RegexMatch[2][0]} into ${tempMatch}`);
+                        }
+
+
+                        console.log(tempMatch);
+                        if (tempMatch <= 12) {
                             console.log("under/equals 12 hours ");
    
 
@@ -347,7 +363,6 @@ function timeConvert(message, localTimeZone) {
                             userMessage = newMessage;
                             resultingMessage = userMessage.split(" ");
                             console.log(newMessage);
-                            i++;
                         } else {
                             console.log("can't do more than 12hours in am/pm2");
                         }
