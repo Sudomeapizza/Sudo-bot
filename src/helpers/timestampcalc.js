@@ -242,10 +242,13 @@ function timeConvert(message, localTimeZone) {
                         
                         // if only numbers, then grab the hours portion
                         if (!RegexMatch[2][0].toString().includes(":")) {
+                            console.log("has :");
                             if (RegexMatch[2][0].toString().length == 3) {
                                 tempMatch = RegexMatch[2][0].toString().slice(0,1);
+                                console.log(`splitting "${RegexMatch[2][0]} into ${tempMatch}`);
                             } else {
                                 tempMatch = RegexMatch[2][0].toString().slice(0,2);
+                                console.log(`splitting "${RegexMatch[2][0]} into ${tempMatch}`);
                             }
                         }
                         console.log(tempMatch);
