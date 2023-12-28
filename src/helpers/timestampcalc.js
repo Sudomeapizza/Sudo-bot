@@ -297,7 +297,7 @@ function timeConvert(message, localTimeZone) {
                             }
                             userMessage = newMessage;
                             resultingMessage = userMessage.split(" ");
-                            console.log(newMessage);
+                            // console.log(newMessage);
 
                         } else {
                             console.log("can't do more than 12hours in am/pm1");
@@ -362,7 +362,7 @@ function timeConvert(message, localTimeZone) {
 
                             userMessage = newMessage;
                             resultingMessage = userMessage.split(" ");
-                            console.log(newMessage);
+                            // console.log(newMessage);
                         } else {
                             console.log("can't do more than 12hours in am/pm2");
                         }
@@ -389,7 +389,7 @@ function timeConvert(message, localTimeZone) {
                         }
                         userMessage = newMessage;
                         resultingMessage = userMessage.split(" ");
-                        console.log(newMessage);
+                        // console.log(newMessage);
                     }
                     i++;
                 }
