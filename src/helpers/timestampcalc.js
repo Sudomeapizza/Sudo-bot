@@ -243,9 +243,9 @@ function timeConvert(message, localTimeZone) {
                         // if only numbers, then grab the hours portion
                         if (!RegexMatch[2][0].toString().includes(":")) {
                             if (RegexMatch[2][0].toString().length == 3) {
-                                tempMatch = RegexMatch[2][0].slice(0,1);
+                                tempMatch = RegexMatch[2][0].toString().slice(0,1);
                             } else {
-                                tempMatch = RegexMatch[2][0].slice(0,2);
+                                tempMatch = RegexMatch[2][0].toString().slice(0,2);
                             }
                         }
                         console.log(tempMatch);
