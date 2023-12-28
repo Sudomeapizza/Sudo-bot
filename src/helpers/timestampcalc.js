@@ -248,6 +248,7 @@ function timeConvert(message, localTimeZone) {
                                 tempMatch = RegexMatch[2][0].slice(0,2);
                             }
                         }
+                        console.log(tempMatch);
                         if (tempMatch <= 12) {
                             console.log("under/equals 12 hours ");
    

@@ -126,7 +126,7 @@ module.exports = (client) => {
         // convert messages
         var localTimeZone = await client.getTimeZone(message.author.id);
         if (localTimeZone) {
-            const result = timeConvert(message, localTimeZone.timeZone);
+            const result = timeConvert(message, localTimeZone.timeZone) || "none 4";
             message.channel.send(result);
         } else {
             // maybe something?
