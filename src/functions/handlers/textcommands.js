@@ -126,7 +126,8 @@ module.exports = (client) => {
         // convert messages
         var localTimeZone = await client.getTimeZone(message.author.id);
         if (localTimeZone) {
-            timeConvert(message, localTimeZone.timeZone);
+            const result = timeConvert(message, localTimeZone.timeZone);
+            message.channel.send(result);
         } else {
             // maybe something?
             console.log(`No time region set for {${message.author.tag} : ${message.author.id}}`);
