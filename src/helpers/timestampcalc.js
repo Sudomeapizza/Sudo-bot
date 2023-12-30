@@ -9,6 +9,10 @@ const { getTimeZone } = require('../functions/Database/getTimeZone.js');
  */
 function timeStampCalc(timeInDays, time, region){
     console.log(`${timeInDays} | ${time} | ${region}`);
+
+    // if no region set
+    if (!region) return false;
+
     // this is in UTC
     var time1, time2;
     time = time.toString();

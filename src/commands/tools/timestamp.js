@@ -88,7 +88,7 @@ module.exports = {
             region = interaction.options.getString('time_region') || false;
         }
 
-        console.log("0" + region);
+        console.log("0 " + region);
         
         var date = interaction.options.getString('date');
         const time = interaction.options.getString('time');
