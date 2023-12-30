@@ -197,14 +197,14 @@ function goToDate(message) {
 function timeConvert(message, localTimeZone) {
     
     // if bot, return
-    // if (message.author.bot) {return;}
+    if (message.author.bot) {return;}
 
     // if no region was set for the user, do nothing
     if (localTimeZone == false) {return;}
     
     // easy access to variable
-    // var userMessage = message.content;
-    var userMessage = message;
+    var userMessage = message.content;
+    // var userMessage = message;
     
     const regexMonth = /\b(?:jan|January|feb|February|mar|March|apr|april|May|June|July|aug|august|sept|September|oct|October|nov|november|dec|december)\b/gi;
     const regexDay = /\b(?:in|mon|tue|wed|thu|thurs|fri|sat|sun|monday|tuesday|wednesday|thursday|friday|saturday|sunday|today|tonight|tomorrow)\b/gi;
