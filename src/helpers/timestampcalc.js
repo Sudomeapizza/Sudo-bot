@@ -9,6 +9,10 @@ const { getTimeZone } = require('../functions/Database/getTimeZone.js');
  */
 function timeStampCalc(timeInDays, time, region){
     console.log(`${timeInDays} | ${time} | ${region}`);
+
+    // if no region set
+    if (!region) return false;
+
     // this is in UTC
     var time1, time2;
     time = time.toString();
@@ -30,7 +34,7 @@ function timeStampCalc(timeInDays, time, region){
     // insert colon if using 3 digits (EX: "100", "010")
     } else if (!time.includes(':') && time.length == 3) {
         console.log("3");
-        // time = '0' + time.slice(0, 1) + ':' + time.slice(1);
+        time = '0' + time.slice(0, 1) + ':' + time.slice(1);
         time1 = time.slice(0,1);
         time2 = time.slice(1,3);
     } else {
@@ -38,30 +42,23 @@ function timeStampCalc(timeInDays, time, region){
         time1 = time.slice(0,2);
         time2 = time.slice(3,5);
     }
-    var timestamp;
 
-    // region = region.timeZone;
-    if (region == false) {
-        console.log("was false");
-        return false;
-    } else {
-        console.log(`::${timeInDays} ::${adjustTime(region)} ::${time1} ::${time2}`);
-        var timestamp = new Date();
-        console.log(timestamp.toLocaleString());
+    console.log(`::${timeInDays} ::${adjustTime(region)}`);
+    var timestamp = new Date();
+    console.log(timestamp.toLocaleString());
 
-        timestamp.setHours(time1, time2, 0, 0);
-        console.log(timestamp.toLocaleString());
+    timestamp.setHours(time1, time2, 0, 0);
+    console.log(timestamp.toLocaleString());
 
-        timestamp.setHours(timestamp.getHours() - adjustTime(region));
-        console.log(timestamp.toLocaleString());
+    timestamp.setHours(timestamp.getHours() - adjustTime(region));
+    console.log(timestamp.toLocaleString());
 
-        timestamp.setHours(timestamp.getHours() + (timeInDays * 24));
-        console.log(timestamp.toLocaleString());
+    timestamp.setHours(timestamp.getHours() + (timeInDays * 24));
+    console.log(timestamp.toLocaleString());
 
-        // trim off the ms, and return time in seconds
-        timestamp = timestamp.getTime().toString().slice(0, -3);
-        return timestamp;
-    }
+    // trim off the ms, and return time in seconds
+    timestamp = timestamp.getTime().toString().slice(0, -3);
+    return timestamp;
 }
 
 /**
