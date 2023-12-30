@@ -102,6 +102,7 @@ module.exports = {
         console.log("2 " + region);
 
         var response = timeStampCalc(goToDate(new Date(date).toLocaleDateString("en-US", { weekday: 'short' })), time, region, format);
+        resoinse = (`<t:${timestamp}:F> <t:${timestamp}:R>`);
         // response = timeConvert();
 
         console.log("3 " + response);
@@ -124,13 +125,13 @@ module.exports = {
                 });
             }
 
-            if (mobile) {
-                client.channels.send(response || "None6");
-                await interaction.reply({
-                    content: response,
-                    ephemeral: true
-                });
-            }
+            // if (mobile) {
+            //     client.channels.send(response || "None6");
+            //     await interaction.reply({
+            //         content: response,
+            //         ephemeral: true
+            //     });
+            // }
         }
     }
 }
