@@ -102,7 +102,7 @@ module.exports = {
         console.log("2 " + region);
 
         var response = timeStampCalc(goToDate(new Date(date).toLocaleDateString("en-US", { weekday: 'short' })), time, region, format);
-        response = timeConvert();
+        // response = timeConvert();
 
         console.log("3 " + response);
         if (response == false) {

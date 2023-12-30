@@ -405,7 +405,8 @@ function timeConvert(message, localTimeZone, command = false) {
     return newMessage;
 }
 
-function timeStampCalc2(date, time, region, format){
+
+function timeStampCalc2(timeInDays, time, region){
     console.log(`${timeInDays} | ${time} | ${region}`);
 
     // if no region set
