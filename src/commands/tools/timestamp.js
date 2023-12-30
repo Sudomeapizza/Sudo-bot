@@ -75,8 +75,11 @@ module.exports = {
         
         if (interaction.options.getString('time_region') == null ) {
             console.log("path1");
-            region = await client.getTimeZone(interaction.member.id);
+            region = await client.getTimeZone(interaction.user.id);
+            // region = await client.getTimeZone(message.author.id);
+            console.log(region);
             region = region.timeZone;
+            console.log(region);
             if (!region) {
                 console.log("path1.5");
                 region = interaction.options.getString('time_region') || false;
@@ -86,19 +89,21 @@ module.exports = {
             region = interaction.options.getString('time_region') || false;
         }
 
-        console.log("0" + region);
+        console.log("0 " + region);
         
         var date = interaction.options.getString('date');
         const time = interaction.options.getString('time');
         // const timeRegion = interaction.options.getString('time_region') || false;
         const format = interaction.options.getString('format') || 'R';
         const silence = interaction.options.getBoolean('silent') || false;
-        const mobile = interaction.options.getBoolean('mobile') || false;
+        const mobile = interaction.options.getBoolean('mobile') || true;
         
         console.log("1 " + date);
         console.log("2 " + region);
 
-        const response = timeStampCalc(goToDate(new Date(date).toLocaleDateString("en-US", { weekday: 'short' })), time, region, format);
+        var response = timeStampCalc(goToDate(new Date(date).toLocaleDateString("en-US", { weekday: 'short' })), time, region, format);
+        response = (`<t:${response}:F> <t:${response}:R>`);
+        // response = timeConvert();
 
         console.log("3 " + response);
         if (response == false) {
@@ -111,22 +116,22 @@ module.exports = {
         
             if (silence) {    
                 await interaction.reply({
-                    content: response[0],
+                    content: response,
                     ephemeral: true
                 });
             } else {
                 await interaction.reply({
-                    content: response[0]
+                    content: response
                 });
             }
 
-            if (mobile) {
-                client.channels.send(response[1] || "None6");
-                await interaction.reply({
-                    content: response[1],
-                    ephemeral: true
-                });
-            }
+            // if (mobile) {
+            //     client.channels.send(response || "None6");
+            //     await interaction.reply({
+            //         content: response,
+            //         ephemeral: true
+            //     });
+            // }
         }
     }
 }
