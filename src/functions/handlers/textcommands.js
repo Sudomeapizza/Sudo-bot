@@ -128,7 +128,7 @@ module.exports = (client) => {
         if (localTimeZone) {
             const result = timeConvert(message, localTimeZone.timeZone);
             if (result) {
-                console.log(message);
+                console.log(result);
                 message.channel.send(result);
             }
         } else {
