@@ -96,7 +96,7 @@ module.exports = {
         // const timeRegion = interaction.options.getString('time_region') || false;
         const format = interaction.options.getString('format') || 'R';
         const silence = interaction.options.getBoolean('silent') || false;
-        const mobile = interaction.options.getBoolean('mobile') || false;
+        const mobile = interaction.options.getBoolean('mobile') || true;
         
         console.log("1 " + date);
         console.log("2 " + region);
@@ -115,17 +115,17 @@ module.exports = {
         
             if (silence) {    
                 await interaction.reply({
-                    content: response[0],
+                    content: response,
                     ephemeral: true
                 });
             } else {
                 await interaction.reply({
-                    content: response[0]
+                    content: response
                 });
             }
 
             if (mobile) {
-                client.channels.send(response[1] || "None6");
+                client.channels.send(response || "None6");
                 await interaction.reply({
                     content: response,
                     ephemeral: true
