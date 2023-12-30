@@ -405,4 +405,58 @@ function timeConvert(message, localTimeZone) {
     return newMessage;
 }
 
-module.exports = { timeStampCalc, goToDate, timeConvert };
+function timeStampCalc2(date, time, region, format, internal = false){
+    
+    console.log(region.timeZone);
+    // this is in UTC
+    var time1, time2;
+    
+    // if using shortened time (EX: "1:40")
+    if (time.includes(':') && time.length == 4) {
+        time = '0' + time;
+        time1 = time.slice(1,2);
+        time2 = time.slice(3,5);
+    // insert colon if using 4 digits (EX: "1200")
+    } else if (!time.includes(':') && time.length == 4) {
+        time = time.slice(0, 2) + ':' + time.slice(2);
+        time1 = time.slice(0,2);
+        time2 = time.slice(2,4);
+    // insert colon if using 3 digits (EX: "100", "010")
+    } else if (!time.includes(':') && time.length == 3) {
+        time = '0' + time.slice(0, 1) + ':' + time.slice(1);
+        time1 = time.slice(0,1);
+        time2 = time.slice(1,3);
+    }
+    time1 = time.slice(0,2);
+    time2 = time.slice(3,5);
+    var fullResponse, timestamp;
+    region = region.timeZone;
+    if (region == false) {
+        console.log("was false");
+        return false;
+    } else {
+        console.log(`::${date} ::${adjustTime(region)}`);
+        var timestamp = new Date();
+        console.log(timestamp.toLocaleString());
+        timestamp.setHours(time1, time2);
+        console.log(timestamp.toLocaleString());
+
+        timestamp.setHours(timestamp.getHours() - adjustTime(region));
+        console.log(timestamp.toLocaleString());
+
+        timestamp.setHours(timestamp.getHours() + (date * 24));
+        console.log(timestamp.toLocaleString());
+
+        timestamp = timestamp.getTime().toString().slice(0, -3);
+        if (internal) {
+            fullResponse = [`<t:${timestamp}:F>`,`<t:${timestamp}:R>`];
+        } else {
+            fullResponse = [`Timestamp code: \`<t:${timestamp}:${format}>\`\n`
+            + `How it appears: <t:${timestamp}:${format}>`,
+            `<t:${timestamp}:${format}>`];
+        }
+        return fullResponse;
+    }
+}
+
+module.exports = { timeStampCalc, timeStampCalc2, goToDate, timeConvert };

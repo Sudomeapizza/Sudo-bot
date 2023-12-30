@@ -1,5 +1,5 @@
 const { SlashCommandBuilder } = require('discord.js')
-const { timeStampCalc } = require('../../helpers/timestampcalc.js')
+const { timeStampCalc2 } = require('../../helpers/timestampcalc.js')
 const { goToDate } = require('../../helpers/timestampcalc.js');
 
 module.exports = {
@@ -101,7 +101,7 @@ module.exports = {
         console.log("1 " + date);
         console.log("2 " + region);
 
-        const response = timeStampCalc(goToDate(new Date(date).toLocaleDateString("en-US", { weekday: 'short' })), time, region, format);
+        var response = timeStampCalc2(goToDate(new Date(date).toLocaleDateString("en-US", { weekday: 'short' })), time, region, format);
 
         console.log("3 " + response);
         if (response == false) {
