@@ -9,10 +9,6 @@ const { getTimeZone } = require('../functions/Database/getTimeZone.js');
  */
 function timeStampCalc(timeInDays, time, region){
     console.log(`${timeInDays} | ${time} | ${region}`);
-
-    // if no region set
-    if (!region) return false;
-
     // this is in UTC
     var time1, time2;
     time = time.toString();
@@ -34,7 +30,7 @@ function timeStampCalc(timeInDays, time, region){
     // insert colon if using 3 digits (EX: "100", "010")
     } else if (!time.includes(':') && time.length == 3) {
         console.log("3");
-        time = '0' + time.slice(0, 1) + ':' + time.slice(1);
+        // time = '0' + time.slice(0, 1) + ':' + time.slice(1);
         time1 = time.slice(0,1);
         time2 = time.slice(1,3);
     } else {
@@ -42,23 +38,30 @@ function timeStampCalc(timeInDays, time, region){
         time1 = time.slice(0,2);
         time2 = time.slice(3,5);
     }
+    var timestamp;
 
-    console.log(`::${timeInDays} ::${adjustTime(region)}`);
-    var timestamp = new Date();
-    console.log(timestamp.toLocaleString());
+    // region = region.timeZone;
+    if (region == false) {
+        console.log("was false");
+        return false;
+    } else {
+        console.log(`::${timeInDays} ::${adjustTime(region)} ::${time1} ::${time2}`);
+        var timestamp = new Date();
+        console.log(timestamp.toLocaleString());
 
-    timestamp.setHours(time1, time2, 0, 0);
-    console.log(timestamp.toLocaleString());
+        timestamp.setHours(time1, time2, 0, 0);
+        console.log(timestamp.toLocaleString());
 
-    timestamp.setHours(timestamp.getHours() - adjustTime(region));
-    console.log(timestamp.toLocaleString());
+        timestamp.setHours(timestamp.getHours() - adjustTime(region));
+        console.log(timestamp.toLocaleString());
 
-    timestamp.setHours(timestamp.getHours() + (timeInDays * 24));
-    console.log(timestamp.toLocaleString());
+        timestamp.setHours(timestamp.getHours() + (timeInDays * 24));
+        console.log(timestamp.toLocaleString());
 
-    // trim off the ms, and return time in seconds
-    timestamp = timestamp.getTime().toString().slice(0, -3);
-    return timestamp;
+        // trim off the ms, and return time in seconds
+        timestamp = timestamp.getTime().toString().slice(0, -3);
+        return timestamp;
+    }
 }
 
 /**
@@ -194,7 +197,7 @@ function goToDate(message) {
  * @param {*} userMessage 
  * @param {*} localTimeZone 
  */
-function timeConvert(message, localTimeZone, command = false) {
+function timeConvert(message, localTimeZone) {
     
     // if bot, return
     if (message.author.bot) {return;}
@@ -204,11 +207,16 @@ function timeConvert(message, localTimeZone, command = false) {
     
     // easy access to variable
     var userMessage = message.content;
+    // var userMessage = message;
     
+    const regexMonth = /\b(?:jan|January|feb|February|mar|March|apr|april|May|June|July|aug|august|sept|September|oct|October|nov|november|dec|december)\b/gi;
     const regexDay = /\b(?:in|mon|tue|wed|thu|thurs|fri|sat|sun|monday|tuesday|wednesday|thursday|friday|saturday|sunday|today|tonight|tomorrow)\b/gi;
     const regexAt = /\b(?:at|@)\b/gi;
     const regexTime = /([0-2]?[0-9]|1[0-2]|2[0-3])(:?[0-5][0-9])?/gi;
+
+    // if includes am/pm
     const regex_AMPM = /(?:am|pm)/gi;
+    // if ONLY IS am/pm
     const regexAMPM = /\b(?:am|pm)\b/gi;
 
     /**
@@ -220,17 +228,18 @@ function timeConvert(message, localTimeZone, command = false) {
     var RegexMatch = [];
     var tempMatch;
 
+    // add "upcoming" "next" ""
+
     var resultingMessage = userMessage.split(" ");
     for (var i = 0; i < resultingMessage.length; i++) {
+
+        // use case statments instead of nested if statements?
 
         console.log(resultingMessage[i]);
         // `today`
         if (RegexMatch[0] = resultingMessage[i].match(regexDay)){
 
             console.log("~" + resultingMessage[i + 1]);
-
-            // `in`
-            // if (RegexMatch[0] == "")
 
             // today `at`
             if (i + 1 < resultingMessage.length && (RegexMatch[1] = resultingMessage[i + 1].match(regexAt))){
@@ -247,14 +256,38 @@ function timeConvert(message, localTimeZone, command = false) {
 
                     if (RegexMatch[3]) {
                         console.log("__" + RegexMatch[2][0].split(":")[0]);
-                        // 9:00am | 900am | 
+                        console.log("_-"+RegexMatch[3]);
+                        // 9:00am | 900am
                         
-                        if (RegexMatch[2][0].toString().length == 4) {
-                            tempMatch = RegexMatch[2][0].toString().slice(0,1);
-                            console.log(`1splitting "${RegexMatch[2][0]} into ${tempMatch}`);
+                        if (RegexMatch[2][0].toString().includes(":")) {
+                            if (RegexMatch[2][0].toString().length == 4) {
+                                tempMatch = RegexMatch[2][0].toString().slice(0,1);
+                                console.log(`1splitting "${RegexMatch[2][0]} into ${tempMatch}`);
+                            } else {
+                                tempMatch = RegexMatch[2][0].toString().slice(0,2);
+                                console.log(`2splitting "${RegexMatch[2][0]} into ${tempMatch}`);
+                            }
                         } else {
-                            tempMatch = RegexMatch[2][0].toString().slice(0,2);
-                            console.log(`2splitting "${RegexMatch[2][0]} into ${tempMatch}`);
+                            if (RegexMatch[2][0].toString().length == 3) {
+                                tempMatch = RegexMatch[2][0].toString().slice(0,1);
+                                console.log(`3splitting "${RegexMatch[2][0]} into ${tempMatch}`);
+                            } else {
+                                tempMatch = RegexMatch[2][0].toString().slice(0,2);
+                                console.log(`4splitting "${RegexMatch[2][0]} into ${tempMatch}`);
+                            }
+                        }
+
+                        // add half a day if it's pm
+                        if (RegexMatch[3][0].toString().toLowerCase() == "pm" && tempMatch <= 11){
+                            // add 12 hours to the clock
+                            console.log("adding half a day");
+                            targetDate += .5;
+                        }
+                        // subtract half a day so it's midnight
+                        if (RegexMatch[3][0].toString().toLowerCase() == "am" && tempMatch == 12){
+                            // add 12 hours to the clock
+                            console.log("removing half a day");
+                            targetDate -= .5;
                         }
 
 
@@ -276,11 +309,13 @@ function timeConvert(message, localTimeZone, command = false) {
                             // add half a day if it's pm
                             if (RegexMatch[3][0].toString().toLowerCase() == "pm" && tempMatch <= 11){
                                 // add 12 hours to the clock
+                                console.log("2adding half a day");
                                 targetDate += .5;
                             }
                             // subtract half a day so it's midnight
-                            if (RegexMatch[3][0].toString().toLowerCase() == "am"){
+                            if (RegexMatch[3][0].toString().toLowerCase() == "am" && tempMatch == 12){
                                 // add 12 hours to the clock
+                                console.log("2removing half a day");
                                 targetDate -= .5;
                             }
 
@@ -301,7 +336,7 @@ function timeConvert(message, localTimeZone, command = false) {
                             }
                             userMessage = newMessage;
                             resultingMessage = userMessage.split(" ");
-                            // console.log(newMessage);
+                            console.log(newMessage);
 
                         } else {
                             console.log("can't do more than 12hours in am/pm1");
@@ -313,12 +348,22 @@ function timeConvert(message, localTimeZone, command = false) {
                         console.log("__" + RegexMatch[2][0].split(":")[0]);
                         // 9:00am | 900am | 
                         
-                        if (RegexMatch[2][0].toString().length == 4) {
-                            tempMatch = RegexMatch[2][0].toString().slice(0,1);
-                            console.log(`1splitting "${RegexMatch[2][0]} into ${tempMatch}`);
+                        if (RegexMatch[2][0].toString().includes(":")) {
+                            if (RegexMatch[2][0].toString().length == 4) {
+                                tempMatch = RegexMatch[2][0].toString().slice(0,1);
+                                console.log(`1splitting "${RegexMatch[2][0]} into ${tempMatch}`);
+                            } else {
+                                tempMatch = RegexMatch[2][0].toString().slice(0,2);
+                                console.log(`2splitting "${RegexMatch[2][0]} into ${tempMatch}`);
+                            }
                         } else {
-                            tempMatch = RegexMatch[2][0].toString().slice(0,2);
-                            console.log(`2splitting "${RegexMatch[2][0]} into ${tempMatch}`);
+                            if (RegexMatch[2][0].toString().length == 3) {
+                                tempMatch = RegexMatch[2][0].toString().slice(0,1);
+                                console.log(`3splitting "${RegexMatch[2][0]} into ${tempMatch}`);
+                            } else {
+                                tempMatch = RegexMatch[2][0].toString().slice(0,2);
+                                console.log(`4splitting "${RegexMatch[2][0]} into ${tempMatch}`);
+                            }
                         }
 
 
@@ -326,9 +371,7 @@ function timeConvert(message, localTimeZone, command = false) {
                         if (tempMatch <= 12) {
                             console.log("under/equals 12 hours ");
    
-
                             console.log(RegexMatch);
-
 
                             console.log("~~~" + RegexMatch[0]);
                             console.log("~~~" + RegexMatch[0][0]);
@@ -340,11 +383,13 @@ function timeConvert(message, localTimeZone, command = false) {
                             // add half a day if it's pm
                             if (RegexMatch[3][0].toString().toLowerCase() == "pm" && tempMatch <= 11){
                                 // add 12 hours to the clock
+                                console.log("adding half a day");
                                 targetDate += .5;
                             }
                             // subtract half a day so it's midnight
-                            if (RegexMatch[3][0].toString().toLowerCase() == "am"){
+                            if (RegexMatch[3][0].toString().toLowerCase() == "am" && tempMatch == 12){
                                 // add 12 hours to the clock
+                                console.log("removing half a day");
                                 targetDate -= .5;
                             }
 
@@ -366,7 +411,7 @@ function timeConvert(message, localTimeZone, command = false) {
 
                             userMessage = newMessage;
                             resultingMessage = userMessage.split(" ");
-                            // console.log(newMessage);
+                            console.log(newMessage);
                         } else {
                             console.log("can't do more than 12hours in am/pm2");
                         }
@@ -374,12 +419,12 @@ function timeConvert(message, localTimeZone, command = false) {
                         // today at 9:00 
                     } else {
                         var targetDate = goToDate(RegexMatch[0].toString());
-                        console.log(targetDate);
+                        console.log("\""+targetDate);
 
                         // gives duo timecodes of
                         var timestamp = timeStampCalc(targetDate, RegexMatch[2], localTimeZone);
 
-                        console.log(timestamp);
+                        console.log("\"\""+timestamp);
                         var newMessage;
                         
                         if (RegexMatch[3]) {
@@ -393,13 +438,69 @@ function timeConvert(message, localTimeZone, command = false) {
                         }
                         userMessage = newMessage;
                         resultingMessage = userMessage.split(" ");
-                        // console.log(newMessage);
+                        console.log(newMessage);
                     }
                     i++;
                 }
             }
             // console.log(resultingMessage[i]);
         }
+
+
+        /**
+         * detection for actual dates?
+         * Dec 12, 2023
+         * 12/12/23
+         * the 23rd at 5pm?
+         * following monday?
+         */
+
+        // `the`
+        if (RegexMatch[0] = resultingMessage[i].match("the")) {
+            console.log("yo");
+        }
+
+        // `following`
+
+
+        /**
+         * set up for 
+            in 5
+            in 5 hours
+            in 5 mins
+            in 5 hours and 3 mins
+
+            w/ & w/o "and"
+
+            hours
+            hour
+            hr
+            hrs
+            h
+
+            minutes
+            minute
+            mins
+            min
+            m
+            */
+
+        // `in`
+        if (RegexMatch[0] = resultingMessage[i].match("in")) {
+            const regex_hours = /(?:hours|hour|hr|hrs|h)/gi;
+            const regex_minutes = /(?:minutes|minute|mins|min|m)/gi;
+
+
+        }
+
+
+        // `Month`
+        if (RegexMatch[0] = resultingMessage[i].match(regexMonth)) {
+            
+        }
+
+
+
         // console.log(resultingMessage[i]);
     }
     return newMessage;
