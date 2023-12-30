@@ -127,7 +127,7 @@ module.exports = {
             if (mobile) {
                 client.channels.send(response[1] || "None6");
                 await interaction.reply({
-                    content: response[1],
+                    content: response,
                     ephemeral: true
                 });
             }
