@@ -76,7 +76,9 @@ module.exports = {
         if (interaction.options.getString('time_region') == null ) {
             console.log("path1");
             region = await client.getTimeZone(interaction.member.id);
+            console.log(region);
             region = region.timeZone;
+            console.log(region);
             if (!region) {
                 console.log("path1.5");
                 region = interaction.options.getString('time_region') || false;
