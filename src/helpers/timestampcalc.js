@@ -194,21 +194,26 @@ function goToDate(message) {
  * @param {*} userMessage 
  * @param {*} localTimeZone 
  */
-function timeConvert(message, localTimeZone, command = false) {
+function timeConvert(message, localTimeZone) {
     
     // if bot, return
-    if (message.author.bot) {return;}
+    // if (message.author.bot) {return;}
 
     // if no region was set for the user, do nothing
     if (localTimeZone == false) {return;}
     
     // easy access to variable
-    var userMessage = message.content;
+    // var userMessage = message.content;
+    var userMessage = message;
     
+    const regexMonth = /\b(?:jan|January|feb|February|mar|March|apr|april|May|June|July|aug|august|sept|September|oct|October|nov|november|dec|december)\b/gi;
     const regexDay = /\b(?:in|mon|tue|wed|thu|thurs|fri|sat|sun|monday|tuesday|wednesday|thursday|friday|saturday|sunday|today|tonight|tomorrow)\b/gi;
     const regexAt = /\b(?:at|@)\b/gi;
     const regexTime = /([0-2]?[0-9]|1[0-2]|2[0-3])(:?[0-5][0-9])?/gi;
+
+    // if includes am/pm
     const regex_AMPM = /(?:am|pm)/gi;
+    // if ONLY IS am/pm
     const regexAMPM = /\b(?:am|pm)\b/gi;
 
     /**
@@ -219,6 +224,8 @@ function timeConvert(message, localTimeZone, command = false) {
      */
     var RegexMatch = [];
     var tempMatch;
+
+    // add "upcoming" "next" ""
 
     var resultingMessage = userMessage.split(" ");
     for (var i = 0; i < resultingMessage.length; i++) {
@@ -435,6 +442,62 @@ function timeConvert(message, localTimeZone, command = false) {
             }
             // console.log(resultingMessage[i]);
         }
+
+
+        /**
+         * detection for actual dates?
+         * Dec 12, 2023
+         * 12/12/23
+         * the 23rd at 5pm?
+         * following monday?
+         */
+
+        // `the`
+        if (RegexMatch[0] = resultingMessage[i].match("the")) {
+            console.log("yo");
+        }
+
+        // `following`
+
+
+        /**
+         * set up for 
+            in 5
+            in 5 hours
+            in 5 mins
+            in 5 hours and 3 mins
+
+            w/ & w/o "and"
+
+            hours
+            hour
+            hr
+            hrs
+            h
+
+            minutes
+            minute
+            mins
+            min
+            m
+            */
+
+        // `in`
+        if (RegexMatch[0] = resultingMessage[i].match("in")) {
+            const regex_hours = /(?:hours|hour|hr|hrs|h)/gi;
+            const regex_minutes = /(?:minutes|minute|mins|min|m)/gi;
+
+
+        }
+
+
+        // `Month`
+        if (RegexMatch[0] = resultingMessage[i].match(regexMonth)) {
+            
+        }
+
+
+
         // console.log(resultingMessage[i]);
     }
     return newMessage;
