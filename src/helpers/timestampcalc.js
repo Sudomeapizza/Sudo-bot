@@ -143,7 +143,7 @@ function getDay(dateDay){
  * @param {Boolean} nextDay 
  * @returns Int of days incremented
  */
-function advanceADay(inputDay, targetDay, nextDay=false){
+function advanceADay(inputDay, targetDay, nextDay = false){
     var idate = new Date();
     var counter = 0;
     while (inputDay != targetDay) {
@@ -194,7 +194,7 @@ function goToDate(message) {
  * @param {*} userMessage 
  * @param {*} localTimeZone 
  */
-function timeConvert(message, localTimeZone) {
+function timeConvert(message, localTimeZone, command = false) {
     
     // if bot, return
     if (message.author.bot) {return;}
@@ -405,58 +405,58 @@ function timeConvert(message, localTimeZone) {
     return newMessage;
 }
 
-function timeStampCalc2(date, time, region, format, internal = false){
-    
-    console.log(region.timeZone);
+function timeStampCalc2(date, time, region, format){
+    console.log(`${timeInDays} | ${time} | ${region}`);
+
+    // if no region set
+    if (!region) return false;
+
     // this is in UTC
     var time1, time2;
+    time = time.toString();
     
     // if using shortened time (EX: "1:40")
     if (time.includes(':') && time.length == 4) {
+        console.log("1");
         time = '0' + time;
         time1 = time.slice(1,2);
         time2 = time.slice(3,5);
+
     // insert colon if using 4 digits (EX: "1200")
     } else if (!time.includes(':') && time.length == 4) {
-        time = time.slice(0, 2) + ':' + time.slice(2);
+        console.log("2");
+        // time = time.slice(0, 2) + ':' + time.slice(2);
         time1 = time.slice(0,2);
         time2 = time.slice(2,4);
+
     // insert colon if using 3 digits (EX: "100", "010")
     } else if (!time.includes(':') && time.length == 3) {
+        console.log("3");
         time = '0' + time.slice(0, 1) + ':' + time.slice(1);
         time1 = time.slice(0,1);
         time2 = time.slice(1,3);
-    }
-    time1 = time.slice(0,2);
-    time2 = time.slice(3,5);
-    var fullResponse, timestamp;
-    region = region.timeZone;
-    if (region == false) {
-        console.log("was false");
-        return false;
     } else {
-        console.log(`::${date} ::${adjustTime(region)}`);
-        var timestamp = new Date();
-        console.log(timestamp.toLocaleString());
-        timestamp.setHours(time1, time2);
-        console.log(timestamp.toLocaleString());
-
-        timestamp.setHours(timestamp.getHours() - adjustTime(region));
-        console.log(timestamp.toLocaleString());
-
-        timestamp.setHours(timestamp.getHours() + (date * 24));
-        console.log(timestamp.toLocaleString());
-
-        timestamp = timestamp.getTime().toString().slice(0, -3);
-        if (internal) {
-            fullResponse = [`<t:${timestamp}:F>`,`<t:${timestamp}:R>`];
-        } else {
-            fullResponse = [`Timestamp code: \`<t:${timestamp}:${format}>\`\n`
-            + `How it appears: <t:${timestamp}:${format}>`,
-            `<t:${timestamp}:${format}>`];
-        }
-        return fullResponse;
+        console.log("4");
+        time1 = time.slice(0,2);
+        time2 = time.slice(3,5);
     }
+
+    console.log(`::${timeInDays} ::${adjustTime(region)}`);
+    var timestamp = new Date();
+    console.log(timestamp.toLocaleString());
+
+    timestamp.setHours(time1, time2, 0, 0);
+    console.log(timestamp.toLocaleString());
+
+    timestamp.setHours(timestamp.getHours() - adjustTime(region));
+    console.log(timestamp.toLocaleString());
+
+    timestamp.setHours(timestamp.getHours() + (timeInDays * 24));
+    console.log(timestamp.toLocaleString());
+
+    // trim off the ms, and return time in seconds
+    timestamp = timestamp.getTime().toString().slice(0, -3);
+    return timestamp;
 }
 
 module.exports = { timeStampCalc, timeStampCalc2, goToDate, timeConvert };
