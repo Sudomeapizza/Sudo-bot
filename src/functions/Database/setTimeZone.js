@@ -6,7 +6,6 @@ module.exports = (client) => {
         // Check if the userTimeZone already exists in the database
         let userTimeZone = await timeZone.findOne({
             userId: userId,
-            timeZone: inputTimeZone,
         });
 
         if (!userTimeZone) {
