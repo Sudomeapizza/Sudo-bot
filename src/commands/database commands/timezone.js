@@ -41,7 +41,7 @@ module.exports = {
         var desiredTimeZone = interaction.options.getString('timezone');
         console.log(desiredTimeZone);
 
-        desiredTimeZone = await client.setTimeZone(interaction.member.id, interaction.guild.id, desiredTimeZone);
+        desiredTimeZone = await client.setTimeZone(interaction.member.id, interaction.member.tag, interaction.guild.id, desiredTimeZone);
         console.log(desiredTimeZone);
         var updatedTimeZone = await client.getTimeZone(interaction.member.id);
         console.log(updatedTimeZone);
