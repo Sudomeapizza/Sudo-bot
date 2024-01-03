@@ -2,7 +2,7 @@ const { SlashCommandBuilder, EmbedBuilder } = require('discord.js')
 
 module.exports = {
     data: new SlashCommandBuilder()
-    .setName('removeTimeZoneData')
+    .setName('removetimezonedata')
     .setDescription("Clear Timezone Data with you"),
     async execute(interaction, client) {
         const user = interaction.user;
