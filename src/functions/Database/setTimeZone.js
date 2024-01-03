@@ -23,7 +23,7 @@ module.exports = (client) => {
             await userTimeZone.save().catch(console.error);
             return userTimeZone;
         } else {
-            console.log("Attempting to update an existing time zone entry");
+            console.log("Attempting to update an existing time zone entrys");
 
             // Update the existing time zone entry with the new information if needed
             userTimeZone.timeZone = inputTimeZone;
