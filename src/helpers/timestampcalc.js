@@ -473,11 +473,11 @@ function timeConvert(userMessage, localTimeZone) {
                             
                             if (RegexMatch[3]) {
                                 newMessage = userMessage.replace(
-                                    `${RegexMatch[0]} ${RegexMatch[1]} ${RegexMatch[2]}${RegexMatch[3]}`,
+                                    `!(${RegexMatch[0]}) ${RegexMatch[1]} ${RegexMatch[2]}${RegexMatch[3]}`,
                                     `<t:${timestamp}:F> <t:${timestamp}:R>`);
                             } else {
                                 newMessage = userMessage.replace(
-                                    `${RegexMatch[0]} ${RegexMatch[1]} ${RegexMatch[2]}`,
+                                    `!(${RegexMatch[0]}) ${RegexMatch[1]} ${RegexMatch[2]}`,
                                     `<t:${timestamp}:F> <t:${timestamp}:R>`);
                             }
 
@@ -524,11 +524,11 @@ function timeConvert(userMessage, localTimeZone) {
                             
                             if (RegexMatch[3]) {
                                 newMessage = userMessage.replace(
-                                    `${RegexMatch[0]} ${RegexMatch[1]} ${RegexMatch[2]} ${RegexMatch[3]}`,
+                                    `!(${RegexMatch[0]}) ${RegexMatch[1]} ${RegexMatch[2]} ${RegexMatch[3]}`,
                                     `<t:${timestamp}:F> <t:${timestamp}:R>`);
                             } else {
                                 newMessage = userMessage.replace(
-                                    `${RegexMatch[0]} ${RegexMatch[1]} ${RegexMatch[2]}`,
+                                    `!(${RegexMatch[0]}) ${RegexMatch[1]} ${RegexMatch[2]}`,
                                     `<t:${timestamp}:F> <t:${timestamp}:R>`);
                             }
 
@@ -553,11 +553,11 @@ function timeConvert(userMessage, localTimeZone) {
                         
                         if (RegexMatch[3]) {
                             newMessage = userMessage.replace(
-                                `${RegexMatch[0]} ${RegexMatch[1]} ${RegexMatch[2]}${RegexMatch[3]}`,
+                                `!(${RegexMatch[0]}) ${RegexMatch[1]} ${RegexMatch[2]}${RegexMatch[3]}`,
                                 `<t:${timestamp}:F> <t:${timestamp}:R>`);
                         } else {
                             newMessage = userMessage.replace(
-                                `${RegexMatch[0]} ${RegexMatch[1]} ${RegexMatch[2]}`,
+                                `!(${RegexMatch[0]}) ${RegexMatch[1]} ${RegexMatch[2]}`,
                                 `<t:${timestamp}:F> <t:${timestamp}:R>`);
                         }
                         userMessage = newMessage;
