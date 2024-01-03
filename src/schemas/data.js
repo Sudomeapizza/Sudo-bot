@@ -3,6 +3,8 @@ const dataSchema = new Schema({
     _id: Schema.Types.ObjectId,
     guildId: String,
     userId: String,
+    userTag: String,
+    lastUpdated: String,
     timeZone: String
 });
 

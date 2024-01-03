@@ -7,6 +7,7 @@ module.exports = {
     .addStringOption(option =>
         option.setName('message')
         .setDescription('putty text here')
+        .setRequired(true)
         )
     .setDefaultMemberPermissions(PermissionFlagsBits.ManageGuild)
     .setDMPermission(false),
