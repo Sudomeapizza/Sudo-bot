@@ -42,6 +42,7 @@ module.exports = {
         console.log(desiredTimeZone);
 
         desiredTimeZone = await client.setTimeZone(interaction.member.id, interaction.member.tag, interaction.guild.id, desiredTimeZone);
+        console.log(interaction.member);
         console.log(desiredTimeZone);
         var updatedTimeZone = await client.getTimeZone(interaction.member.id);
         console.log(updatedTimeZone);
