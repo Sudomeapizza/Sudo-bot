@@ -25,7 +25,7 @@ module.exports = {
             if (replymessageid) {
 
                 // attempt to pull message id
-                const fetchedMessage = await message.channel.messages.fetch(replymessageid).catch(console.error);
+                const fetchedMessage = await interaction.channel.messages.fetch(replymessageid).catch(console.error);
 
                 // if message found, reply to it
                 if (fetchedMessage) {
@@ -40,7 +40,7 @@ module.exports = {
                         ephemeral: true
                     });
                 }
-                
+
             // do a standard message send
             } else {
                 client.channels.cache.get(`${interaction.channelId}`).send(usermessage);
