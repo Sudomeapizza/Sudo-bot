@@ -307,7 +307,7 @@ function timeConvert(message, localTimeZone) {
                             targetDate -= .5;
                         }
 
-
+ 
                         console.log(tempMatch);
                         if (tempMatch <= 12) {
                             console.log("under/equals 12 hours ");
