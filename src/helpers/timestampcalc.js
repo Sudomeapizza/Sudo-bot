@@ -46,7 +46,7 @@ function timeStampCalc(timeInDays, time, region){
         return false;
     } else {
         console.log(`::${timeInDays} ::${adjustTime(region)}`);
-        if (typeof timeInDays == Number) {
+        if (timeInDays[0] == 0) {
             console.log("is number");
             var timestamp = new Date();
             console.log(timestamp.toLocaleString());
@@ -57,7 +57,7 @@ function timeStampCalc(timeInDays, time, region){
             timestamp.setHours(timestamp.getHours() - adjustTime(region));
             console.log(timestamp.toLocaleString());
 
-            timestamp.setHours(timestamp.getHours() + (timeInDays * 24));
+            timestamp.setHours(timestamp.getHours() + (timeInDays[1] * 24));
             console.log(timestamp.toLocaleString());
 
             // trim off the ms, and return time in seconds
@@ -65,7 +65,7 @@ function timeStampCalc(timeInDays, time, region){
             return timestamp;
         } else {
             console.log("is NOT number");
-            var timestamp = new Date(timeInDays);
+            var timestamp = new Date(timeInDays[1]);
             console.log(timestamp.toLocaleString());
 
             timestamp.setHours(time1, time2, 0, 0);
@@ -319,7 +319,7 @@ function timeConvert(message, localTimeZone) {
                             console.log("~~~" + RegexMatch[0]);
                             console.log("~~~" + RegexMatch[0][0]);
 
-                            var targetDate = goToDate(RegexMatch[0].toString());
+                            var targetDate = ["0", goToDate(RegexMatch[0].toString())];
                             console.log(targetDate);
                             
 
@@ -327,13 +327,13 @@ function timeConvert(message, localTimeZone) {
                             if (RegexMatch[3][0].toString().toLowerCase() == "pm" && tempMatch <= 11){
                                 // add 12 hours to the clock
                                 console.log("2adding half a day");
-                                targetDate += .5;
+                                targetDate[1] += .5;
                             }
                             // subtract half a day so it's midnight
                             if (RegexMatch[3][0].toString().toLowerCase() == "am" && tempMatch == 12){
                                 // add 12 hours to the clock
                                 console.log("2removing half a day");
-                                targetDate -= .5;
+                                targetDate[1] -= .5;
                             }
 
                             // gives duo timecodes of
@@ -393,7 +393,7 @@ function timeConvert(message, localTimeZone) {
                             console.log("~~~" + RegexMatch[0]);
                             console.log("~~~" + RegexMatch[0][0]);
 
-                            var targetDate = goToDate(RegexMatch[0].toString());
+                            var targetDate = ["0", goToDate(RegexMatch[0].toString())];
                             console.log(targetDate);
                             
 
@@ -401,17 +401,17 @@ function timeConvert(message, localTimeZone) {
                             if (RegexMatch[3][0].toString().toLowerCase() == "pm" && tempMatch <= 11){
                                 // add 12 hours to the clock
                                 console.log("adding half a day");
-                                targetDate += .5;
+                                targetDate[1] += .5;
                             }
                             // subtract half a day so it's midnight
                             if (RegexMatch[3][0].toString().toLowerCase() == "am" && tempMatch == 12){
                                 // add 12 hours to the clock
                                 console.log("removing half a day");
-                                targetDate -= .5;
+                                targetDate[1] -= .5;
                             }
 
                             // gives duo timecodes of
-                            var timestamp = timeStampCalc(targetDate, RegexMatch[2], localTimeZone);
+                            var timestamp = timeStampCalc(targetDate[1], RegexMatch[2], localTimeZone);
 
                             console.log(timestamp);
                             var newMessage;
@@ -435,11 +435,11 @@ function timeConvert(message, localTimeZone) {
 
                         // today at 9:00 
                     } else {
-                        var targetDate = goToDate(RegexMatch[0].toString());
+                        var targetDate = ["0", goToDate(RegexMatch[0].toString())];
                         console.log("\""+targetDate);
 
                         // gives duo timecodes of
-                        var timestamp = timeStampCalc(targetDate, RegexMatch[2], localTimeZone);
+                        var timestamp = timeStampCalc(targetDate[1], RegexMatch[2], localTimeZone);
 
                         console.log("\"\""+timestamp);
                         var newMessage;
@@ -516,11 +516,11 @@ function timeConvert(message, localTimeZone) {
                             console.log("~~~" + RegexMatch[0]);
                             console.log("~~~" + RegexMatch[0][0]);
 
-                            var targetDate = RegexMatch[0].toString();
+                            var targetDate = ["1", RegexMatch[0].toString()];
                             console.log(targetDate);
                             
                             // gives duo timecodes of
-                            var timestamp = timeStampCalc(targetDate, RegexMatch[2], localTimeZone);
+                            var timestamp = timeStampCalc(targetDate[1], RegexMatch[2], localTimeZone);
 
                             timestamp = Number(timestamp);
                             console.log(timestamp);
@@ -568,11 +568,11 @@ function timeConvert(message, localTimeZone) {
 
                             console.log("~~~" + RegexMatch[0]);
 
-                            var targetDate = RegexMatch[0];
+                            var targetDate = ["1", RegexMatch[0].toString()];
                             console.log(targetDate);
 
                             // gives duo timecodes of
-                            var timestamp = timeStampCalc(targetDate, RegexMatch[2], localTimeZone);
+                            var timestamp = timeStampCalc(targetDate[1], RegexMatch[2], localTimeZone);
 
                             console.log(timestamp);
                             // add half a day if it's pm
@@ -609,11 +609,12 @@ function timeConvert(message, localTimeZone) {
 
                         // today at 9:00 
                     } else {
-                        var targetDate = RegexMatch[0].toString();
+
+                        var targetDate = ["1", RegexMatch[0].toString()];
                         console.log(targetDate);
 
                         // gives duo timecodes of
-                        var timestamp = timeStampCalc(targetDate, RegexMatch[2], localTimeZone);
+                        var timestamp = timeStampCalc(targetDate[1], RegexMatch[2], localTimeZone);
 
                         console.log(timestamp);
                         var newMessage;
