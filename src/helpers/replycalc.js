@@ -81,15 +81,19 @@ function fetchLink() {
 
 function restart(process) {
     console.log(process);
-    // shell.exec(`pm2 restart ` + process, { silent: true });
+    if (process) {
+        return shell.exec(`pm2 restart ` + process, { silent: true }).toString();
+    } else {
+        return "I'm not going to restart everything all at once... OI";
+    }
 }
 
 function gitpull() {
-    // return shell.exec(`pwd`);
     return shell.exec(`git pull`, { silent: true }).toString();
 }
 function pokemon(process) {
-    // shell.exec(`./citra ` + process, { silent: true });
+    shell.exec(`./start.sh "${process}"`, { silent: true });
+    return `starting up ${process}`;
 }
 
 module.exports = { getArray, restart, gitpull, pokemon }

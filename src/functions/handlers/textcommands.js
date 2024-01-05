@@ -115,18 +115,17 @@ module.exports = (client) => {
 
             if (message.content.toLowerCase().includes("restart")) {
                 console.log("restart");
-                
-                restart(message.content.toLowerCase().split(" ")[1]);
+                message.reply({ content: restart(message.content.toLowerCase().split(" ")[1]), ephemeral: true });
                 message.delete();
             }
             if (message.content.toLowerCase().includes("gitpull")) {
                 console.log("gitpull");
-                message.reply( {content: gitpull()});
+                message.reply({ content: gitpull(), ephemeral: true });
                 message.delete();
             }
             if (message.content.toLowerCase().includes("pokemon")) {
                 console.log("pokemon");
-                pokemon();
+                message.reply({ content: pokemon(), ephemeral: true });
                 message.delete();
             }
         }
