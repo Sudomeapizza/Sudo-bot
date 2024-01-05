@@ -227,12 +227,13 @@ function timeConvert(message, localTimeZone) {
      */
     var RegexMatch = [];
     var tempMatch;
+    var dateCounter;
 
     // add "upcoming" "next" ""
 
     var resultingMessage = userMessage.split(" ");
     for (var i = 0; i < resultingMessage.length; i++) {
-
+        dateCounter = 1;
         // use case statments instead of nested if statements?
 
         console.log(resultingMessage[i]);
