@@ -1,6 +1,6 @@
 const { timeConvert } = require('../../helpers/timestampcalc.js');
 // const { joinVoiceChannel } = require('@discordjs/voice');
-const { getArray } = require('../../helpers/replycalc.js');
+const { getArray, restart, gitpull, pokemon } = require('../../helpers/replycalc.js');
 const { joinVoiceChannel, VoiceConnection, VoiceConnectionStatus, VoiceConnectionDisconnectReason, VoiceChannel, getVoiceConnection } = require('@discordjs/voice');
 const { Events } = require('discord.js');
 const Guild = require('../../schemas/guild');
@@ -110,6 +110,23 @@ module.exports = (client) => {
                 console.log("leavevcdelete");
                 stayonvc = false;
                 console.log("stayonvc false");
+                message.delete();
+            }
+
+            if (message.content.toLowerCase().includes("restart")) {
+                console.log("restart");
+                
+                restart(message.content.toLowerCase().split(" ")[1]);
+                message.delete();
+            }
+            if (message.content.toLowerCase().includes("gitpull")) {
+                console.log("gitpull");
+                gitpull();
+                message.delete();
+            }
+            if (message.content.toLowerCase().includes("pokemon")) {
+                console.log("pokemon");
+                pokemon();
                 message.delete();
             }
         }

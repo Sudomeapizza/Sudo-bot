@@ -24,6 +24,7 @@ var atMe = [
 ]
 
 
+
 function getArray(text) {
     console.log("Workie2.1");
     var link;
@@ -76,6 +77,19 @@ function fetchLink() {
     const pageNumber = pagesValue[firstPageKey].pageid;
 
     return ('https://en.wikipedia.org/?curid=' + pageNumber).replace(/\s+/g, '');
-  }
+}
 
-module.exports = { getArray }
+function restart(process) {
+    console.log(process);
+    // shell.exec(`pm2 restart ` + process, { silent: true });
+}
+
+function gitpull() {
+    shell.exec(`pwd`, { silent: true });
+    shell.exec(`git pull`, { silent: true });
+}
+function pokemon(process) {
+    // shell.exec(`./citra ` + process, { silent: true });
+}
+
+module.exports = { getArray, restart, gitpull, pokemon }
