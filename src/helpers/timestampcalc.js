@@ -255,7 +255,6 @@ function timeConvert(message, localTimeZone) {
         console.log(resultingMessage[i]);
         // `today`
         if (RegexMatch[0] = resultingMessage[i].match(regexDay)){
-            RegexMatch[0] = parseInt(RegexMatch[0]);
 
             console.log("~" + resultingMessage[i + 1]);
 
@@ -338,7 +337,7 @@ function timeConvert(message, localTimeZone) {
                             }
 
                             // gives duo timecodes of
-                            var timestamp = timeStampCalc(targetDate, RegexMatch[2], localTimeZone);
+                            var timestamp = timeStampCalc(parseFloat(targetDate), RegexMatch[2], localTimeZone);
 
                             console.log(timestamp);
                             var newMessage;
@@ -412,7 +411,7 @@ function timeConvert(message, localTimeZone) {
                             }
 
                             // gives duo timecodes of
-                            var timestamp = timeStampCalc(targetDate, RegexMatch[2], localTimeZone);
+                            var timestamp = timeStampCalc(parseFloat(targetDate), RegexMatch[2], localTimeZone);
 
                             console.log(timestamp);
                             var newMessage;
@@ -440,7 +439,7 @@ function timeConvert(message, localTimeZone) {
                         console.log("\""+targetDate);
 
                         // gives duo timecodes of
-                        var timestamp = timeStampCalc(targetDate, RegexMatch[2], localTimeZone);
+                        var timestamp = timeStampCalc(parseFloat(targetDate), RegexMatch[2], localTimeZone);
 
                         console.log("\"\""+timestamp);
                         var newMessage;
