@@ -84,7 +84,7 @@ function restart(process) {
     if (process) {
         return shell.exec(`pm2 restart ` + process, { silent: true }).toString();
     } else {
-        return "I'm not going to restart everything all at once... OI";
+        return `I'm not going to restart everything all at once... OI`;
     }
 }
 
