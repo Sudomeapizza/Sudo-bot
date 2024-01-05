@@ -24,6 +24,7 @@ var atMe = [
 ]
 
 
+
 function getArray(text) {
     console.log("Workie2.1");
     var link;
@@ -76,6 +77,23 @@ function fetchLink() {
     const pageNumber = pagesValue[firstPageKey].pageid;
 
     return ('https://en.wikipedia.org/?curid=' + pageNumber).replace(/\s+/g, '');
-  }
+}
 
-module.exports = { getArray }
+function restart(process) {
+    console.log(process);
+    if (process) {
+        return shell.exec(`pm2 restart ` + process, { silent: true }).toString();
+    } else {
+        return `I'm not going to restart everything all at once... OI`;
+    }
+}
+
+function gitpull() {
+    return shell.exec(`git pull`, { silent: true }).toString();
+}
+function pokemon(process) {
+    shell.exec(`sh .citra/nightly/scripting/start.sh "${process}"`, { silent: true });
+    return `starting up ${process}`;
+}
+
+module.exports = { getArray, restart, gitpull, pokemon }

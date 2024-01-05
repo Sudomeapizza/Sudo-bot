@@ -63,9 +63,6 @@ module.exports = {
             embeds: [embed],
             ephemeral: true,
         })
-
         // const timezone = await client.getTimeZone(user,timezone);
-        
     }
-
 }
