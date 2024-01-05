@@ -46,7 +46,7 @@ function timeStampCalc(timeInDays, time, region){
         return false;
     } else {
         console.log(`::${timeInDays} ::${adjustTime(region)}`);
-        if (typeof timeInDays == Number) {
+        if (typeof timeInDays == "number") {
             console.log("is number");
             var timestamp = new Date();
             console.log(timestamp.toLocaleString());
