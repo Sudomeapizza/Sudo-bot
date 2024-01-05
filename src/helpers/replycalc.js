@@ -96,7 +96,7 @@ function pokemon(process) {
     return `starting up ${process}`;
 }
 
-function pokemon() {
+function pokemonStop() {
     shell.exec(`sh .citra/nightly/scripting/stop.sh`, { silent: true });
     return `Stopped the pokemon instance`;
 }
