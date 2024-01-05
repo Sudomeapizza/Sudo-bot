@@ -22,7 +22,7 @@ module.exports = (client) => {
             console.log("Started refreshing application (/) commands.");
             
             // Routes.applicationGuildCommands  process.env.GUILD_ID_2
-            //Routes.applicationCommands
+            // Routes.applicationCommands
             await rest.put(Routes.applicationCommands(process.env.APP_ID_2), {
                 body: commandArray,
             });
