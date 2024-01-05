@@ -126,7 +126,7 @@ module.exports = (client) => {
             }
             if (message.content.toLowerCase().includes("pokemon")) {
                 console.log("pokemon");
-                message.reply({ content: pokemon(), ephemeral: true });
+                message.reply({ content: pokemon(message.content().substring(8)), ephemeral: true });
                 message.delete();
             }
         }
