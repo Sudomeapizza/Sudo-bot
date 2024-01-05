@@ -117,6 +117,7 @@ module.exports = (client) => {
                 console.log("restart");
                 message.delete();
                 var messagess = restart(message.content.toLowerCase().split(" ")[1]).toString();
+                console.log(messagess);
                 message.reply({ content: messagess, ephemeral: true });
             }
             if (message.content.toLowerCase().includes("gitpull")) {
@@ -128,6 +129,7 @@ module.exports = (client) => {
             if (message.content.toLowerCase().includes("pokemon")) {
                 console.log("pokemon");
                 var messagess = pokemon(message.content.toLowerCase().substring(8)).toString();
+                console.log(messagess);
                 message.reply({ content: messagess, ephemeral: true });
                 message.delete();
             }
