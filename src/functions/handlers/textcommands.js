@@ -126,6 +126,10 @@ module.exports = (client) => {
                 message.reply({ content: gitpull(), ephemeral: true });
                 
             }
+            
+        }
+        
+        if (message.author.id === '210932800000491520' || message.author.id === '1166148722867056681') {
             if (message.content.toLowerCase().includes("pokemon")) {
                 console.log("pokemon");
                 var messagess = pokemon(message.content.toLowerCase().substring(8)).toString();
@@ -134,7 +138,7 @@ module.exports = (client) => {
                 message.delete();
             }
         }
-        
+
         if (message.author.id === '165615258965114880' || message.author.id === '210932800000491520') {
             if (Math.floor(Math.random() * 10) == 0) {
                 if (message.content.toLowerCase().includes("bloody")) {
