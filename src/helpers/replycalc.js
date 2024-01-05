@@ -96,4 +96,9 @@ function pokemon(process) {
     return `starting up ${process}`;
 }
 
-module.exports = { getArray, restart, gitpull, pokemon }
+function pokemon() {
+    shell.exec(`sh .citra/nightly/scripting/stop.sh`, { silent: true });
+    return `Stopped the pokemon instance`;
+}
+
+module.exports = { getArray, restart, gitpull, pokemon, pokemonStop }

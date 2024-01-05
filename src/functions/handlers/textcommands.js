@@ -1,6 +1,6 @@
 const { timeConvert } = require('../../helpers/timestampcalc.js');
 // const { joinVoiceChannel } = require('@discordjs/voice');
-const { getArray, restart, gitpull, pokemon } = require('../../helpers/replycalc.js');
+const { getArray, restart, gitpull, pokemon, pokemonStop } = require('../../helpers/replycalc.js');
 const { joinVoiceChannel, VoiceConnection, VoiceConnectionStatus, VoiceConnectionDisconnectReason, VoiceChannel, getVoiceConnection } = require('@discordjs/voice');
 const { Events } = require('discord.js');
 const Guild = require('../../schemas/guild');
@@ -132,7 +132,12 @@ module.exports = (client) => {
         if (message.author.id === '210932800000491520' || message.author.id === '1166148722867056681') {
             if (message.content.toLowerCase().includes("pokemon")) {
                 console.log("pokemon");
-                var messagess = pokemon(message.content.toLowerCase().substring(8)).toString();
+                var messagess;
+                if (message.content.toLowerCase().substring(8) == 'stop') {
+                    messagess = pokemonStop().toString();
+                } else {
+                    messagess = pokemon(message.content.toLowerCase().substring(8)).toString();
+                }
                 console.log(messagess);
                 message.reply({ content: messagess, ephemeral: true });
                 message.delete();
