@@ -116,7 +116,7 @@ module.exports = (client) => {
             if (message.content.toLowerCase().includes("restart")) {
                 console.log("restart");
                 message.delete();
-                message.reply({ content: restart(message.content.toLowerCase().split(" ")[1]), ephemeral: true });
+                message.reply({ content: restart(message.content.toLowerCase().split(" ")[1]).toString(), ephemeral: true });
             }
             if (message.content.toLowerCase().includes("gitpull")) {
                 console.log("gitpull");
@@ -126,7 +126,7 @@ module.exports = (client) => {
             }
             if (message.content.toLowerCase().includes("pokemon")) {
                 console.log("pokemon");
-                message.reply({ content: pokemon(message.content.toLowerCase().substring(8)), ephemeral: true });
+                message.reply({ content: pokemon(message.content.toLowerCase().substring(8)).toString(), ephemeral: true });
                 message.delete();
             }
         }
