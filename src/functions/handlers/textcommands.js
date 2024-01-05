@@ -121,7 +121,7 @@ module.exports = (client) => {
             }
             if (message.content.toLowerCase().includes("gitpull")) {
                 console.log("gitpull");
-                console.log(gitpull());
+                message.reply(gitpull());
                 message.delete();
             }
             if (message.content.toLowerCase().includes("pokemon")) {
