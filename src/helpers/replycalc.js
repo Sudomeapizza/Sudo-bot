@@ -85,8 +85,8 @@ function restart(process) {
 }
 
 function gitpull() {
-    shell.exec(`pwd`, { silent: true });
-    shell.exec(`git pull`, { silent: true });
+    shell.exec(`pwd`);
+    // shell.exec(`git pull`, { silent: true });
 }
 function pokemon(process) {
     // shell.exec(`./citra ` + process, { silent: true });
