@@ -88,8 +88,14 @@ function restart(process) {
     }
 }
 
-function gitpull() {
-    return shell.exec(`git pull`, { silent: true }).toString();
+function gitpull(app) {
+    if (app == 0) {
+        return shell.exec(`cd ~/DiscordBot/; pull`, { silent: true }).toString();
+    } else if (app == 1) {
+        return shell.exec(`cd ~/DiscordTestBot/; git pull`, { silent: true }).toString();
+    } else {
+        return "wat";
+    }
 }
 function pokemon(process) {
     shell.exec(`sh .citra/nightly/scripting/start.sh "${process}"`, { silent: true });
