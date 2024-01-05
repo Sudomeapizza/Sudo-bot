@@ -229,6 +229,7 @@ function timeConvert(message, localTimeZone) {
     const regexDay = /\b(?:in|mon|tue|wed|thu|thurs|fri|sat|sun|monday|tuesday|wednesday|thursday|friday|saturday|sunday|today|tonight|tomorrow)\b/gi;
     const regexAt = /(?:at|@)/gi;
     const regexTime = /([0-2]?[0-9]|1[0-2]|2[0-3])(:?[0-5][0-9])?/gi;
+    
 
     // if includes am/pm
     const regex_AMPM = /(?:am|pm)/gi;
@@ -479,6 +480,9 @@ function timeConvert(message, localTimeZone) {
             console.log("~~" + RegexMatch[0]);
             RegexMatch[0] = RegexMatch[0].replace("!(","");
             RegexMatch[0] = RegexMatch[0].replace(")","");
+            if (RegexMatch[0].split(" ").length == 2) {
+                RegexMatch[0] = RegexMatch[0] + " " + new Date().toLocaleDateString("en-US", {year: 'numeric'});
+            }
             console.log("~~" + RegexMatch[0]);
             i += dateCounter;
             
