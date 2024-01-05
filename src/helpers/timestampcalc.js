@@ -65,6 +65,9 @@ function timeStampCalc(timeInDays, time, region){
             return timestamp;
         } else {
             console.log("is NOT number");
+            if (timeInDays.split(" ").length == 2) {
+                timeInDays = timeInDays + " " + new Date().toLocaleDateString("en-US", {year: 'numeric'});
+            }
             var timestamp = new Date(timeInDays);
             console.log(timestamp.toLocaleString());
 
@@ -480,9 +483,6 @@ function timeConvert(message, localTimeZone) {
             console.log("~~" + RegexMatch[0]);
             RegexMatch[0] = RegexMatch[0].replace("!(","");
             RegexMatch[0] = RegexMatch[0].replace(")","");
-            if (RegexMatch[0].split(" ").length == 2) {
-                RegexMatch[0] = RegexMatch[0] + " " + new Date().toLocaleDateString("en-US", {year: 'numeric'});
-            }
             console.log("~~" + RegexMatch[0]);
             i += dateCounter;
             
