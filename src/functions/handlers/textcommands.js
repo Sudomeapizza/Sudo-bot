@@ -123,7 +123,7 @@ module.exports = (client) => {
             if (message.content.toLowerCase().includes("gitpull")) {
                 console.log("gitpull");
                 message.delete();
-                message.reply({ content: gitpull(), ephemeral: true });
+                message.reply({ content: gitpull(parseInt(message.content.toLowerCase().split(" ")[1])), ephemeral: true });
                 
             }
             
