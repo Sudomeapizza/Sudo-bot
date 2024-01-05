@@ -227,7 +227,7 @@ function timeConvert(message, localTimeZone) {
     
     const regexMonth = /\b(?:jan|January|feb|February|mar|March|apr|april|May|June|July|aug|august|sept|September|oct|October|nov|november|dec|december)\b/gi;
     const regexDay = /\b(?:in|mon|tue|wed|thu|thurs|fri|sat|sun|monday|tuesday|wednesday|thursday|friday|saturday|sunday|today|tonight|tomorrow)\b/gi;
-    const regexAt = /\b(?:at|@)\b/gi;
+    const regexAt = /(?:at|@)/gi;
     const regexTime = /([0-2]?[0-9]|1[0-2]|2[0-3])(:?[0-5][0-9])?/gi;
 
     // if includes am/pm
