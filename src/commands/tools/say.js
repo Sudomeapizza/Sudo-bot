@@ -29,6 +29,12 @@ module.exports = {
 
                 // if message found, reply to it
                 if (fetchedMessage) {
+                    await interaction.reply({
+                        content: ".",
+                        ephemeral: true
+                    });
+                    await interaction.deleteReply({});
+                    
                     await fetchedMessage.reply({
                         content: usermessage
                     });
