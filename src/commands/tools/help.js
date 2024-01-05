@@ -7,12 +7,14 @@ module.exports = {
     async execute(interaction, client) {
         const user = interaction.user;
 
-        const message = "Get started with \`/settimezone\` to globally use your timezone to auto convert your messages\n" +
-                        "Remove your data with \`/removetimezonedata\` at anytime!\n" +
+        const message = "-> Get started with \`/settimezone\` to globally use your timezone to auto convert your messages\n" +
+                        "-> Remove your data with \`/removetimezonedata\` at anytime!\n\n" +
 
-                        "I can recognize any combination of these commands!\n" +
+                        "I can recognize any combination of these formats within your messages!\n" +
                         "<day> <at/@> <time>\n" +
-                        "!(Date) <at/@> <time>\n" +
+                        "!(Date) <at/@> <time>\n\n" +
+
+                        "Here are some possible examples:\n\n" +
 
                         "Tuesday at 12:00am\n" +
                         "today at 15:00\n" +
