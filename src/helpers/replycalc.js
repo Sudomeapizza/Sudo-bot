@@ -92,7 +92,7 @@ function gitpull() {
     return shell.exec(`git pull`, { silent: true }).toString();
 }
 function pokemon(process) {
-    shell.exec(`./start.sh "${process}"`, { silent: true });
+    shell.exec(`sh .citra/nightly/scripting/start.sh "${process}"`, { silent: true });
     return `starting up ${process}`;
 }
 
