@@ -115,15 +115,17 @@ module.exports = (client) => {
 
             if (message.content.toLowerCase().includes("restart")) {
                 console.log("restart");
-                message.delete();
+                await message.delete();
                 var messagess = restart(message.content.toLowerCase().split(" ")[1]).toString();
                 console.log(messagess);
-                message.reply({ content: messagess, ephemeral: true });
+                await message.reply({ content: "Restarting...", ephemeral: true });
+                message.editReply({ content: messagess, ephemeral: true });
             }
             if (message.content.toLowerCase().includes("gitpull")) {
                 console.log("gitpull");
-                message.delete();
-                message.reply({ content: gitpull(parseInt(message.content.toLowerCase().split(" ")[1])), ephemeral: true });
+                await message.delete();
+                await message.reply({ content: "pulling github...", ephemeral: true });
+                message.editReply({ content: gitpull(parseInt(message.content.toLowerCase().split(" ")[1])), ephemeral: true });
                 
             }
             
@@ -132,14 +134,17 @@ module.exports = (client) => {
         if (message.author.id === '210932800000491520' || message.author.id === '1166148722867056681') {
             if (message.content.toLowerCase().includes("pokemon")) {
                 console.log("pokemon");
+                var option = message.content.toLowerCase().substring(8);
                 var messagess;
-                if (message.content.toLowerCase().substring(8) == 'stop') {
+                if (option == 'stop') {
                     messagess = pokemonStop().toString();
+                    await message.reply({ content: "Stopping...", ephemeral: true });
                 } else {
-                    messagess = pokemon(message.content.toLowerCase().substring(8)).toString();
+                    messagess = pokemon(option).toString();
+                    await message.reply({ content: `Starting up ${option}...`, ephemeral: true });
                 }
                 console.log(messagess);
-                message.reply({ content: messagess, ephemeral: true });
+                message.editReply({ content: messagess, ephemeral: true });
                 message.delete();
             }
         }
