@@ -25,12 +25,7 @@ module.exports = {
         const embed = new EmbedBuilder()
             .setTitle(`Help:`)
             .setTimestamp()
-            .addFields([
-                {
-                    name: message,
-                    value: `\u200b`,
-                },
-            ])
+            .setDescription(message)
             .setFooter({
                 text: client.user.tag,
                 iconURL: client.user.displayAvatarURL(),
