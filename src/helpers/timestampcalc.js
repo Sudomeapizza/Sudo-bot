@@ -319,7 +319,7 @@ function timeConvert(message, localTimeZone) {
                             console.log("~~~" + RegexMatch[0]);
                             console.log("~~~" + RegexMatch[0][0]);
 
-                            var targetDate = ["0", goToDate(RegexMatch[0].toString())];
+                            var targetDate = [0, goToDate(RegexMatch[0].toString())];
                             console.log(targetDate);
                             
 
@@ -393,7 +393,7 @@ function timeConvert(message, localTimeZone) {
                             console.log("~~~" + RegexMatch[0]);
                             console.log("~~~" + RegexMatch[0][0]);
 
-                            var targetDate = ["0", goToDate(RegexMatch[0].toString())];
+                            var targetDate = [0, goToDate(RegexMatch[0].toString())];
                             console.log(targetDate);
                             
 
@@ -435,7 +435,7 @@ function timeConvert(message, localTimeZone) {
 
                         // today at 9:00 
                     } else {
-                        var targetDate = ["0", goToDate(RegexMatch[0].toString())];
+                        var targetDate = [0, goToDate(RegexMatch[0].toString())];
                         console.log("\""+targetDate);
 
                         // gives duo timecodes of
@@ -516,7 +516,7 @@ function timeConvert(message, localTimeZone) {
                             console.log("~~~" + RegexMatch[0]);
                             console.log("~~~" + RegexMatch[0][0]);
 
-                            var targetDate = ["1", RegexMatch[0].toString()];
+                            var targetDate = [1, RegexMatch[0].toString()];
                             console.log(targetDate);
                             
                             // gives duo timecodes of
@@ -568,7 +568,7 @@ function timeConvert(message, localTimeZone) {
 
                             console.log("~~~" + RegexMatch[0]);
 
-                            var targetDate = ["1", RegexMatch[0].toString()];
+                            var targetDate = [1, RegexMatch[0].toString()];
                             console.log(targetDate);
 
                             // gives duo timecodes of
@@ -610,7 +610,7 @@ function timeConvert(message, localTimeZone) {
                         // today at 9:00 
                     } else {
 
-                        var targetDate = ["1", RegexMatch[0].toString()];
+                        var targetDate = [1, RegexMatch[0].toString()];
                         console.log(targetDate);
 
                         // gives duo timecodes of
