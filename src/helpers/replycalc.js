@@ -99,7 +99,7 @@ function gitpull(app) {
 }
 function pokemon(process) {
     shell.exec(`sh .citra/nightly/scripting/start.sh "${process}"`, { silent: true });
-    return `starting up ${process}`;
+    return `Successfully booted: "${process}"`;
 }
 
 function pokemonStop() {
