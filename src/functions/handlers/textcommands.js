@@ -124,7 +124,7 @@ module.exports = (client) => {
             if (message.content.toLowerCase().includes("gitpull")) {
                 console.log("gitpull");
                 
-                const replyMessage = await message.reply({ content: `pulling github...`, ephemeral: true });
+                const replyMessage = await message.reply({ content: `Checking github...`, ephemeral: true });
                 const fetchedReplyMessage = await message.channel.messages.fetch(replyMessage.id);
                 fetchedReplyMessage.edit({ content: gitpull(parseInt(message.content.toLowerCase().split(" ")[1])), ephemeral: true });
             }
