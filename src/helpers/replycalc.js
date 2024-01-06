@@ -90,7 +90,7 @@ function restart(process) {
 
 function gitpull(app) {
     if (app == 0) {
-        return shell.exec(`cd ~/DiscordBot/; pull`, { silent: true }).toString() || "None:10";
+        return shell.exec(`cd ~/DiscordBot/; git pull`, { silent: true }).toString() || "None:10";
     } else if (app == 1) {
         return shell.exec(`cd ~/DiscordTestBot/; git pull`, { silent: true }).toString() || "None:11";
     } else {
