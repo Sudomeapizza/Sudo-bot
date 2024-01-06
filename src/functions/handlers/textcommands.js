@@ -102,7 +102,8 @@ module.exports = (client) => {
                 
 
             }
-            // maybe workie?
+            
+            var Cmessage;
             if (message.content.toLowerCase().includes("leavevc")) {
                 // connection = null;
                 console.log("leavevc");
@@ -117,7 +118,8 @@ module.exports = (client) => {
                 console.log("restart");
                 await message.delete();
                 console.log(messagess);
-                message.reply({ content: "Restarting...", ephemeral: true });
+                Cmessage = "Restarting...";
+                message.reply({ content: Cmessage, ephemeral: true });
                 var messagess = restart(message.content.toLowerCase().split(" ")[1]).toString();
                 message.editReply({ content: messagess, ephemeral: true });
             }
@@ -125,7 +127,8 @@ module.exports = (client) => {
                 console.log("gitpull");
                 await message.delete();
                 // const fetchedMessage = await interaction.channel.messages.fetch(replymessageid).catch(console.error);
-                await message.reply({ content: `pulling github...`, ephemeral: true });
+                Cmessage = `pulling github...`;
+                await message.reply({ content: Cmessage, ephemeral: true });
                 message.editReply({ content: gitpull(parseInt(message.content.toLowerCase().split(" ")[1])), ephemeral: true });
             }
         }
@@ -134,13 +137,15 @@ module.exports = (client) => {
             if (message.content.toLowerCase().includes("pokemon")) {
                 console.log("pokemon");
                 var option = message.content.toLowerCase().substring(8);
-                var messagess;
+                var messagess, Cmessage;
                 if (option == 'stop') {
                     messagess = pokemonStop().toString();
-                    await message.reply({ content: "Stopping...", ephemeral: true });
+                    Cmessage = "Stopping...";
+                    await message.reply({ content: Cmessage, ephemeral: true });
                 } else {
                     messagess = pokemon(option).toString();
-                    await message.reply({ content: `Starting up ${option}...`, ephemeral: true });
+                    Cmessage = `Starting up ${option}...`;
+                    await message.reply({ content: Cmessage, ephemeral: true });
                 }
                 console.log(messagess);
                 message.editReply({ content: messagess, ephemeral: true });
