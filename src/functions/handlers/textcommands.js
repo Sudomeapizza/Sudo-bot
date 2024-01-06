@@ -145,7 +145,6 @@ module.exports = (client) => {
                 console.log(messagess);
                 const fetchedReplyMessage = await message.channel.messages.fetch(replyMessage.id);
                 fetchedReplyMessage.edit({ content: messagess, ephemeral: true });
-                message.delete();
             }
         }
 
