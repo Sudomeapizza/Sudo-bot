@@ -1,6 +1,6 @@
 const { timeConvert } = require('../../helpers/timestampcalc.js');
 // const { joinVoiceChannel } = require('@discordjs/voice');
-const { getArray, restart, gitpull, pokemon } = require('../../helpers/replycalc.js');
+const { getArray, restart, gitpull, pokemon, pokemonStop } = require('../../helpers/replycalc.js');
 const { joinVoiceChannel, VoiceConnection, VoiceConnectionStatus, VoiceConnectionDisconnectReason, VoiceChannel, getVoiceConnection } = require('@discordjs/voice');
 const { Events } = require('discord.js');
 const Guild = require('../../schemas/guild');
@@ -115,26 +115,36 @@ module.exports = (client) => {
 
             if (message.content.toLowerCase().includes("restart")) {
                 console.log("restart");
-                message.delete();
-                var messagess = restart(message.content.toLowerCase().split(" ")[1]).toString();
                 console.log(messagess);
-                message.reply({ content: messagess, ephemeral: true });
+                const replyMessage = await message.reply({ content: "Restarting...", ephemeral: true });
+                var messagess = restart(message.content.toLowerCase().split(" ")[1]).toString();
+                const fetchedReplyMessage = await message.channel.messages.fetch(replyMessage.id);
+                fetchedReplyMessage.edit({ content: messagess, ephemeral: true });
             }
             if (message.content.toLowerCase().includes("gitpull")) {
                 console.log("gitpull");
-                message.delete();
-                message.reply({ content: gitpull(), ephemeral: true });
                 
+                const replyMessage = await message.reply({ content: `Checking github...`, ephemeral: true });
+                const fetchedReplyMessage = await message.channel.messages.fetch(replyMessage.id);
+                fetchedReplyMessage.edit({ content: gitpull(parseInt(message.content.toLowerCase().split(" ")[1])), ephemeral: true });
             }
-            
         }
         
         if (message.author.id === '210932800000491520' || message.author.id === '1166148722867056681') {
             if (message.content.toLowerCase().includes("pokemon")) {
                 console.log("pokemon");
-                var messagess = pokemon(message.content.toLowerCase().substring(8)).toString();
+                var option = message.content.toLowerCase().substring(8);
+                var messagess, replyMessage;
+                if (option == 'stop') {
+                    replyMessage = await message.reply({ content: "Stopping...", ephemeral: true });
+                    messagess = pokemonStop().toString();
+                } else {
+                    replyMessage = await message.reply({ content: `Starting up ${option}...`, ephemeral: true });
+                    messagess = pokemon(option).toString();
+                }
                 console.log(messagess);
-                message.reply({ content: messagess, ephemeral: true });
+                const fetchedReplyMessage = await message.channel.messages.fetch(replyMessage.id);
+                fetchedReplyMessage.edit({ content: messagess, ephemeral: true });
                 message.delete();
             }
         }
