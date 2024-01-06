@@ -116,19 +116,18 @@ module.exports = (client) => {
             if (message.content.toLowerCase().includes("restart")) {
                 console.log("restart");
                 await message.delete();
-                var messagess = restart(message.content.toLowerCase().split(" ")[1]).toString();
                 console.log(messagess);
-                await message.reply({ content: "Restarting...", ephemeral: true });
+                message.reply({ content: "Restarting...", ephemeral: true });
+                var messagess = restart(message.content.toLowerCase().split(" ")[1]).toString();
                 message.editReply({ content: messagess, ephemeral: true });
             }
             if (message.content.toLowerCase().includes("gitpull")) {
                 console.log("gitpull");
                 await message.delete();
-                await message.reply({ content: "pulling github...", ephemeral: true });
+                const fetchedMessage = await interaction.channel.messages.fetch(replymessageid).catch(console.error);
+                await message.reply({ content: `pulling github...`, ephemeral: true });
                 message.editReply({ content: gitpull(parseInt(message.content.toLowerCase().split(" ")[1])), ephemeral: true });
-                
             }
-            
         }
         
         if (message.author.id === '210932800000491520' || message.author.id === '1166148722867056681') {
