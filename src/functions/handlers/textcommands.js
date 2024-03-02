@@ -34,7 +34,7 @@ module.exports = (client) => {
     });
 
     client.on('voiceStateUpdate', (oldState, newState) => {
-        console.log("update to voice");
+        // console.log("update to voice");
         const botId = client.user.id;
         if (stayonvc) {
             if (oldState.member && oldState.member.user.id === botId && oldState.channel){
