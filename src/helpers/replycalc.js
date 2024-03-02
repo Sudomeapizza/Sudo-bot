@@ -87,7 +87,15 @@ function restart(process) {
         return `I'm not going to restart everything all at once... OI`;
     }
 }
-
+/**
+ * 
+ * @param {Number} app
+ * 
+ * 0 = main
+ * 
+ * 1 = test 
+ * @returns 
+ */
 function gitpull(app) {
     if (app == 0) {
         return shell.exec(`cd ~/DiscordBot/; git pull`, { silent: true }).toString() || "None:10";
