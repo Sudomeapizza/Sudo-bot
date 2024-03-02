@@ -107,7 +107,7 @@ function gitpull(app) {
 }
 
 function pushCode() {
-    return shell.exec(`cd ~/DiscordBot/; gh pr create --fill`, { silent: true }).toString() || "None:12";
+    return shell.exec(`cd ~/DiscordTestBot/; gh pr create --title "Title msg" --body "Body msg"; gh pr merge --admin -- merge`, { silent: true }).toString() || "None:12";
 }
 
 function pokemon(process) {
