@@ -87,16 +87,29 @@ function restart(process) {
         return `I'm not going to restart everything all at once... OI`;
     }
 }
-
+/**
+ * 
+ * @param {Number} app
+ * 
+ * 0 = main
+ * 
+ * 1 = test 
+ * @returns 
+ */
 function gitpull(app) {
     if (app == 0) {
-        return shell.exec(`cd ~/DiscordBot/; git pull`, { silent: true }).toString() || "None:10";
+        return shell.exec(`cd ~/DiscordBot/; git pull`,{ silent: true }).toString() || "None:10";
     } else if (app == 1) {
         return shell.exec(`cd ~/DiscordTestBot/; git pull`, { silent: true }).toString() || "None:11";
     } else {
         return "wat";
     }
 }
+
+function pushCode() {
+    return shell.exec(`cd ~/DiscordBot/; git merge dev-branch; git push -u origin main`, { silent: true }).toString() || "None:12";
+}
+
 function pokemon(process) {
     shell.exec(`sh .citra/nightly/scripting/start.sh "${process}"`, { silent: true });
     return `Successfully booted: "${process}"`;
@@ -107,4 +120,4 @@ function pokemonStop() {
     return `Stopped the pokemon instance`;
 }
 
-module.exports = { getArray, restart, gitpull, pokemon, pokemonStop }
+module.exports = { getArray, restart, gitpull, pokemon, pokemonStop, pushCode }
