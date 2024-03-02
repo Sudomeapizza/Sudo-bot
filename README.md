@@ -17,7 +17,7 @@ Not much here, but thus far does these things:
 
 > #### Includes auto correcting within your messages for others!
 > ##### This format includes: (day) at/@ 24-time
-> this inclues things like: "mon at 1300", "Thurs @ 100", "today at 2100", "tomorrow @ 1700"
+> this inclues things like: "mon at 1300", "Thurs @ 100", "today at 2100", "tomorrow @ 1700", "(Jan 20)", "(dec 31 2090) @ 5pm", "!(now)"
 > #### Now supporting auto timestamp converstions!
 > start with `/settimestamp \<region\>`, and then when the message is picked up by the mentioned methods above, it will auto translate!
 
