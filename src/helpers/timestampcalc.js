@@ -489,7 +489,7 @@ function timeConvert(message, localTimeZone) {
 
             var nowDate;
 
-            if (RegexMatch[0] == "!(now)") {
+            if (RegexMatch[0].includes("!(now)")) {
                 nowDate = RegexMatch[0];
             }
 
@@ -501,6 +501,8 @@ function timeConvert(message, localTimeZone) {
             
             
             if (nowDate) {
+
+                console.log("noticed \"!(now)\"");
                 
                 // gives duo timecodes of
                 var timestamp = timeStampCalc(0, 0, localTimeZone);
@@ -508,9 +510,7 @@ function timeConvert(message, localTimeZone) {
                 timestamp = Number(timestamp);
                 console.log(timestamp);
 
-                var newMessage = userMessage.replace(
-                        `!(now)`,
-                        `<t:${timestamp}:F> <t:${timestamp}:R>`);
+                var newMessage = userMessage.replace(`!(now)`, `<t:${timestamp}:F> <t:${timestamp}:R>`);
 
                 userMessage = newMessage;
                 resultingMessage = userMessage.split(" ");
