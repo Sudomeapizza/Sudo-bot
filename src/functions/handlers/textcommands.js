@@ -151,7 +151,7 @@ module.exports = (client) => {
                 // Example usage:
                 const values = extractValues(message.content.toLowerCase());
                 console.log(values);
-                if (values.body && values.title) {
+                if (values) {
                     fetchedReplyMessage.edit({ content: pushCode(values.title,values.body), ephemeral: true });
                 } else {
                     fetchedReplyMessage.edit({ content: `!pushcode "title" "body"`, ephemeral: true });
