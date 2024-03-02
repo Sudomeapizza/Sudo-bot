@@ -107,7 +107,7 @@ function gitpull(app) {
 }
 
 function pushCode() {
-    return shell.exec(`cd ~/DiscordBot/; git merge dev-branch; git push -u origin main`, { silent: true }).toString() || "None:12";
+    return shell.exec(`cd ~/DiscordBot/; gh pr create --fill`, { silent: true }).toString() || "None:12";
 }
 
 function pokemon(process) {
