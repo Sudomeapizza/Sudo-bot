@@ -16,6 +16,7 @@ function timeStampCalc(timeInDays, time, region){
     // if using shortened time (EX: "1:40")
     if (time == 0) {
 
+        var timestamp = new Date();
         timestamp.setHours(timestamp.getHours() - adjustTime(region), timestamp.getMinutes(), timestamp.getSeconds());
         return timestamp.getTime().toString().slice(0, -3);
 
