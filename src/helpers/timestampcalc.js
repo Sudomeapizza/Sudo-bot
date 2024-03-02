@@ -14,7 +14,12 @@ function timeStampCalc(timeInDays, time, region){
     time = time.toString();
     
     // if using shortened time (EX: "1:40")
-    if (time.includes(':') && time.length == 4) {
+    if (time == 0) {
+
+        timestamp.setHours(timestamp.getHours() - adjustTime(region), timestamp.getMinutes(), timestamp.getSeconds());
+        return timestamp.getTime().toString().slice(0, -3);
+
+    } else if (time.includes(':') && time.length == 4) {
         console.log("1");
         time = '0' + time;
         time1 = time.slice(1,2);
@@ -480,23 +485,47 @@ function timeConvert(message, localTimeZone) {
                     break;
                 }
             }
+
+            var nowDate;
+
+            if (RegexMatch[0] == "!(now)") {
+                nowDate = RegexMatch[0];
+            }
+
             console.log("~~" + RegexMatch[0]);
             RegexMatch[0] = RegexMatch[0].replace("!(","");
             RegexMatch[0] = RegexMatch[0].replace(")","");
             console.log("~~" + RegexMatch[0]);
             i += dateCounter;
             
-            // today `at`
-            if (i + 1 < resultingMessage.length && (RegexMatch[1] = resultingMessage[i + 1].match(regexAt))){
+            
+            if (nowDate) {
+                
+                // gives duo timecodes of
+                var timestamp = timeStampCalc(0, 0, localTimeZone);
+
+                timestamp = Number(timestamp);
+                console.log(timestamp);
+
+                var newMessage = userMessage.replace(
+                        `!(now)`,
+                        `<t:${timestamp}:F> <t:${timestamp}:R>`);
+
+                userMessage = newMessage;
+                resultingMessage = userMessage.split(" ");
+                console.log(newMessage);
+
+                // 'date' `at`
+            } else if (i + 1 < resultingMessage.length && (RegexMatch[1] = resultingMessage[i + 1].match(regexAt))){
 
                 console.log("~~" + resultingMessage[i + 2]);
-                // today at `9:00`
+                // 'date' at `9:00`
                 if (i + 2 < resultingMessage.length && (RegexMatch[2] = resultingMessage[i + 2].match(regexTime))){
                     // console.log("~~~" + resultingMessage[i + 2].match(regexTime));
                     // console.log("~~~" + resultingMessage[i + 2].match(regex_AMPM));
 
                     // test for if there is an AM/PM
-                    // today at 9:00`am`
+                    // 'date' at 9:00`am`
                     RegexMatch[3] = resultingMessage[i + 2].match(regex_AMPM);
 
                     if (RegexMatch[3]) {
