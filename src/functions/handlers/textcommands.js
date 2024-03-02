@@ -1,6 +1,6 @@
 const { timeConvert } = require('../../helpers/timestampcalc.js');
 // const { joinVoiceChannel } = require('@discordjs/voice');
-const { getArray, restart, gitpull, pokemon, pokemonStop } = require('../../helpers/replycalc.js');
+const { getArray, restart, gitpull, pokemon, pokemonStop, pushCode } = require('../../helpers/replycalc.js');
 const { joinVoiceChannel, VoiceConnection, VoiceConnectionStatus, VoiceConnectionDisconnectReason, VoiceChannel, getVoiceConnection } = require('@discordjs/voice');
 const { Events } = require('discord.js');
 const Guild = require('../../schemas/guild');
@@ -121,12 +121,21 @@ module.exports = (client) => {
                 const fetchedReplyMessage = await message.channel.messages.fetch(replyMessage.id);
                 fetchedReplyMessage.edit({ content: messagess, ephemeral: true });
             }
+
             if (message.content.toLowerCase().substring(0,8) == "!gitpull") {
                 console.log("gitpull");
                 
                 const replyMessage = await message.reply({ content: `Checking github...`, ephemeral: true });
                 const fetchedReplyMessage = await message.channel.messages.fetch(replyMessage.id);
                 fetchedReplyMessage.edit({ content: gitpull(parseInt(message.content.toLowerCase().split(" ")[1])), ephemeral: true });
+            }
+
+            if (message.content.toLowerCase().substring(0,9) == "!pushcode") {
+                console.log("Pushcode");
+                
+                const replyMessage = await message.reply({ content: `Pushing Github...`, ephemeral: true });
+                const fetchedReplyMessage = await message.channel.messages.fetch(replyMessage.id);
+                fetchedReplyMessage.edit({ content: pushCode(), ephemeral: true });
             }
         }
         
