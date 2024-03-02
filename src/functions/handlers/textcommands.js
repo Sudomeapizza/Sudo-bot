@@ -135,7 +135,26 @@ module.exports = (client) => {
                 
                 const replyMessage = await message.reply({ content: `Pushing Github...`, ephemeral: true });
                 const fetchedReplyMessage = await message.channel.messages.fetch(replyMessage.id);
-                fetchedReplyMessage.edit({ content: pushCode(), ephemeral: true });
+
+                function extractValues(inputString) {
+                    const regex = /"([^"]*)"/g;
+                    const matches = inputString.match(regex);
+                  
+                    if (!matches || matches.length < 2) return null;
+
+                    const title = matches[0].replace(/"/g, '');
+                    const body = matches[1].replace(/"/g, '');
+
+                    return { title, body };
+                }
+                
+                // Example usage:
+                const values = extractValues(message.content.toLowerCase());
+                if (values) {
+                    fetchedReplyMessage.edit({ content: pushCode(values.title,values.body), ephemeral: true });
+                } else {
+                    fetchedReplyMessage.edit({ content: `!pushcode "title" "body"`, ephemeral: true });
+                }
             }
         }
         
