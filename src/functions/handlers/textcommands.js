@@ -113,7 +113,7 @@ module.exports = (client) => {
                 message.delete();
             }
 
-            if (message.content.toLowerCase().substring(0,7) == "restart") {
+            if (message.content.toLowerCase().substring(0,8) == "!restart") {
                 console.log("restart");
                 console.log(messagess);
                 const replyMessage = await message.reply({ content: "Restarting...", ephemeral: true });
@@ -121,7 +121,7 @@ module.exports = (client) => {
                 const fetchedReplyMessage = await message.channel.messages.fetch(replyMessage.id);
                 fetchedReplyMessage.edit({ content: messagess, ephemeral: true });
             }
-            if (message.content.toLowerCase().substring(0,7) == "gitpull") {
+            if (message.content.toLowerCase().substring(0,8) == "!gitpull") {
                 console.log("gitpull");
                 
                 const replyMessage = await message.reply({ content: `Checking github...`, ephemeral: true });
@@ -132,7 +132,7 @@ module.exports = (client) => {
         
         if (message.author.id === '210932800000491520' || message.author.id === '1166148722867056681') {
             // if (message.content.toLowerCase().includes("pokemon")) {
-            if (message.content.toLowerCase().substring(0,7) == "pokemon") {
+            if (message.content.toLowerCase().substring(0,8) == "!pokemon") {
                 console.log("pokemon");
                 var option = message.content.toLowerCase().substring(8);
                 var messagess, replyMessage;
@@ -150,12 +150,12 @@ module.exports = (client) => {
         }
 
         if (message.author.id === '165615258965114880' || message.author.id === '210932800000491520') {
-            if (Math.floor(Math.random() * 10) == 0) {
+            // if (Math.floor(Math.random() * 10) == 0) {
                 if (message.content.toLowerCase().includes("bloody")) {
                     console.log("bloody");
                     message.channel.send(`${getArray("wiki")}` || "None2");
                 }
-            }
+            // }
         }
 
         // convert messages
