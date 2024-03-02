@@ -261,12 +261,11 @@ function timeConvert(message, localTimeZone) {
     for (var i = 0; i < resultingMessage.length; i++) {
         dateCounter = 1;
         // use case statments instead of nested if statements?
-
-        console.log(resultingMessage[i]);
+        
         // `today`
         if (RegexMatch[0] = resultingMessage[i].match(regexDay)){
 
-            console.log("~" + resultingMessage[i + 1]);
+            console.log("~" + resultingMessage[i] + "  " +  resultingMessage[i + 1]);
 
             // today `at`
             if (i + 1 < resultingMessage.length && (RegexMatch[1] = resultingMessage[i + 1].match(regexAt))){
