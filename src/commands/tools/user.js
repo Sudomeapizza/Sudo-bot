@@ -36,6 +36,9 @@ module.exports = {
         // console.log(interaction.guild.members.cache.get(target.id));
         // console.log(interaction.guild.members.cache);
         console.log(interaction.member);
+        console.log(interaction.member.guild);
+        console.log(interaction.member.joinedAt);
+        console.log(interaction.member.joinedTimestamp);
         // console.log(target.nickname)
 
         const userEmbed = new EmbedBuilder()
