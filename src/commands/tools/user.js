@@ -47,19 +47,20 @@ module.exports = {
             .setColor(0x8B41C8)
             .setThumbnail(target.displayAvatarURL())
             .addFields(
-                { name: '*Global username:*', value: `${target.globalName}` },
+                { name: '**__Global username__**', value: `${target.globalName}`, inline: true },
+                { name: '**__Username__**', value: `${target.username}`, inline: true },
+                // { name: '\u200B', value: '\u200B' }, // spacer
+
+                { name: '**__Display Name__**', value: `${target.displayName}`, inline: true },
+                { name: '**__User ID__**', value: `${target.id}`, inline: true },
+
+                { name: '**__Discord Join Date__**', value: `<t:${target.createdTimestamp.toString().substring(0,10)}:F> <t:${target.createdTimestamp.toString().substring(0,10)}:R>`},
+                { name: '**__Server Join Date__**', value: `<t:${interaction.member.joinedTimestamp.toString().substring(0,10)}:F> <t:${interaction.member.joinedTimestamp.toString().substring(0,10)}:R>`},
+
                 { name: '\u200B', value: '\u200B' }, // spacer
 
-                { name: 'Display Name:', value: `${target.displayName}`, inline: true },
-                { name: 'Username:', value: `${target.username}`, inline: true },
-                { name: 'User ID:', value: `${target.id}`, inline: true },
-
-                { name: 'Discord Join Date:', value: `<t:${target.createdTimestamp.toString().substring(0,10)}:F> <t:${target.createdTimestamp.toString().substring(0,10)}:R>`},
-                { name: 'Server Join Date:', value: `<t:${interaction.member.joinedTimestamp.toString().substring(0,10)}:F> <t:${interaction.member.joinedTimestamp.toString().substring(0,10)}:R>`},
-                
-                { name: 'Is Bot:', value: `${target.bot}`, inline: true },
-                { name: 'Is System:', value: `${target.system}`, inline: true },
-                { name: 'Server Join timestamp:', value: `${target.createdTimestamp}`, inline: true },
+                { name: '**__Is Bot__**', value: `${target.bot}`, inline: true },
+                { name: '**__Is System__**', value: `${target.system}`, inline: true },
             )
             // .setImage()
             .setTimestamp()
