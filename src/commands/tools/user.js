@@ -44,8 +44,9 @@ module.exports = {
                 { name: 'Username:', value: `${target.username}`, inline: true },
                 { name: 'User ID:', value: `${target.id}`, inline: true },
 
-                { name: 'Server Join Date:', value: `${target.joinedAt}`, inline: true },
                 { name: 'Discord Join Date:', value: `${target.createdAt}`/*, inline: true*/ },
+                { name: 'Server Join Date:', value: `${interaction.guild.members.cache.get(target).joinedAt}`, inline: true },
+                
                 { name: 'Is Bot:', value: `${target.bot}`, inline: true },
                 { name: 'Is System:', value: `${target.system}`, inline: true },
                 { name: 'Server Join timestamp:', value: `${target.createdTimestamp}`, inline: true },
