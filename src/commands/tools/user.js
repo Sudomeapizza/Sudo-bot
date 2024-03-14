@@ -49,18 +49,20 @@ module.exports = {
             .addFields(
                 { name: '**__Global username__**', value: `${target.globalName}`, inline: true },
                 { name: '**__Username__**', value: `${target.username}`, inline: true },
-                { name: '\u200B', value: '\u200B' }, // spacer
-
                 { name: '**__Display Name__**', value: `${target.displayName}`, inline: true },
+                { name: '**__Is Bot__**', value: `${target.bot}`, inline: true },
+                { name: '**__Is System__**', value: `${target.system}`, inline: true },
                 { name: '**__User ID__**', value: `${target.id}`, inline: true },
+                // { name: '\u200B', value: '\u200B' }, // spacer
+
+                
 
                 { name: '**__Discord Join Date__**', value: `<t:${target.createdTimestamp.toString().substring(0,10)}:F> <t:${target.createdTimestamp.toString().substring(0,10)}:R>`},
                 { name: '**__Server Join Date__**', value: `<t:${interaction.member.joinedTimestamp.toString().substring(0,10)}:F> <t:${interaction.member.joinedTimestamp.toString().substring(0,10)}:R>`},
 
-                { name: '\u200B', value: '\u200B' }, // spacer
+                // { name: '\u200B', value: '\u200B' }, // spacer
 
-                { name: '**__Is Bot__**', value: `${target.bot}`, inline: true },
-                { name: '**__Is System__**', value: `${target.system}`, inline: true },
+                
             )
             // .setImage()
             .setTimestamp()
