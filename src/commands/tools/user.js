@@ -35,13 +35,9 @@ module.exports = {
 
         const userEmbed = new EmbedBuilder()
             .setColor(0x8B41C8)
-            .setTitle('Some title')
-            .setURL('https://discord.js.org/')
-            .setAuthor({ name: 'SudoBot', iconURL: client.user.displayAvatarURL(), url: 'https://discord.js.org' })
-            .setDescription('Some description here')
-            .setThumbnail('https://i.imgur.com/AfFp7pu.png')
+            .setThumbnail(target.displayAvatarURL())
             .addFields(
-                { name: 'Display Name:', value: `${target.displayName}` },
+                { name: 'Display Name:', value: `${target.displayName}`, inline: true },
                 // { name: '\u200B', value: '\u200B' }, // spacer
                 { name: 'Username:', value: `${target.username}`, inline: true },
                 { name: 'User ID:', value: `${target.id}`, inline: true },
@@ -49,8 +45,9 @@ module.exports = {
                 { name: 'Server Join Date:', value: `Great Question`, inline: true },
             )
             .addFields({ name: 'Inline field title', value: 'Some value here', inline: true })
-            .setImage(target.displayAvatarURL())
-            .setTimestamp();
+            // .setImage()
+            .setTimestamp()
+            .setFooter({ text: client.user.tag, iconURL: client.user.displayAvatarURL(), url: client.user.displayAvatarURL() });
 
         if (silence) {
             const message = await interaction.reply({
