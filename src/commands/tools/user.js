@@ -33,10 +33,10 @@ module.exports = {
 
         // https://discordjs.guide/popular-topics/embeds.html#embed-preview
 
-        console.log(interaction.guild.members.cache.get(target.id));
-        console.log(interaction.guild.members.cache);
-        console.log(interaction.member);
-        console.log(target.nickname)
+        // console.log(interaction.guild.members.cache.get(target.id));
+        // console.log(interaction.guild.members.cache);
+        console.log(interaction.member.joinedtimestamp);
+        // console.log(target.nickname)
 
         const userEmbed = new EmbedBuilder()
             .setColor(0x8B41C8)
