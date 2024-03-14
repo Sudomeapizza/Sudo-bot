@@ -48,7 +48,7 @@ module.exports = {
                 { name: 'User ID:', value: `${target.id}`, inline: true },
 
                 { name: 'Discord Join Date:', value: `${target.createdAt}`/*, inline: true*/ },
-                { name: 'Server Join Date:', value: `${moment.utc(target.joinedAt).format('YYYY-MM-DD')}`, inline: true },
+                { name: 'Server Join Date:', value: `${target.joinedAt}`, inline: true },
                 
                 { name: 'Is Bot:', value: `${target.bot}`, inline: true },
                 { name: 'Is System:', value: `${target.system}`, inline: true },
