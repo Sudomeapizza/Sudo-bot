@@ -1,5 +1,4 @@
 const { SlashCommandBuilder, EmbedBuilder, PermissionFlagsBits } = require('discord.js')
-const moment = require('moment');
 
 module.exports = {
     data: new SlashCommandBuilder()
@@ -48,7 +47,8 @@ module.exports = {
                 { name: 'User ID:', value: `${target.id}`, inline: true },
 
                 { name: 'Discord Join Date:', value: `${target.createdAt}`/*, inline: true*/ },
-                { name: 'Server Join Date:', value: `${target.joinedAt}`, inline: true },
+                // { name: 'Server Join Date:', value: `${interaction.guild.members.cache.get(target).joinedAt}`, inline: true },
+                { name: 'Server Join Date:', value: `${client.guild.members.cache.get(target).joinedAt}`, inline: true },
                 
                 { name: 'Is Bot:', value: `${target.bot}`, inline: true },
                 { name: 'Is System:', value: `${target.system}`, inline: true },
