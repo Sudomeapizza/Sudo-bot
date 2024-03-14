@@ -23,10 +23,7 @@ module.exports = {
         console.log(target.createdTimestamp);
         console.log(target.joinedTimestamp);
 
-        const userr = interaction.options.getUser('user');
-        const memberr = interaction.guild.members.cache.get(userr.id);
-
-        const joinedTimestamp = memberr.joinedTimestamp;
+        const joinedTimestamp = interaction.guild.members.cache.get(interaction.options.getUser('user').id).joinedTimestamp;
 
         console.log(joinedTimestamp);
 
