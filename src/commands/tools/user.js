@@ -47,22 +47,19 @@ module.exports = {
             .setColor(0x8B41C8)
             .setThumbnail(target.displayAvatarURL())
             .addFields(
-                { name: 'Global username:', value: `${target.globalName}` },
+                { name: '*Global username:*', value: `${target.globalName}` },
                 { name: '\u200B', value: '\u200B' }, // spacer
 
                 { name: 'Display Name:', value: `${target.displayName}`, inline: true },
                 { name: 'Username:', value: `${target.username}`, inline: true },
                 { name: 'User ID:', value: `${target.id}`, inline: true },
 
-                { name: 'Discord Join Date:', value: `${target.createdAt}`/*, inline: true*/ },
+                { name: 'Discord Join Date:', value: `<t:${target.createdTimestamp.toString().substring(0,10)}:F> <t:${target.createdTimestamp.toString().substring(0,10)}:R>`},
                 { name: 'Server Join Date:', value: `<t:${interaction.member.joinedTimestamp.toString().substring(0,10)}:F> <t:${interaction.member.joinedTimestamp.toString().substring(0,10)}:R>`},
                 
                 { name: 'Is Bot:', value: `${target.bot}`, inline: true },
                 { name: 'Is System:', value: `${target.system}`, inline: true },
                 { name: 'Server Join timestamp:', value: `${target.createdTimestamp}`, inline: true },
-                { name: 'Banner URL:', value: `${target.bannerURL()}`, inline: true },
-                { name: 'Avatar Decoration URL:', value: `${target.avatarDecorationURL()}`, inline: true },
-                { name: 'Server Join Date:', value: `${target.createdAt}`, inline: true },
             )
             // .setImage()
             .setTimestamp()
