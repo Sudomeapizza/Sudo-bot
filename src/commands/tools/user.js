@@ -39,6 +39,7 @@ module.exports = {
         console.log(interaction.member.guild);
         console.log(interaction.member.joinedAt);
         console.log(interaction.member.joinedTimestamp);
+        console.log(interaction.member.joinedTimestamp.toString().substring(0,10));
         // console.log(target.nickname)
 
         const userEmbed = new EmbedBuilder()
@@ -53,7 +54,7 @@ module.exports = {
                 { name: 'User ID:', value: `${target.id}`, inline: true },
 
                 { name: 'Discord Join Date:', value: `${target.createdAt}`/*, inline: true*/ },
-                // { name: 'Server Join Date:', value: `${interaction.guild.members.cache.get(target).joinedAt}`, inline: true },
+                { name: 'Server Join Date:', value: `<t:${interaction.member.joinedTimestamp}:F> <t:${interaction.member.joinedTimestamp}:R>`, inline: true },
                 // { name: 'Server Join Date:', value: `${client.guild.members.cache.get(target).joinedAt}`, inline: true },
                 
                 { name: 'Is Bot:', value: `${target.bot}`, inline: true },
