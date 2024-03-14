@@ -48,8 +48,8 @@ module.exports = {
             .setThumbnail(target.displayAvatarURL())
             .addFields(
                 { name: '**__Global username__**', value: `${target.globalName}`, inline: true },
-                { name: '**__Username__**', value: `${target.username}`, inline: false },
-                // { name: '\u200B', value: '\u200B' }, // spacer
+                { name: '**__Username__**', value: `${target.username}`, inline: true },
+                { name: '\u200B', value: '\u200B' }, // spacer
 
                 { name: '**__Display Name__**', value: `${target.displayName}`, inline: true },
                 { name: '**__User ID__**', value: `${target.id}`, inline: true },
