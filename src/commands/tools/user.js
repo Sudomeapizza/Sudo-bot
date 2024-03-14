@@ -42,7 +42,7 @@ module.exports = {
                 { name: '**__Is System__**', value: `${target.system}`, inline: true },
                 { name: '**__User ID__**', value: `${target.id}`, inline: true },
                 { name: '**__Discord Join Date__**', value: `<t:${target.createdTimestamp.toString().substring(0,10)}:F> <t:${target.createdTimestamp.toString().substring(0,10)}:R>`},
-                { name: '**__Server Join Date__**', value: `<t:${interaction.member.joinedTimestamp.toString().substring(0,10)}:F> <t:${interaction.member.joinedTimestamp.toString().substring(0,10)}:R>`},
+                { name: '**__Server Join Date__**', value: `<t:${joinedTimestamp.toString().substring(0,10)}:F> <t:${joinedTimestamp.toString().substring(0,10)}:R>`},
                 // { name: '\u200B', value: '\u200B' }, // spacer
             )
             // .setImage()
