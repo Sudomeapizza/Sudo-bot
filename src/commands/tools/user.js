@@ -42,7 +42,7 @@ module.exports = {
                 { name: 'Username:', value: `${target.username}`, inline: true },
                 { name: 'User ID:', value: `${target.id}`, inline: true },
                 { name: 'Discord Join Date:', value: `${target.joinedAt}`, inline: true },
-                { name: 'Server Join Date:', value: `${target.user.createdAt}`, inline: true },
+                { name: 'Server Join Date:', value: `${target.createdAt}`, inline: true },
                 { name: 'Is Bot:', value: `${target.user.bot}`, inline: true },
                 { name: 'Server Join timestamp:', value: `${target.user.createdTimestamp}`, inline: true },
                 { name: 'Flags:', value: `${target.user.flags}`, inline: true },
