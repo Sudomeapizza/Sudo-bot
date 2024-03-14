@@ -22,8 +22,16 @@ module.exports = {
         console.log(target.createdAt);
         console.log(target.createdTimestamp);
         console.log(target.joinedTimestamp);
-        console.log(interaction.member);
-        console.log(interaction);
+
+        const userr = interaction.options.getUser('user');
+        const memberr = interaction.guild.members.cache.get(userr.id);
+
+        const joinedTimestamp = memberr.joinedTimestamp;
+
+        console.log(joinedTimestamp);
+
+        // console.log(interaction.member);
+        // console.log(interaction);
         
 
         const userEmbed = new EmbedBuilder()
