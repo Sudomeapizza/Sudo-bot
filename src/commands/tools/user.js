@@ -49,7 +49,7 @@ module.exports = {
                 { name: 'Server Join Date:', value: `Great Question`, inline: true },
             )
             .addFields({ name: 'Inline field title', value: 'Some value here', inline: true })
-            .setImage(target.user.displayAvatarURL())
+            .setImage(target.displayAvatarURL())
             .setTimestamp();
 
         if (silence) {
