@@ -35,12 +35,12 @@ module.exports = {
 
         // console.log(interaction.guild.members.cache.get(target.id));
         // console.log(interaction.guild.members.cache);
-        console.log(interaction.member);
-        console.log(interaction.member.guild);
-        console.log(interaction.member.joinedAt);
-        console.log(interaction.member.joinedTimestamp);
-        console.log(interaction.member.joinedTimestamp.toString().substring(0,10));
-        // console.log(target.nickname)
+        // console.log(interaction.member);
+        // console.log(interaction.member.guild);
+        // console.log(interaction.member.joinedAt);
+        // console.log(interaction.member.joinedTimestamp);
+        // console.log(interaction.member.joinedTimestamp.toString().substring(0,10));
+        console.log(target)
 
         const userEmbed = new EmbedBuilder()
             .setColor(0x8B41C8)
@@ -54,8 +54,7 @@ module.exports = {
                 { name: 'User ID:', value: `${target.id}`, inline: true },
 
                 { name: 'Discord Join Date:', value: `${target.createdAt}`/*, inline: true*/ },
-                { name: 'Server Join Date:', value: `<t:${interaction.member.joinedTimestamp}:F> <t:${interaction.member.joinedTimestamp}:R>`, inline: true },
-                // { name: 'Server Join Date:', value: `${client.guild.members.cache.get(target).joinedAt}`, inline: true },
+                { name: 'Server Join Date:', value: `<t:${interaction.member.joinedTimestamp.toString().substring(0,10)}:F> <t:${interaction.member.joinedTimestamp.toString().substring(0,10)}:R>`},
                 
                 { name: 'Is Bot:', value: `${target.bot}`, inline: true },
                 { name: 'Is System:', value: `${target.system}`, inline: true },
