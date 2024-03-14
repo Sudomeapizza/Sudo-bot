@@ -33,6 +33,8 @@ module.exports = {
 
         // https://discordjs.guide/popular-topics/embeds.html#embed-preview
 
+        console.log(interaction.guild.members.cache.get(target));
+
         const userEmbed = new EmbedBuilder()
             .setColor(0x8B41C8)
             .setThumbnail(target.displayAvatarURL())
@@ -58,7 +60,7 @@ module.exports = {
             .setTimestamp()
             .setFooter({ text: client.user.tag, iconURL: client.user.displayAvatarURL(), url: client.user.displayAvatarURL() });
 
-        console.log(interaction.guild.members.cache.get(target));
+        
         if (silence) {
             const message = await interaction.reply({
                 embeds: [userEmbed],
