@@ -21,14 +21,22 @@ module.exports = {
         const silence = interaction.options.getBoolean('silent') || false;
         console.log(target.createdAt);
         console.log(target.createdTimestamp);
+
+        var createdTimestamp = `<t:${target.createdTimestamp.toString().substring(0,10)}:F> <t:${target.createdTimestamp.toString().substring(0,10)}:R>`
+
         console.log(target.joinedTimestamp);
 
-        const joinedTimestamp = interaction.guild.members.cache.get(interaction.options.getUser('user').id).joinedTimestamp;
+        var joinedTimestamp;
+        
+        try {
+            joinedTimestamp = interaction.guild.members.cache.get(interaction.options.getUser('user').id).joinedTimestamp;
+            joinedTimestamp = `<t:${joinedTimestamp.toString().substring(0,10)}:F> <t:${joinedTimestamp.toString().substring(0,10)}:R>`
+        } catch (error) {
+            console.log(error);
+            joinedTimestamp = `User not in this server`;
+        }
 
         console.log(joinedTimestamp);
-
-        // console.log(interaction.member);
-        // console.log(interaction);
         
 
         const userEmbed = new EmbedBuilder()
@@ -41,8 +49,8 @@ module.exports = {
                 { name: '**__Is Bot__**', value: `${target.bot}`, inline: true },
                 { name: '**__Is System__**', value: `${target.system}`, inline: true },
                 { name: '**__User ID__**', value: `${target.id}`, inline: true },
-                { name: '**__Discord Join Date__**', value: `<t:${target.createdTimestamp.toString().substring(0,10)}:F> <t:${target.createdTimestamp.toString().substring(0,10)}:R>`},
-                { name: '**__Server Join Date__**', value: `<t:${joinedTimestamp.toString().substring(0,10)}:F> <t:${joinedTimestamp.toString().substring(0,10)}:R>`},
+                { name: '**__Discord Join Date__**', value: `${createdTimestamp}`},
+                { name: '**__Server Join Date__**', value: `${joinedTimestamp}`},
                 // { name: '\u200B', value: '\u200B' }, // spacer
             )
             // .setImage()
