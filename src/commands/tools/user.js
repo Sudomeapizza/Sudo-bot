@@ -41,8 +41,17 @@ module.exports = {
                 // { name: '\u200B', value: '\u200B' }, // spacer
                 { name: 'Username:', value: `${target.username}`, inline: true },
                 { name: 'User ID:', value: `${target.id}`, inline: true },
-                { name: 'Discord Join Date:', value: `hmmm`, inline: true },
-                { name: 'Server Join Date:', value: `Great Question`, inline: true },
+                { name: 'Discord Join Date:', value: `${target.joinedAt}`, inline: true },
+                { name: 'Server Join Date:', value: `${target.user.createdAt}`, inline: true },
+                { name: 'Is Bot:', value: `${target.user.bot}`, inline: true },
+                { name: 'Server Join timestamp:', value: `${target.user.createdTimestamp}`, inline: true },
+                { name: 'Flags:', value: `${target.user.flags}`, inline: true },
+                { name: 'Global username:', value: `${target.user.globalName}`, inline: true },
+                { name: 'User Hex Accent Color:', value: `${target.user.hexAccentColor}`, inline: true },
+                { name: 'Is System:', value: `${target.user.system}`, inline: true },
+                { name: 'Banner URL:', value: `${target.user.bannerURL()}`, inline: true },
+                { name: 'Avatar Decoration URL:', value: `${target.user.avatarDecorationURL()}`, inline: true },
+                { name: 'Server Join Date:', value: `${target.user.createdAt}`, inline: true },
             )
             .addFields({ name: 'Inline field title', value: 'Some value here', inline: true })
             // .setImage()
