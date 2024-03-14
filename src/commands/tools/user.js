@@ -40,7 +40,8 @@ module.exports = {
         // console.log(interaction.member.joinedAt);
         // console.log(interaction.member.joinedTimestamp);
         // console.log(interaction.member.joinedTimestamp.toString().substring(0,10));
-        console.log(target)
+        console.log(target.createdAt);
+        console.log(target.createdTimestamp);
 
         const userEmbed = new EmbedBuilder()
             .setColor(0x8B41C8)
