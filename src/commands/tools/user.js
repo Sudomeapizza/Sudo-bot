@@ -21,6 +21,8 @@ module.exports = {
         const silence = interaction.options.getBoolean('silent') || false;
         console.log(target.createdAt);
         console.log(target.createdTimestamp);
+        console.log(target.joinedTimestamp);
+        
 
         const userEmbed = new EmbedBuilder()
             .setColor(0x8B41C8)
