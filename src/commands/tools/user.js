@@ -19,12 +19,12 @@ module.exports = {
 
         const target = interaction.options.getUser('user');
         const silence = interaction.options.getBoolean('silent') || false;
-        console.log(target.createdAt);
-        console.log(target.createdTimestamp);
+        // console.log(target.createdAt);
+        // console.log(target.createdTimestamp);
 
         var createdTimestamp = `<t:${target.createdTimestamp.toString().substring(0,10)}:F> <t:${target.createdTimestamp.toString().substring(0,10)}:R>`
 
-        console.log(target.joinedTimestamp);
+        // console.log(target.joinedTimestamp);
 
         var joinedTimestamp;
         
@@ -32,12 +32,11 @@ module.exports = {
             joinedTimestamp = interaction.guild.members.cache.get(interaction.options.getUser('user').id).joinedTimestamp;
             joinedTimestamp = `<t:${joinedTimestamp.toString().substring(0,10)}:F> <t:${joinedTimestamp.toString().substring(0,10)}:R>`
         } catch (error) {
-            console.log(error);
+            // console.log(error);
             joinedTimestamp = `User not in this server`;
         }
 
-        console.log(joinedTimestamp);
-        
+        // console.log(joinedTimestamp);
 
         const userEmbed = new EmbedBuilder()
             .setColor(0x8B41C8)
