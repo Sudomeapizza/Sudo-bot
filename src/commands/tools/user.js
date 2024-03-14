@@ -37,28 +37,27 @@ module.exports = {
             .setColor(0x8B41C8)
             .setThumbnail(target.displayAvatarURL())
             .addFields(
+                { name: 'Global username:', value: `${target.globalName}` },
+                { name: '\u200B', value: '\u200B' }, // spacer
+
                 { name: 'Display Name:', value: `${target.displayName}`, inline: true },
-                // { name: '\u200B', value: '\u200B' }, // spacer
                 { name: 'Username:', value: `${target.username}`, inline: true },
                 { name: 'User ID:', value: `${target.id}`, inline: true },
-                { name: 'Discord Join Date:', value: `${target.joinedAt}`, inline: true },
-                { name: 'Server Join Date:', value: `${target.createdAt}`, inline: true },
+
+                { name: 'Server Join Date:', value: `${target.joinedAt}`, inline: true },
+                { name: 'Discord Join Date:', value: `${target.createdAt}`/*, inline: true*/ },
                 { name: 'Is Bot:', value: `${target.bot}`, inline: true },
-                { name: 'Server Join timestamp:', value: `${target.createdTimestamp}`, inline: true },
-                { name: 'Flags:', value: `${target.flags}`, inline: true },
-                { name: 'Global username:', value: `${target.globalName}`, inline: true },
-                { name: 'User Hex Accent Color:', value: `${target.hexAccentColor}`, inline: true },
                 { name: 'Is System:', value: `${target.system}`, inline: true },
+                { name: 'Server Join timestamp:', value: `${target.createdTimestamp}`, inline: true },
                 { name: 'Banner URL:', value: `${target.bannerURL()}`, inline: true },
                 { name: 'Avatar Decoration URL:', value: `${target.avatarDecorationURL()}`, inline: true },
                 { name: 'Server Join Date:', value: `${target.createdAt}`, inline: true },
             )
-            .addFields({ name: 'Inline field title', value: 'Some value here', inline: true })
             // .setImage()
             .setTimestamp()
             .setFooter({ text: client.user.tag, iconURL: client.user.displayAvatarURL(), url: client.user.displayAvatarURL() });
 
-        console.log(target);
+        console.log(target.flags.UserFlag);
         if (silence) {
             const message = await interaction.reply({
                 embeds: [userEmbed],
