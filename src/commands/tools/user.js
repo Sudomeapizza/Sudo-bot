@@ -33,7 +33,7 @@ module.exports = {
 
         // https://discordjs.guide/popular-topics/embeds.html#embed-preview
 
-        const exampleEmbed = new EmbedBuilder()
+        const userEmbed = new EmbedBuilder()
             .setColor(0x8B41C8)
             .setTitle('Some title')
             .setURL('https://discord.js.org/')
@@ -54,12 +54,12 @@ module.exports = {
 
         if (silence) {
             const message = await interaction.reply({
-                embeds: [embed],
+                embeds: [userEmbed],
                 ephemeral: true
             });
         } else {
             const message = await interaction.reply({
-                embeds: [embed]
+                embeds: [userEmbed]
             });
         }
     }
