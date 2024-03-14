@@ -54,12 +54,12 @@ module.exports = {
 
         if (silence) {
             const message = await interaction.reply({
-                content: newMessage,
+                embeds: [embed],
                 ephemeral: true
             });
         } else {
             const message = await interaction.reply({
-                content: newMessage
+                embeds: [embed]
             });
         }
     }
