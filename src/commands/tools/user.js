@@ -58,7 +58,7 @@ module.exports = {
             .setTimestamp()
             .setFooter({ text: client.user.tag, iconURL: client.user.displayAvatarURL(), url: client.user.displayAvatarURL() });
 
-        console.log(target.flags.UserFlag);
+        console.log(interaction.guild.members.cache.get(target));
         if (silence) {
             const message = await interaction.reply({
                 embeds: [userEmbed],
