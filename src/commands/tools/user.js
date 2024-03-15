@@ -29,7 +29,7 @@ module.exports = {
         // console.log(interaction.guild.members.cache.get(interaction.options.getUser('user').id).nickname);
         var nicknameUser = targetAtServer.nickname || `None`;
 
-        var joinedTimestamp, userRoles;
+        var joinedTimestamp, userRoles = "";
         
         try {
             joinedTimestamp = targetAtServer.joinedTimestamp;
@@ -44,6 +44,8 @@ module.exports = {
                 console.log(`2: ${role.name}`);
             });
 
+            userRoles = userRoles.slice(0, -2);
+
         } catch (error) {
             // console.log(error);
             joinedTimestamp = `User not in this server`;
@@ -55,7 +57,7 @@ module.exports = {
         // https://discordjs.guide/popular-topics/embeds.html#embed-preview
         const userEmbed = new EmbedBuilder()
             .setColor(0x8B41C8)
-            .setTitle(`${target}`)
+            .setDescription(`${target}`)
             .setThumbnail(target.displayAvatarURL())
             .addFields(
                 // { name: '**__Global Username__**', value: `${target.globalName}`, inline: true },
