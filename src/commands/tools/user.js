@@ -66,7 +66,9 @@ module.exports = {
                 }
             });
 
-            userRoles = userRoles.slice(0, -2);
+            if (userRoles != "") {
+                userRoles = userRoles.slice(0, -2);
+            }
 
         } catch (error) {
             // console.log(error);
