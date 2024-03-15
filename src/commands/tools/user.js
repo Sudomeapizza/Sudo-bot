@@ -64,6 +64,7 @@ module.exports = {
                 if (role.name != "@everyone") {
                     userRoles += `${role}`;
                 }
+                userRoles += `, `;
             });
             userRoles = userRoles.slice(0, -2);
 
