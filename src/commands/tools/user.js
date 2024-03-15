@@ -66,12 +66,12 @@ module.exports = {
                 }
             });
 
-            if (userRoles.length <= 2) {
+            if (userRoles.length >= 2) {
                 userRoles = userRoles.slice(0, -2);
             }
 
         } catch (error) {
-            // console.log(error);
+            console.log(error);
             joinedTimestamp = `User not in this server`;
             nicknameUser = `N/A`;
             userRoles = "N/A";
