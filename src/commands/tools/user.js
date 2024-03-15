@@ -25,7 +25,7 @@ module.exports = {
         var createdTimestamp = `<t:${target.createdTimestamp.toString().substring(0,10)}:F> <t:${target.createdTimestamp.toString().substring(0,10)}:R>`
 
         // console.log(target.joinedTimestamp);
-        console.log(interaction.guild.members.cache.get(interaction.options.getUser('user').id).nickname);
+        // console.log(interaction.guild.members.cache.get(interaction.options.getUser('user').id).nickname);
         var nicknameUser = interaction.guild.members.cache.get(interaction.options.getUser('user').id).nickname || `None`;
 
         var joinedTimestamp, userRoles;
@@ -35,8 +35,10 @@ module.exports = {
             joinedTimestamp = `<t:${joinedTimestamp.toString().substring(0,10)}:F> <t:${joinedTimestamp.toString().substring(0,10)}:R>`;
             
             const roles = target.roles.cache;
+            console.log(`${roles}`);
             roles.forEach(role => {
                 userRoles += `${role.name}, `;
+                console.log(`${role.name}`);
             });
 
         } catch (error) {
