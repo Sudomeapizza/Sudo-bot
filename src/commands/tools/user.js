@@ -60,6 +60,8 @@ module.exports = {
 
             const roles = targetAtServer.roles.cache;
 
+            console.log(roles);
+
             roles.forEach(role => {
                 if (role.name != "@everyone") {
                     userRoles += `${role}, `;
@@ -67,7 +69,7 @@ module.exports = {
             });
             // console.log(`:${userRoles}:${userRoles.toString().length}:`);
             if (userRoles.toString().length >= 2) {
-                userRoles = userRoles.slice(0, -2);
+                // userRoles = userRoles.slice(0, -2);
             }
 
         } catch (error) {
