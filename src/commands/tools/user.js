@@ -25,6 +25,7 @@ module.exports = {
         var createdTimestamp = `<t:${target.createdTimestamp.toString().substring(0,10)}:F> <t:${target.createdTimestamp.toString().substring(0,10)}:R>`
 
         // console.log(target.joinedTimestamp);
+        console.log(interaction.guild.members.cache.get(interaction.options.getUser('user').id).nickname);
 
         var joinedTimestamp;
         
