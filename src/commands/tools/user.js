@@ -26,6 +26,7 @@ module.exports = {
 
         // console.log(target.joinedTimestamp);
         console.log(interaction.guild.members.cache.get(interaction.options.getUser('user').id).nickname);
+        var nicknameUser = interaction.guild.members.cache.get(interaction.options.getUser('user').id).nickname;
 
         var joinedTimestamp;
         
