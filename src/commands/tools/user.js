@@ -64,8 +64,13 @@ module.exports = {
                 if (role.name != "@everyone") {
                     userRoles += `${role}`;
                 }
-                userRoles += `, `;
             });
+            // userRoles = userRoles.split(";");
+            // var userRolelist = "";
+            // for (var i; i < userRoles -1; i++) {
+            //     userRolelist += userRoles[i];
+            // }
+
             userRoles = userRoles.slice(0, -2);
 
         } catch (error) {
