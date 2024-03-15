@@ -65,7 +65,7 @@ module.exports = {
                     userRoles += `${role}, `;
                 }
             });
-
+            console.log(`:${userRoles}:`);
             if (userRoles.length >= 2) {
                 userRoles = userRoles.slice(0, -2);
             }
