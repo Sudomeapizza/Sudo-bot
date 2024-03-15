@@ -19,6 +19,7 @@ module.exports = {
 
         const target = interaction.options.getUser('user');
         const silence = interaction.options.getBoolean('silent') || false;
+        const targetAtServer = interaction.guild.members.cache.get(interaction.options.getUser('user').id);
         // console.log(target.createdAt);
         // console.log(target.createdTimestamp);
 
@@ -26,19 +27,21 @@ module.exports = {
 
         // console.log(target.joinedTimestamp);
         // console.log(interaction.guild.members.cache.get(interaction.options.getUser('user').id).nickname);
-        var nicknameUser = interaction.guild.members.cache.get(interaction.options.getUser('user').id).nickname || `None`;
+        var nicknameUser = targetAtServer.nickname || `None`;
 
         var joinedTimestamp, userRoles;
         
         try {
-            joinedTimestamp = interaction.guild.members.cache.get(interaction.options.getUser('user').id).joinedTimestamp;
+            joinedTimestamp = targetAtServer.joinedTimestamp;
             joinedTimestamp = `<t:${joinedTimestamp.toString().substring(0,10)}:F> <t:${joinedTimestamp.toString().substring(0,10)}:R>`;
             
-            const roles = target.roles.cache;
-            console.log(`${roles}`);
+            const roles = targetAtServer.roles.cache;
+            console.log(`1: ${targetAtServer}`);
+            console.log(`1: ${targetAtServer.roles}`);
+            console.log(`1: ${roles}`);
             roles.forEach(role => {
                 userRoles += `${role.name}, `;
-                console.log(`${role.name}`);
+                console.log(`2: ${role.name}`);
             });
 
         } catch (error) {
