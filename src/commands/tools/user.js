@@ -91,7 +91,7 @@ module.exports = {
                 { name: '**__User ID__**', value: `${target.id}`, inline: true },
                 { name: '**__Discord Join Date__**', value: `${createdTimestamp}`},
                 { name: '**__Server Join Date__**', value: `${joinedTimestamp}`},
-                { name: '**__User Roles:__**', value: `${userRoles}`},
+                { name: '**__User Roles:__**', value: `${userRoles || `None`}`},
                 // { name: '\u200B', value: '\u200B' }, // spacer
             )
             // .setImage()
