@@ -62,7 +62,7 @@ module.exports = {
 
             roles.forEach(role => {
                 if (role.name != "@everyone") {
-                    userRoles += `${role}`;
+                    userRoles += `${role}\n`;
                 }
             });
 
@@ -85,9 +85,9 @@ module.exports = {
                 { name: '**__Nickname__**', value: `${nicknameUser}`, inline: true },
                 { name: '**__Username__**', value: `@${target.username}`, inline: true },
                 { name: '**__Display Name__**', value: `${target.displayName}`, inline: true },
+                { name: '**__User ID__**', value: `${target.id}`, inline: true },
                 { name: '**__Is Bot__**', value: `${target.bot}`, inline: true },
                 { name: '**__Is System__**', value: `${target.system}`, inline: true },
-                { name: '**__User ID__**', value: `${target.id}`, inline: true },
                 { name: '**__Discord Join Date__**', value: `${createdTimestamp}`},
                 { name: '**__Server Join Date__**', value: `${joinedTimestamp}`},
                 { name: '**__User Roles:__**', value: `${userRoles || `None`}`},
