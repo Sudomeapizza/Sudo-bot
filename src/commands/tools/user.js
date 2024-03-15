@@ -40,7 +40,7 @@ module.exports = {
             console.log(`1: ${targetAtServer.roles}`);
             console.log(`1: ${roles}`);
             roles.forEach(role => {
-                userRoles += `${role.name}, `;
+                userRoles += `${role}${role.id}${role.name}, `;
                 console.log(`2: ${role.name}`);
             });
 
