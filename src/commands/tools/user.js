@@ -27,7 +27,7 @@ module.exports = {
 
         // console.log(target.joinedTimestamp);
         // console.log(interaction.guild.members.cache.get(interaction.options.getUser('user').id).nickname);
-        var nicknameUser = targetAtServer.nickname || `None`;
+        var nicknameUser = ``;
 
         var joinedTimestamp, userRoles = "";
         
@@ -35,13 +35,17 @@ module.exports = {
             joinedTimestamp = targetAtServer.joinedTimestamp;
             joinedTimestamp = `<t:${joinedTimestamp.toString().substring(0,10)}:F> <t:${joinedTimestamp.toString().substring(0,10)}:R>`;
             
+            nicknameUser = targetAtServer.nickname || `None`;
+
             const roles = targetAtServer.roles.cache;
             console.log(`1: ${targetAtServer}`);
             console.log(`1: ${targetAtServer.roles}`);
             console.log(`1: ${roles}`);
             roles.forEach(role => {
-                userRoles += `${role}${role.id}${role.name}, `;
-                console.log(`2: ${role.name}`);
+                if (role.name != "@everyone") {
+                    userRoles += `${role}${role.id}${role.name}, `;
+                    console.log(`2: ${role.name}`);
+                }
             });
 
             userRoles = userRoles.slice(0, -2);
@@ -49,6 +53,7 @@ module.exports = {
         } catch (error) {
             // console.log(error);
             joinedTimestamp = `User not in this server`;
+            nicknameUser = `N/A`;
             userRoles = "N/A";
         }
 
