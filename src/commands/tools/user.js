@@ -17,19 +17,40 @@ module.exports = {
     .setDMPermission(false),
     async execute(interaction, client) {
 
+        /**
+         * @target The user from the scope of Discord globaly
+         */
         const target = interaction.options.getUser('user');
-        const silence = interaction.options.getBoolean('silent') || false;
-        const targetAtServer = interaction.guild.members.cache.get(interaction.options.getUser('user').id);
-        // console.log(target.createdAt);
-        // console.log(target.createdTimestamp);
 
+        /**
+         * @silence If the excecutor of the command wants the output to be ephemeral/silent
+         */
+        const silence = interaction.options.getBoolean('silent') || false;
+
+        /**
+         * @targetAtServer Takes the target user from the scope of the guild 
+         */
+        const targetAtServer = interaction.guild.members.cache.get(interaction.options.getUser('user').id);
+
+        /**
+         * @createdTimestamp The user's account creation timestamp from the scope of Discord globaly
+         */
         var createdTimestamp = `<t:${target.createdTimestamp.toString().substring(0,10)}:F> <t:${target.createdTimestamp.toString().substring(0,10)}:R>`
 
-        // console.log(target.joinedTimestamp);
-        // console.log(interaction.guild.members.cache.get(interaction.options.getUser('user').id).nickname);
-        var nicknameUser = ``;
+        /**
+         * @joinedTimestamp The user's join timestamp creation timestamp from the scope of the server excecuted from
+         */
+        var joinedTimestamp = "";
 
-        var joinedTimestamp, userRoles = "";
+        /**
+         * @userRoles The user's roles from the scope of the server excecuted from
+         */
+        var userRoles = "";
+
+        /**
+         * @nicknameUser The user's nickname from the scope of the server excecuted from
+         */
+        var nicknameUser = "";
         
         try {
             joinedTimestamp = targetAtServer.joinedTimestamp;
@@ -38,13 +59,10 @@ module.exports = {
             nicknameUser = targetAtServer.nickname || `None`;
 
             const roles = targetAtServer.roles.cache;
-            console.log(`1: ${targetAtServer}`);
-            console.log(`1: ${targetAtServer.roles}`);
-            console.log(`1: ${roles}`);
+
             roles.forEach(role => {
                 if (role.name != "@everyone") {
-                    userRoles += `${role}${role.id}${role.name}, `;
-                    console.log(`2: ${role.name}`);
+                    userRoles += `${role}, `;
                 }
             });
 
