@@ -16,7 +16,7 @@ module.exports = {
     .setDefaultMemberPermissions(PermissionFlagsBits.Administrator)
     .setDMPermission(false),
     async execute(interaction, client) {
-
+        
         /**
          * @target The user from the scope of Discord globaly
          */
@@ -65,19 +65,12 @@ module.exports = {
                     userRoles += `${role}`;
                 }
             });
-            // userRoles = userRoles.split(";");
-            // var userRolelist = "";
-            // for (var i; i < userRoles -1; i++) {
-            //     userRolelist += userRoles[i];
-            // }
-
-            // userRoles = userRoles.slice(0, -2);
 
         } catch (error) {
             console.log(error);
-            joinedTimestamp = `User not in this server`;
-            nicknameUser = `N/A`;
-            userRoles = "N/A";
+            joinedTimestamp = `Not in ${interaction.guild}`;
+            nicknameUser = `Not in ${interaction.guild}`;
+            userRoles = `Not in ${interaction.guild}`;
         }
 
         // console.log(joinedTimestamp);
