@@ -45,6 +45,7 @@ module.exports = {
                 { name: '**__Global Username__**', value: `${target.globalName}`, inline: true },
                 { name: '**__Username__**', value: `${target.username}`, inline: true },
                 { name: '**__Display Name__**', value: `${target.displayName}`, inline: true },
+                { name: '**__Nickname__**', value: `${target.nickname || `None`}`, inline: true },
                 { name: '**__Is Bot__**', value: `${target.bot}`, inline: true },
                 { name: '**__Is System__**', value: `${target.system}`, inline: true },
                 { name: '**__User ID__**', value: `${target.id}`, inline: true },
