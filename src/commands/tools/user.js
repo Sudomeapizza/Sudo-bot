@@ -61,6 +61,7 @@ module.exports = {
             const roles = targetAtServer.roles.cache;
 
             console.log(roles);
+            console.log(roles.length);
 
             roles.forEach(role => {
                 if (role.name != "@everyone") {
