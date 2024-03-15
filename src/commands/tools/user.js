@@ -60,19 +60,12 @@ module.exports = {
 
             const roles = targetAtServer.roles.cache;
 
-            console.log(roles);
-            console.log(roles.role);
-            console.log(roles.role.length);
-
             roles.forEach(role => {
                 if (role.name != "@everyone") {
-                    userRoles += `${role}, `;
+                    userRoles += `${role}`;
                 }
             });
-            // console.log(`:${userRoles}:${userRoles.toString().length}:`);
-            if (userRoles.toString().length >= 2) {
-                // userRoles = userRoles.slice(0, -2);
-            }
+            userRoles = userRoles.slice(0, -2);
 
         } catch (error) {
             console.log(error);
