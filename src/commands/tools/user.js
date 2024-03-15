@@ -71,7 +71,7 @@ module.exports = {
             //     userRolelist += userRoles[i];
             // }
 
-            userRoles = userRoles.slice(0, -2);
+            // userRoles = userRoles.slice(0, -2);
 
         } catch (error) {
             console.log(error);
