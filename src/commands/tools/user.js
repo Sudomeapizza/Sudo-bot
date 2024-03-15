@@ -28,20 +28,29 @@ module.exports = {
         console.log(interaction.guild.members.cache.get(interaction.options.getUser('user').id).nickname);
         var nicknameUser = interaction.guild.members.cache.get(interaction.options.getUser('user').id).nickname || `None`;
 
-        var joinedTimestamp;
+        var joinedTimestamp, userRoles;
         
         try {
             joinedTimestamp = interaction.guild.members.cache.get(interaction.options.getUser('user').id).joinedTimestamp;
-            joinedTimestamp = `<t:${joinedTimestamp.toString().substring(0,10)}:F> <t:${joinedTimestamp.toString().substring(0,10)}:R>`
+            joinedTimestamp = `<t:${joinedTimestamp.toString().substring(0,10)}:F> <t:${joinedTimestamp.toString().substring(0,10)}:R>`;
+            
+            const roles = target.roles.cache;
+            roles.forEach(role => {
+                userRoles += `${role.name}, `;
+            });
+
         } catch (error) {
             // console.log(error);
             joinedTimestamp = `User not in this server`;
+            userRoles = "N/A";
         }
 
         // console.log(joinedTimestamp);
 
+        // https://discordjs.guide/popular-topics/embeds.html#embed-preview
         const userEmbed = new EmbedBuilder()
             .setColor(0x8B41C8)
+            .setTitle(`${target}`)
             .setThumbnail(target.displayAvatarURL())
             .addFields(
                 // { name: '**__Global Username__**', value: `${target.globalName}`, inline: true },
@@ -53,7 +62,7 @@ module.exports = {
                 { name: '**__User ID__**', value: `${target.id}`, inline: true },
                 { name: '**__Discord Join Date__**', value: `${createdTimestamp}`},
                 { name: '**__Server Join Date__**', value: `${joinedTimestamp}`},
-                { name: '**__User__**', value: `${target}`, inline: true },
+                { name: '**__User Roles:__**', value: `${userRoles}`},
                 // { name: '\u200B', value: '\u200B' }, // spacer
             )
             // .setImage()
