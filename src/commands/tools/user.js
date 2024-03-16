@@ -78,13 +78,14 @@ module.exports = {
             userRoles = `Not in ${interaction.guild}`;
         }
 
-        userDetails += `**__Global Username:__** ${target.globalName}\n`;
-        userDetails += `**__Username:__** ${target.username}\n`; // try targetAtServer.username?
-        userDetails += `**__Display Name:__** ${target.displayName}\n`;
-        userDetails += `**__Nickname:__** ${nicknameUser}\n`;
-        userDetails += `**__User ID:__** ${target.id}\n`;
-        userDetails += `**__Is Bot:__** ${target.bot}\n`;
-        userDetails += `**__Is System:__** ${target.system}`;
+        userDetails += `Global Username: *${target.globalName}*\n`;
+        userDetails += `Username: *${target.username}*\n`;
+        userDetails += `Username: *${targetAtServer.username}*\n`; //try
+        userDetails += `Display Name: *${target.displayName}*\n`;
+        userDetails += `Nickname: *${nicknameUser}*\n`;
+        userDetails += `User ID: *${target.id}*\n`;
+        userDetails += `Is Bot: *${target.bot}*\n`;
+        userDetails += `Is System: *${target.system}*`;
 
 
         // console.log(joinedTimestamp);
