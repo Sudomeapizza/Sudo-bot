@@ -51,7 +51,12 @@ module.exports = {
          * @nicknameUser The user's nickname from the scope of the server excecuted from
          */
         var nicknameUser = "";
-        
+
+        /**
+         * @userDetails Dynamic Amalgamation of deets of user if present
+         */
+        var userDetails = "";
+
         try {
             joinedTimestamp = targetAtServer.joinedTimestamp;
             joinedTimestamp = `<t:${joinedTimestamp.toString().substring(0,10)}:F> <t:${joinedTimestamp.toString().substring(0,10)}:R>`;
@@ -73,25 +78,39 @@ module.exports = {
             userRoles = `Not in ${interaction.guild}`;
         }
 
+        userDetails += `**__Global Username:__** ${target.globalName}\n`;
+        userDetails += `**__Username:__** ${target.username}\n`; // try targetAtServer.username?
+        userDetails += `**__Display Name:__** ${target.displayName}\n`;
+        userDetails += `**__Nickname:__** ${nicknameUser}\n`;
+        userDetails += `**__User ID:__** ${target.id}\n`;
+        userDetails += `**__Is Bot:__** ${target.bot}\n`;
+        userDetails += `**__Is System:__** ${target.system}`;
+
+
         // console.log(joinedTimestamp);
 
         // https://discordjs.guide/popular-topics/embeds.html#embed-preview
         const userEmbed = new EmbedBuilder()
             .setColor(0x8B41C8)
+            .setAuthor({name: `${target.username}`, iconURL: `${target.displayAvatarURL()}`, url: `${target.displayAvatarURL()}`})
             .setDescription(`${target}`)
             .setThumbnail(target.displayAvatarURL())
             .addFields(
-                // { name: '**__Global Username__**', value: `${target.globalName}`, inline: true },
-                { name: '**__Nickname__**', value: `${nicknameUser}`, inline: true },
-                { name: '**__Username__**', value: `@${target.username}`, inline: true },
-                { name: '**__Display Name__**', value: `${target.displayName}`, inline: true },
-                { name: '**__User ID__**', value: `${target.id}`, inline: true },
-                { name: '**__Is Bot__**', value: `${target.bot}`, inline: true },
-                { name: '**__Is System__**', value: `${target.system}`, inline: true },
+                // // { name: '**__Global Username__**', value: `${target.globalName}`, inline: true },
+                // { name: '**__Nickname__**', value: `${nicknameUser}`, inline: true },
+                // { name: '**__Username__**', value: `@${target.username}`, inline: true },
+                // { name: '**__Display Name__**', value: `${target.displayName}`, inline: true },
+                // { name: '**__User ID__**', value: `${target.id}`, inline: true },
+                // { name: '**__Is Bot__**', value: `${target.bot}`, inline: true },
+                // { name: '**__Is System__**', value: `${target.system}`, inline: true },
+                // { name: '**__Discord Join Date__**', value: `${createdTimestamp}`},
+                // { name: '**__Server Join Date__**', value: `${joinedTimestamp}`},
+                // { name: '**__User Roles:__**', value: `${userRoles || `None`}`},
+                // // { name: '\u200B', value: '\u200B' }, // spacer
+                { name: '**__User Info__**', value: `${userDetails}`},
                 { name: '**__Discord Join Date__**', value: `${createdTimestamp}`},
                 { name: '**__Server Join Date__**', value: `${joinedTimestamp}`},
                 { name: '**__User Roles:__**', value: `${userRoles || `None`}`},
-                // { name: '\u200B', value: '\u200B' }, // spacer
             )
             // .setImage()
             .setTimestamp()
