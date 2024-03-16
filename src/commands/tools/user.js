@@ -80,7 +80,7 @@ module.exports = {
 
         userDetails += `Global Username: *${target.globalName}*\n`;
         userDetails += `Username: *${target.username}*\n`;
-        userDetails += `Username: *${targetAtServer.username}*\n`; //try
+        // userDetails += `Username: *${targetAtServer.username}*\n`; //try
         userDetails += `Display Name: *${target.displayName}*\n`;
         userDetails += `Nickname: *${nicknameUser}*\n`;
         userDetails += `User ID: *${target.id}*\n`;
