@@ -96,7 +96,7 @@ module.exports = {
             .setDescription(`${target}`)
             .setThumbnail(target.displayAvatarURL())
             .addFields(
-                // // { name: '**__Global Username__**', value: `${target.globalName}`, inline: true },
+                // { name: '**__Global Username__**', value: `${target.globalName}`, inline: true },
                 // { name: '**__Nickname__**', value: `${nicknameUser}`, inline: true },
                 // { name: '**__Username__**', value: `@${target.username}`, inline: true },
                 // { name: '**__Display Name__**', value: `${target.displayName}`, inline: true },
@@ -106,7 +106,7 @@ module.exports = {
                 // { name: '**__Discord Join Date__**', value: `${createdTimestamp}`},
                 // { name: '**__Server Join Date__**', value: `${joinedTimestamp}`},
                 // { name: '**__User Roles:__**', value: `${userRoles || `None`}`},
-                // // { name: '\u200B', value: '\u200B' }, // spacer
+                // { name: '\u200B', value: '\u200B' }, // spacer
                 { name: '**__User Info__**', value: `${userDetails}`},
                 { name: '**__Discord Join Date__**', value: `${createdTimestamp}`},
                 { name: '**__Server Join Date__**', value: `${joinedTimestamp}`},
