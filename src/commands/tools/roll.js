@@ -52,7 +52,7 @@ module.exports = {
                 }
             }
         } catch (error) {
-            await interaction.send({
+            await interaction.reply({
                 embeds: new EmbedBuilder()
                 .setColor(0x8B41C8)
                 .setAuthor({name: `${interaction.username}`, iconURL: `${interaction.user.displayAvatarURL()}`})
@@ -61,7 +61,8 @@ module.exports = {
                     { name: '**Roll:**', value: `${rollSize} test`}
                 )
                 .setTimestamp()
-                .setFooter({ text: client.user.tag, iconURL: client.user.displayAvatarURL(), url: client.user.displayAvatarURL() })
+                .setFooter({ text: client.user.tag, iconURL: client.user.displayAvatarURL(), url: client.user.displayAvatarURL() }),
+                ephemeral: true
             });
         }
     }
