@@ -1,71 +1,74 @@
-const { SlashCommandBuilder, EmbedBuilder, PermissionFlagsBits } = require('discord.js')
+const { SlashCommandBuilder, EmbedBuilder, PermissionFlagsBits } = require('discord.js');
 
 module.exports = {
     data: new SlashCommandBuilder()
-    .setName('roll')
-    .setDescription("Roll dice")
-    .addStringOption(option =>
-        option.setName('sides')
-        .setDescription('How many sides. Default 20.')
+        .setName('roll')
+        .setDescription("Roll dice")
+        .addStringOption(option =>
+            option.setName('sides')
+                .setDescription('How many sides. Default 20.')
         )
-    .addStringOption(option =>
-        option.setName('options')
-        .setDescription('option1,option2...,optionX')
+        .addStringOption(option =>
+            option.setName('options')
+                .setDescription('option1,option2...,optionX')
         )
-    .addStringOption(option =>
-        option.setName('silence')
-        .setDescription('quiet')
+        .addStringOption(option =>
+            option.setName('silence')
+                .setDescription('quiet')
         )
-    .setDefaultMemberPermissions(PermissionFlagsBits.ManageGuild)
-    .setDMPermission(false),
+        .setDefaultMemberPermissions(PermissionFlagsBits.ManageGuild)
+        .setDMPermission(false),
     async execute(interaction, client) {
-        const rollSize = interaction.options.getString('sides') || 20;
-        const options = interaction.options.getString('options');
+        let rollSize = parseInt(interaction.options.getString('sides')) || 20;
+        const optionsString = interaction.options.getString('options');
         const silence = interaction.options.getString('silence') || false;
 
-        console.log(`${rollSize}`);
+        let options = [];
+        if (optionsString) {
+            options = optionsString.split(',');
+        }
+        if (options.length < rollSize) {
+            for (let i = options.length + 1; i <= rollSize; i++) {
+                options.push(`option${i}`);
+            }
+        }
 
         try {
-            if (rollSize) {
-                rollSize = Math.round(Math.random() * rollSize);
-                console.log(`${rollSize}`);
+            if (!isNaN(rollSize) && rollSize > 0) {
+                const rollResult = Math.floor(Math.random() * rollSize) + 1;
+                const optionResult = options[rollResult - 1];
 
-                // https://discordjs.guide/popular-topics/embeds.html#embed-preview
                 const userEmbed = new EmbedBuilder()
                     .setColor(0x8B41C8)
-                    .setAuthor({name: `${interaction.user.username}`, iconURL: `${interaction.user.displayAvatarURL()}`})
-                    .setThumbnail("https://nc.sudomeapizza.com/apps/files_sharing/publicpreview/QaR94zarezADXkq?file=/&fileId=4248&x=1920&y=1080&a=true&etag=8a3330768469871f1083fe65a40ed338")
+                    .setAuthor({ name: `${interaction.user.displayName}`, iconURL: `${interaction.user.displayAvatarURL()}` })
+                    .setThumbnail("https://upload.wikimedia.org/wikipedia/commons/c/cd/D20_icon_showing_1.png")
                     .addFields(
-                        { name: '**Roll:**', value: `${rollSize} test` }
+                        { name: '**Roll:**', value: `${rollResult} (${optionResult})` }
                     )
                     .setTimestamp()
-                    .setFooter({ text: client.user.tag, iconURL: client.user.displayAvatarURL(), url: client.user.displayAvatarURL() });
+                    .setFooter({ text: client.user.tag, iconURL: client.user.displayAvatarURL() });
 
-                if (silence) {
-                    const message = await interaction.reply({
-                        embeds: [userEmbed],
-                        ephemeral: true
-                    });
-                } else {
-                    const message = await interaction.reply({
-                        embeds: [userEmbed]
-                    });
-                }
+                await interaction.reply({
+                    embeds: [userEmbed],
+                    ephemeral: silence
+                });
+            } else {
+                throw new Error('Invalid roll value');
             }
         } catch (error) {
             await interaction.reply({
                 embeds: [new EmbedBuilder()
                     .setColor(0x8B41C8)
-                    .setAuthor({ name: `${interaction.user.username}`, iconURL: `${interaction.user.displayAvatarURL()}` })
-                    .setThumbnail("https://nc.sudomeapizza.com/apps/files_sharing/publicpreview/QaR94zarezADXkq?file=/&fileId=4248&x=1920&y=1080&a=true&etag=8a3330768469871f1083fe65a40ed338")
+                    .setAuthor({ name: `${interaction.user.displayName}`, iconURL: `${interaction.user.displayAvatarURL()}` })
+                    .setThumbnail("https://upload.wikimedia.org/wikipedia/commons/c/cd/D20_icon_showing_1.png")
                     .addFields(
-                        { name: '**Roll:**', value: `Invalid roll value`}
+                        { name: '**Roll:**', value: `Invalid roll value` }
                     )
                     .setTimestamp()
-                    .setFooter({ text: client.user.tag, iconURL: client.user.displayAvatarURL(), url: client.user.displayAvatarURL() })
+                    .setFooter({ text: client.user.tag, iconURL: client.user.displayAvatarURL() })
                 ],
                 ephemeral: true
             });
         }
     }
-}
+};
