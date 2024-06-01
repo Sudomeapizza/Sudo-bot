@@ -36,7 +36,9 @@ module.exports = {
         try {
             if (!isNaN(rollSize) && rollSize > 0) {
                 const rollResult = Math.floor(Math.random() * rollSize) + 1;
-                const result = options.length > 0 ? options[rollResult - 1] : rollResult.toString();
+                // const result = options.length > 0 ? options[rollResult - 1] : rollResult.toString();
+                const result = rollResult.toString();
+
 
                 const userEmbed = new EmbedBuilder()
                     .setColor(0x8B41C8)
