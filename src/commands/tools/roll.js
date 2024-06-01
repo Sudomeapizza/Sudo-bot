@@ -14,7 +14,7 @@ module.exports = {
         )
     .addStringOption(option =>
         option.setName('silence')
-        .setDescription('option1,option2...,optionX')
+        .setDescription('quiet')
         )
     .setDefaultMemberPermissions(PermissionFlagsBits.ManageGuild)
     .setDMPermission(false),
@@ -23,9 +23,11 @@ module.exports = {
         const options = interaction.options.getString('options');
         const silence = interaction.options.getString('silence');
 
+        console.log(`${rollSize} ${rollSize.value}`);
+
         try {
             if (rollSize) {
-                rollSize = rollSize.value * Math.random();
+                rollSize = Math.round(Math.random() * rollSize.value);
 
                 // https://discordjs.guide/popular-topics/embeds.html#embed-preview
                 const userEmbed = new EmbedBuilder()
@@ -38,10 +40,16 @@ module.exports = {
                     .setTimestamp()
                     .setFooter({ text: client.user.tag, iconURL: client.user.displayAvatarURL(), url: client.user.displayAvatarURL() });
 
-                const message = await interaction.reply({
-                    embeds: [userEmbed],
-                    ephemeral: true
-                });
+                if (silence) {
+                    const message = await interaction.reply({
+                        embeds: [userEmbed],
+                        ephemeral: true
+                    });
+                } else {
+                    const message = await interaction.reply({
+                        embeds: [userEmbed]
+                    });
+                }
             }
         } catch (error) {
             await interaction.send({
