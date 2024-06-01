@@ -38,6 +38,7 @@ module.exports = {
                 const rollResult = Math.floor(Math.random() * rollSize) + 1;
                 let result = "";
 
+                console.log(`${options}\n ${options.length}`);
                 if (options.length > 0) {
                     result = options[rollResult - 1];
                 } else {
