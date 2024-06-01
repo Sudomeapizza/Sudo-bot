@@ -14,7 +14,7 @@ module.exports = {
         )
         .addStringOption(option =>
             option.setName('silence')
-                .setDescription('quiet')
+                .setDescription('"true" / "false"')
         )
         .setDefaultMemberPermissions(PermissionFlagsBits.ManageGuild)
         .setDMPermission(false),
@@ -37,7 +37,16 @@ module.exports = {
             if (!isNaN(rollSize) && rollSize > 0) {
                 const rollResult = Math.floor(Math.random() * rollSize) + 1;
                 // const result = options.length > 0 ? options[rollResult - 1] : rollResult.toString();
-                const result = rollResult.toString();
+                const result = "";
+                if (options.length > 0) {
+                    try {
+                        result = options[rollResult - 1];
+                    } catch (error) {
+                        result = rollResult.toString();
+                    }
+                } else {
+                    result = rollResult.toString();
+                }
 
 
                 const userEmbed = new EmbedBuilder()
