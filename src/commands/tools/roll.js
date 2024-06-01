@@ -35,7 +35,7 @@ module.exports = {
                     .setAuthor({name: `${interaction.username}`, iconURL: `${interaction.user.displayAvatarURL()}`})
                     .setThumbnail("https://nc.sudomeapizza.com/apps/files_sharing/publicpreview/QaR94zarezADXkq?file=/&fileId=4248&x=1920&y=1080&a=true&etag=8a3330768469871f1083fe65a40ed338")
                     .addFields(
-                        { name: '**Roll:**', value: `Invalid roll value`}
+                        { name: '**Roll:**', value: `${rollSize} test` }
                     )
                     .setTimestamp()
                     .setFooter({ text: client.user.tag, iconURL: client.user.displayAvatarURL(), url: client.user.displayAvatarURL() });
@@ -53,15 +53,16 @@ module.exports = {
             }
         } catch (error) {
             await interaction.reply({
-                embeds: new EmbedBuilder()
-                .setColor(0x8B41C8)
-                .setAuthor({name: `${interaction.username}`, iconURL: `${interaction.user.displayAvatarURL()}`})
-                .setThumbnail("https://nc.sudomeapizza.com/apps/files_sharing/publicpreview/QaR94zarezADXkq?file=/&fileId=4248&x=1920&y=1080&a=true&etag=8a3330768469871f1083fe65a40ed338")
-                .addFields(
-                    { name: '**Roll:**', value: `${rollSize} test`}
-                )
-                .setTimestamp()
-                .setFooter({ text: client.user.tag, iconURL: client.user.displayAvatarURL(), url: client.user.displayAvatarURL() }),
+                embeds: [new EmbedBuilder()
+                    .setColor(0x8B41C8)
+                    .setAuthor({ name: `${interaction.username}`, iconURL: `${interaction.user.displayAvatarURL()}` })
+                    .setThumbnail("https://nc.sudomeapizza.com/apps/files_sharing/publicpreview/QaR94zarezADXkq?file=/&fileId=4248&x=1920&y=1080&a=true&etag=8a3330768469871f1083fe65a40ed338")
+                    .addFields(
+                        { name: '**Roll:**', value: `Invalid roll value`}
+                    )
+                    .setTimestamp()
+                    .setFooter({ text: client.user.tag, iconURL: client.user.displayAvatarURL(), url: client.user.displayAvatarURL() })
+                ],
                 ephemeral: true
             });
         }
