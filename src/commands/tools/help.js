@@ -22,7 +22,7 @@ module.exports = {
                         "Tuesday at 1200\n" +
                         "tonight @ 20\n" +
                         "!(Dec 14 2025) at 4pm\n" +
-                        "!(Jan 10) at 15`";
+                        "!(Jan 10) at 15 `";
 
         const embed = new EmbedBuilder()
             .setTitle(`Help:`)
