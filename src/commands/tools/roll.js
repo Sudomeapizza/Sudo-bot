@@ -23,26 +23,17 @@ module.exports = {
         const optionsString = interaction.options.getString('options');
         const silence = interaction.options.getString('silence') || false;
 
-        let options = [];
-        if (optionsString) {
-            options = optionsString.split(',');
-        }
-        if (options.length < rollSize) {
-            for (let i = options.length + 1; i <= rollSize; i++) {
-                options.push(`option${i}`);
-            }
-        }
+        const options = optionsString ? optionsString.split(',') : [];
 
         try {
             if (!isNaN(rollSize) && rollSize > 0) {
                 const rollResult = Math.floor(Math.random() * rollSize) + 1;
                 let result = "";
 
-                console.log(`${options}\n ${options.length}`);
                 if (options.length > 0) {
                     result = options[rollResult - 1];
                 } else {
-                    result = rollResult.toString();
+                    result = `Option ${rollResult}`;
                 }
 
                 const userEmbed = new EmbedBuilder()
