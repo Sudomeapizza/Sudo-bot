@@ -21,18 +21,19 @@ module.exports = {
     async execute(interaction, client) {
         const rollSize = interaction.options.getString('sides') || 20;
         const options = interaction.options.getString('options');
-        const silence = interaction.options.getString('silence');
+        const silence = interaction.options.getString('silence') || false;
 
         console.log(`${rollSize}`);
 
         try {
             if (rollSize) {
                 rollSize = Math.round(Math.random() * rollSize);
+                console.log(`${rollSize}`);
 
                 // https://discordjs.guide/popular-topics/embeds.html#embed-preview
                 const userEmbed = new EmbedBuilder()
                     .setColor(0x8B41C8)
-                    .setAuthor({name: `${interaction.username}`, iconURL: `${interaction.user.displayAvatarURL()}`})
+                    .setAuthor({name: `${interaction.user.username}`, iconURL: `${interaction.user.displayAvatarURL()}`})
                     .setThumbnail("https://nc.sudomeapizza.com/apps/files_sharing/publicpreview/QaR94zarezADXkq?file=/&fileId=4248&x=1920&y=1080&a=true&etag=8a3330768469871f1083fe65a40ed338")
                     .addFields(
                         { name: '**Roll:**', value: `${rollSize} test` }
@@ -55,7 +56,7 @@ module.exports = {
             await interaction.reply({
                 embeds: [new EmbedBuilder()
                     .setColor(0x8B41C8)
-                    .setAuthor({ name: `${interaction.username}`, iconURL: `${interaction.user.displayAvatarURL()}` })
+                    .setAuthor({ name: `${interaction.user.username}`, iconURL: `${interaction.user.displayAvatarURL()}` })
                     .setThumbnail("https://nc.sudomeapizza.com/apps/files_sharing/publicpreview/QaR94zarezADXkq?file=/&fileId=4248&x=1920&y=1080&a=true&etag=8a3330768469871f1083fe65a40ed338")
                     .addFields(
                         { name: '**Roll:**', value: `Invalid roll value`}
