@@ -3,7 +3,11 @@ const { SlashCommandBuilder, EmbedBuilder } = require('discord.js')
 module.exports = {
     data: new SlashCommandBuilder()
     .setName('help')
-    .setDescription("Display help on what I can do!"),
+    .setDescription("Display help on what I can do!")
+    .addUserOption(option =>
+        option.setName('ignoreme')
+        .setDescription('ignoreme')
+        ),
     async execute(interaction, client) {
         const user = interaction.user;
 
@@ -22,7 +26,7 @@ module.exports = {
                         "Tuesday at 1200\n" +
                         "tonight @ 20\n" +
                         "!(Dec 14 2025) at 4pm\n" +
-                        "!(Jan 10) at 15`";
+                        "!(Jan 10) at 15";
 
         const embed = new EmbedBuilder()
             .setTitle(`Help:`)

@@ -7,14 +7,21 @@ module.exports = (client) => {
     const { commands, commandArray } = client;
     client.handleCommands = async() => {
         // const commandFolders = fs.readdirSync("./src/commands");
+
         const commandFolders = fs.readdirSync(`./src/commands`);
         for (const folder of commandFolders) {
             const commandFiles = fs.readdirSync(`./src/commands/${folder}`).filter((file) => file.endsWith(".js"));
             for (const file of commandFiles) {
                 const command = require(`../../commands/${folder}/${file}`);
-                commands.set(command.data.name, command);
-                commandArray.push(command.data.toJSON());
-                console.log(`command: ${command.data.name} has passed through the handler`);
+                const fileName = command.data.name;
+                
+                if (!commandArray.some((cmd) => cmd.name === fileName)) {
+                    commands.set(command.data.name, command);
+                    commandArray.push(command.data.toJSON());
+                    console.log(`command: ${fileName} has passed through the handler`);
+                } else {
+                    console.log(`-- command: ${fileName} already exists in the array`);
+                }
             }
         }
         const rest = new REST({ version: "9" }).setToken(process.env.token);
