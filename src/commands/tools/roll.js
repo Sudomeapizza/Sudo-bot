@@ -36,14 +36,14 @@ module.exports = {
         try {
             if (!isNaN(rollSize) && rollSize > 0) {
                 const rollResult = Math.floor(Math.random() * rollSize) + 1;
-                const optionResult = options[rollResult - 1];
+                const result = options.length > 0 ? options[rollResult - 1] : rollResult.toString();
 
                 const userEmbed = new EmbedBuilder()
                     .setColor(0x8B41C8)
                     .setAuthor({ name: `${interaction.user.displayName}`, iconURL: `${interaction.user.displayAvatarURL()}` })
                     .setThumbnail("https://upload.wikimedia.org/wikipedia/commons/c/cd/D20_icon_showing_1.png")
                     .addFields(
-                        { name: '**Roll:**', value: `${rollResult} (${optionResult})` }
+                        { name: '**Roll:**', value: result }
                     )
                     .setTimestamp()
                     .setFooter({ text: client.user.tag, iconURL: client.user.displayAvatarURL() });
