@@ -14,7 +14,7 @@ module.exports = {
         )
         .addStringOption(option =>
             option.setName('silence')
-                .setDescription('quiet')
+                .setDescription('true / false')
         )
         .setDefaultMemberPermissions(PermissionFlagsBits.ManageGuild)
         .setDMPermission(false),
@@ -28,11 +28,11 @@ module.exports = {
         console.log(options);
         console.log(options.length);
         try {
-            if (!isNaN(rollSize) || rollSize > 0) {
+            if (!isNaN(rollSize) && rollSize > 0) {
                 const rollResult = Math.floor(Math.random() * rollSize) + 1;
                 let result = "";
 
-                if (options.length > 0) {
+                if (options.length == 0) {
                     result = options[rollResult - 1];
                 } else {
                     result = `Option ${rollResult}`;
