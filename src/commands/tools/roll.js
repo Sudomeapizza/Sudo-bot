@@ -35,10 +35,10 @@ module.exports = {
 
                 if (options.length > 0) {
                     console.log(`greater than 0: ${options.length}`);
-                    result = rollResult;
+                    result = `Option ${rollResult}`;
                 } else {
                     console.log(`equal to zero 0: ${options.length}`);
-                    result = `Option ${rollResult}`;
+                    result = rollResult;
                 }
 
                 const userEmbed = new EmbedBuilder()
