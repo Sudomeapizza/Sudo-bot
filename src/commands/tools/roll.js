@@ -23,11 +23,11 @@ module.exports = {
         const options = interaction.options.getString('options');
         const silence = interaction.options.getString('silence');
 
-        console.log(`${rollSize} ${rollSize.value}`);
+        console.log(`${rollSize}`);
 
         try {
             if (rollSize) {
-                rollSize = Math.round(Math.random() * rollSize.value);
+                rollSize = Math.round(Math.random() * rollSize);
 
                 // https://discordjs.guide/popular-topics/embeds.html#embed-preview
                 const userEmbed = new EmbedBuilder()
