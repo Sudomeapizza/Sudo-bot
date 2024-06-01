@@ -19,7 +19,7 @@ module.exports = {
     .setDefaultMemberPermissions(PermissionFlagsBits.ManageGuild)
     .setDMPermission(false),
     async execute(interaction, client) {
-        const rollSize = interaction.options.getString('roll');
+        const rollSize = interaction.options.getString('sides') || 20;
         const options = interaction.options.getString('options');
         const silence = interaction.options.getString('silence');
 
