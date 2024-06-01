@@ -35,24 +35,28 @@ module.exports = {
 
                 if (options.length > 0) {
                     console.log(`greater than 0: ${options.length}`);
-                    result = `Option ${rollResult}`;
+
+                    if (rollResult <= options.length - 1) {
+                        result = `${options[rollResult]}`
+                    }
+
+                    result = `Option ${rollResult + 1}`;
                 } else {
                     console.log(`equal to zero 0: ${options.length}`);
-                    result = rollResult;
+                    result = rollResult + 1;
                 }
 
-                const userEmbed = new EmbedBuilder()
-                    .setColor(0x8B41C8)
-                    .setAuthor({ name: `${interaction.user.displayName}`, iconURL: `${interaction.user.displayAvatarURL()}` })
-                    .setThumbnail("https://upload.wikimedia.org/wikipedia/commons/c/cd/D20_icon_showing_1.png")
-                    .addFields(
-                        { name: '**Roll:**', value: result }
-                    )
-                    .setTimestamp()
-                    .setFooter({ text: client.user.tag, iconURL: client.user.displayAvatarURL() });
-
                 await interaction.reply({
-                    embeds: [userEmbed],
+                    embeds: [new EmbedBuilder()
+                        .setColor(0x8B41C8)
+                        .setAuthor({ name: `${interaction.user.displayName}`, iconURL: `${interaction.user.displayAvatarURL()}` })
+                        .setThumbnail("https://upload.wikimedia.org/wikipedia/commons/c/cd/D20_icon_showing_1.png")
+                        .addFields(
+                            { name: '**Roll:**', value: result }
+                        )
+                        .setTimestamp()
+                        .setFooter({ text: client.user.tag, iconURL: client.user.displayAvatarURL() })
+                    ],
                     ephemeral: silence
                 });
             } else {
