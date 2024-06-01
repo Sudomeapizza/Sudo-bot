@@ -30,12 +30,14 @@ module.exports = {
         try {
             if (!isNaN(rollSize) && rollSize > 0) {
                 const rollResult = Math.floor(Math.random() * rollSize) + 1;
-                console.log(rollResult);
+                console.log(`roll: ${rollResult}`);
                 let result = "";
 
                 if (options.length > 0) {
+                    console.log(`greater than 0: ${options.length}`);
                     result = rollResult;
                 } else {
+                    console.log(`equal to zero 0: ${options.length}`);
                     result = `Option ${rollResult}`;
                 }
 
