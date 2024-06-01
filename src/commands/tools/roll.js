@@ -14,7 +14,7 @@ module.exports = {
         )
         .addStringOption(option =>
             option.setName('silence')
-                .setDescription('true / false')
+                .setDescription('quiet')
         )
         .setDefaultMemberPermissions(PermissionFlagsBits.ManageGuild)
         .setDMPermission(false),
@@ -25,8 +25,6 @@ module.exports = {
 
         const options = optionsString ? optionsString.split(',') : [];
 
-        console.log(options);
-        console.log(options.length);
         try {
             if (!isNaN(rollSize) && rollSize > 0) {
                 const rollResult = Math.floor(Math.random() * rollSize) + 1;
@@ -34,16 +32,15 @@ module.exports = {
                 let result = "";
 
                 if (options.length > 0) {
-                    console.log(`greater than 0: ${options.length}`);
-
-                    if (rollResult <= options.length - 1) {
-                        result = `${options[rollResult]}`
+                    console.log(`options length: ${options.length}`);
+                    if (rollResult <= options.length) {
+                        result = `${options[rollResult - 1]}`;
+                    } else {
+                        result = `Option ${rollResult}`;
                     }
-
-                    result = `Option ${rollResult + 1}`;
                 } else {
-                    console.log(`equal to zero 0: ${options.length}`);
-                    result = rollResult + 1;
+                    console.log(`options length is zero: ${options.length}`);
+                    result = rollResult.toString();
                 }
 
                 await interaction.reply({
