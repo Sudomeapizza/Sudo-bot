@@ -25,6 +25,8 @@ module.exports = {
 
         const options = optionsString ? optionsString.split(',') : [];
 
+        console.log(options);
+        console.log(options.length);
         try {
             if (!isNaN(rollSize) && rollSize > 0) {
                 const rollResult = Math.floor(Math.random() * rollSize) + 1;
