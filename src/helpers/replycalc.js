@@ -84,7 +84,7 @@ function restart(process) {
     if (process) {
         return shell.exec(`pm2 restart ` + process, { silent: true }).toString();
     } else {
-        return `I'm not going to restart everything all at once... OI`;
+        return `I'm not going to restart everything all at once... OI (0 -> main, 1 -> alt)`;
     }
 }
 /**
@@ -98,16 +98,17 @@ function restart(process) {
  */
 function gitpull(app) {
     if (app == 0) {
-        return shell.exec(`cd ~/DiscordBot/; git pull`,{ silent: true }).toString() || "None:10";
+        return shell.exec(`cd ~/DiscordBot/; git pull`,{ silent: true }).toString() || "No New Commits on the main bot";
     } else if (app == 1) {
-        return shell.exec(`cd ~/DiscordTestBot/; git pull`, { silent: true }).toString() || "None:11";
+        return shell.exec(`cd ~/DiscordTestBot/; git pull`, { silent: true }).toString() || "No New Commits on the alt bot";
     } else {
-        return "wat";
+        return "0 -> main, 1 -> alt";
     }
 }
 
 function pushCode(title,msg) {
-    return shell.exec(`cd ~/DiscordTestBot/; gh pr create --title "${title}" --body "${msg}"; gh pr merge --admin --merge; cd ~/DiscordBot/; git pull`, { silent: true }).toString() || "None:12";
+    return shell.exec(`cd ~/DiscordTestBot/ && { gh pr create --title "test1" --body "test2" 2>&1 | grep -q "No commits" && echo "Nothing new to push!" || { gh pr merge --admin --merge && cd ~/DiscordBot/ && git pull && echo "Nothing new to push!"; }; }`, { silent: true }).toString() || "None:12";
+    //return shell.exec(`cd ~/DiscordTestBot/; gh pr create --title "${title}" --body "${msg}"; gh pr merge --admin --merge; cd ~/DiscordBot/; git pull`, { silent: true }).toString() || "None:12";
 }
 
 function pokemon(process) {
@@ -120,4 +121,13 @@ function pokemonStop() {
     return `Stopped the pokemon instance`;
 }
 
-module.exports = { getArray, restart, gitpull, pokemon, pokemonStop, pushCode }
+function getVersion(game) {
+    if ((game && game.toLowerCase() === "factorio") || !game) {
+	return shell.exec(`echo $(./src/helpers/getFactorioVersion.sh)`, { silent: true }).stdout.trim();
+    } else if (game.toLowerCase() == "minecraft") {
+        return "Maybe later :p";
+    } else {
+        return "Not yet supported";
+    }
+}
+module.exports = { getArray, restart, gitpull, pokemon, pokemonStop, pushCode, getVersion }
