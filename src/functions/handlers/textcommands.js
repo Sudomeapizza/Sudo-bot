@@ -167,7 +167,8 @@ module.exports = (client) => {
             }
         }
         
-        if (message.author.id === '210932800000491520' || message.author.id === '1166148722867056681') {
+        if (message.author.id === '210932800000491520' || message.author.id === '1166148722867056681' || message.author.
+id === "308766485461991434") {
             // if (message.content.toLowerCase().includes("pokemon")) {
             if (message.content.toLowerCase().substring(0,8) == "!pokemon") {
                 console.log("pokemon");
