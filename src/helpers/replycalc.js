@@ -107,7 +107,7 @@ function gitpull(app) {
 }
 
 function pushCode(title,msg) {
-    return shell.exec(`cd ~/DiscordTestBot/ && { gh pr create --title "test1" --body "test2" 2>&1 | grep -q "No commits" && echo "Nothing new to push!" || { gh pr merge --admin --merge && cd ~/DiscordBot/ && git pull && echo "Nothing new to push!"; }; }`, { silent: true }).toString() || "None:12";
+    return shell.exec(`cd ~/DiscordTestBot/ && { gh pr create --title "${title}" --body "${msg}" 2>&1 | grep -q "No commits" && echo "Nothing new to push!" || { gh pr merge --admin --merge && cd ~/DiscordBot/ && git pull && echo "Nothing new to push2!"; }; }`, { silent: true }).toString() || "None:12";
     //return shell.exec(`cd ~/DiscordTestBot/; gh pr create --title "${title}" --body "${msg}"; gh pr merge --admin --merge; cd ~/DiscordBot/; git pull`, { silent: true }).toString() || "None:12";
 }
 
