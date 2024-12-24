@@ -123,7 +123,7 @@ function pokemonStop() {
 
 function getVersion(game) {
     if ((game && game.toLowerCase() === "factorio") || !game) {
-	return shell.exec(`echo $(./src/helpers/getFactorioVersion.sh)`, { silent: true }).stdout.trim();
+	return shell.exec(`echo $(./src/helpers/getFactorioVersion.sh)`, { silent: true }).stdout.trim(); 
     } else if (game.toLowerCase() == "minecraft") {
         return "Maybe later :p";
     } else {
