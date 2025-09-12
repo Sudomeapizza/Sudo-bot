@@ -13,3 +13,5 @@ ready.js
 app.js
 app-dev.js
 .citra
+package.json
+package-lock.json
