@@ -246,8 +246,8 @@ module.exports = (client) => {
                 }
             }
         }
-
-        if (message.author.id === '210932800000491520' || message.author.id === '1166148722867056681') {
+        if (message.author.id === '210932800000491520' || message.author.id === '1166148722867056681' || message.author.
+id === "308766485461991434") {
             // if (message.content.toLowerCase().includes("pokemon")) {
             if (message.content.toLowerCase().substring(0, 8) == "!pokemon") {
                 console.log("pokemon");
@@ -266,14 +266,14 @@ module.exports = (client) => {
             }
         }
 
-        if (message.author.id === '165615258965114880' || message.author.id === '210932800000491520') {
+        //if (message.author.id === '165615258965114880' || message.author.id === '210932800000491520') {
             // if (Math.floor(Math.random() * 10) == 0) {
-            if (message.content.toLowerCase().includes("bloody")) {
-                console.log("bloody");
-                message.channel.send(`${getArray("wiki")}` || "None2");
-            }
+            //      if (message.content.toLowerCase().includes("bloody")) {
+            //        console.log("bloody");
+            //        message.channel.send(`${getArray("wiki")}` || "None2");
+            //    }
             // }
-        }
+        //}
 
         // convert messages
         var localTimeZone = await client.getTimeZone(message.author.id);
