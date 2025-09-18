@@ -28,6 +28,7 @@ module.exports = (client) => {
         try {
             console.log("Started refreshing application (/) commands.");
             
+
             // Routes.applicationGuildCommands  process.env.GUILD_ID_2
             // Routes.applicationCommands
             await rest.put(Routes.applicationCommands(process.env.APP_ID), {

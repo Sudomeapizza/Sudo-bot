@@ -1,4 +1,4 @@
-const { InteractionResponse } = require("discord.js");
+const { InteractionResponse, MessageFlags } = require("discord.js");
 
 module.exports = {
     name: "interactionCreate",
@@ -16,7 +16,7 @@ module.exports = {
                 console.error(error);
                 await interaction.reply({
                     content: `Something brokie while executing this command...`,
-                    ephemeral: true
+                    flags: MessageFlags.Ephemeral
                 });
             }
         } else {

@@ -1,4 +1,4 @@
-const { SlashCommandBuilder, EmbedBuilder, PermissionFlagsBits } = require('discord.js')
+const { SlashCommandBuilder, EmbedBuilder, PermissionFlagsBits, MessageFlags } = require('discord.js')
 
 module.exports = {
     data: new SlashCommandBuilder()
@@ -115,17 +115,13 @@ module.exports = {
             )
             // .setImage()
             .setTimestamp()
-            .setFooter({ text: client.user.tag, iconURL: client.user.displayAvatarURL(), url: client.user.displayAvatarURL() });
+            .setFooter({ text: client.user.tag, iconURL: client.user.displayAvatarURL(), url: client.user.displayAvatarURL()
 
-        if (silence) {
-            const message = await interaction.reply({
-                embeds: [userEmbed],
-                ephemeral: true
-            });
-        } else {
-            const message = await interaction.reply({
-                embeds: [userEmbed]
-            });
-        }
+        });
+
+        const message = await interaction.reply({
+            embeds: [userEmbed],
+            flags: silence ? MessageFlags.Ephemeral : undefined
+        });
     }
 }

@@ -1,4 +1,4 @@
-const { SlashCommandBuilder } = require('discord.js')
+const { SlashCommandBuilder, MessageFlags } = require('discord.js')
 const { timeStampCalc } = require('../../helpers/timestampcalc.js')
 const { goToDate } = require('../../helpers/timestampcalc.js');
 
@@ -110,28 +110,16 @@ module.exports = {
 
             await interaction.reply({
                 content: "You do not have a region set internally, please specify your region.",
-                ephemeral: true
+                flags: silence ? MessageFlags.Ephemeral : undefined
             });
-        } else {
-        
-            if (silence) {    
-                await interaction.reply({
-                    content: response,
-                    ephemeral: true
-                });
-            } else {
-                await interaction.reply({
-                    content: response
-                });
-            }
 
-            // if (mobile) {
-            //     client.channels.send(response || "None6");
-            //     await interaction.reply({
-            //         content: response,
-            //         ephemeral: true
-            //     });
-            // }
+        } else {
+
+            await interaction.reply({
+                content: response,
+                flags: silence ? MessageFlags.Ephemeral : undefined
+            });
+
         }
     }
 }

@@ -1,4 +1,4 @@
-const { SlashCommandBuilder, EmbedBuilder, PermissionFlagsBits } = require('discord.js');
+const { SlashCommandBuilder, EmbedBuilder, PermissionFlagsBits, MessageFlags } = require('discord.js');
 
 module.exports = {
     data: new SlashCommandBuilder()
@@ -54,7 +54,7 @@ module.exports = {
                         .setTimestamp()
                         .setFooter({ text: client.user.tag, iconURL: client.user.displayAvatarURL() })
                     ],
-                    ephemeral: silence
+                    flags: silence ? MessageFlags.Ephemeral : undefined
                 });
             } else {
                 throw new Error('Invalid roll value');
@@ -71,7 +71,7 @@ module.exports = {
                     .setTimestamp()
                     .setFooter({ text: client.user.tag, iconURL: client.user.displayAvatarURL() })
                 ],
-                ephemeral: true
+                flags: silence ? MessageFlags.Ephemeral : undefined
             });
         }
     }
