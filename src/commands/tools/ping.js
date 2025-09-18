@@ -1,4 +1,4 @@
-const { SlashCommandBuilder, PermissionFlagsBits } = require('discord.js')
+const { SlashCommandBuilder, PermissionFlagsBits, MessageFlags } = require('discord.js')
 
 module.exports = {
     data: new SlashCommandBuilder()
@@ -13,35 +13,23 @@ module.exports = {
     async execute(interaction, client) {
 
         const silence = interaction.options.getBoolean('silents') || false;
-        var message;
+        console.log("Silent ping: " + silence);
 
-        if (silence) {
-            message = await interaction.deferReply({
-                fetchReply: true,
-                ephemeral: true
-            });
-        } else {
-            message = await interaction.deferReply({
-                fetchReply: true
-            });
-        }
+        await interaction.deferReply({
+            withResponse: true,
+            flags: silence ? MessageFlags.Ephemeral : undefined
+        });
 
-        const newMessage = `API Latency: ${client.ws.ping}\n`
-        + `Client Ping: ${message.createdTimestamp - interaction.createdTimestamp}`;
-        
-        
-        if (silence) {
-            await interaction.editReply({
-                fetchReply: true,
-                content: newMessage,
-                ephemeral: true
-            });
-        } else {
-            await interaction.editReply({
-                fetchReply: true,
-                content: newMessage
-            });
-        }
+        const message = await interaction.fetchReply();
+        const ping = client.ws.ping;
+
+        const newMessage = `API Latency: ${ping} ms\n`
+        // + `Client Ping: ${message.createdTimestamp - interaction.createdTimestamp}`;
+        + `Client Ping: ${Date.now() - interaction.createdTimestamp} ms`;
+
+        await interaction.editReply({
+            content: newMessage,
+        });
 
     }
 

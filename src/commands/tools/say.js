@@ -1,4 +1,4 @@
-const { SlashCommandBuilder, PermissionFlagsBits } = require('discord.js')
+const { SlashCommandBuilder, PermissionFlagsBits, MessageFlags } = require('discord.js')
 
 module.exports = {
     data: new SlashCommandBuilder()
@@ -31,7 +31,7 @@ module.exports = {
                 if (fetchedMessage) {
                     await interaction.reply({
                         content: ".",
-                        ephemeral: true
+                        flags: silence ? MessageFlags.Ephemeral : undefined
                     });
                     await interaction.deleteReply({});
                     
@@ -43,7 +43,7 @@ module.exports = {
                 } else {
                     await interaction.reply({
                         content: "message does not exist",
-                        ephemeral: true
+                        flags: silence ? MessageFlags.Ephemeral : undefined
                     });
                 }
 
@@ -52,7 +52,7 @@ module.exports = {
                 client.channels.cache.get(`${interaction.channelId}`).send(usermessage);
                 await interaction.reply({
                     content: ".",
-                    ephemeral: true
+                    flags: silence ? MessageFlags.Ephemeral : undefined
                 });
                 await interaction.deleteReply({});
             }

@@ -1,32 +1,38 @@
-const { SlashCommandBuilder, EmbedBuilder } = require('discord.js')
+const { SlashCommandBuilder, EmbedBuilder, MessageFlags } = require('discord.js')
 
 module.exports = {
     data: new SlashCommandBuilder()
-    .setName('help')
-    .setDescription("Display help on what I can do!")
-    .addUserOption(option =>
-        option.setName('ignoreme')
-        .setDescription('ignoreme')
+        .setName('help')
+        .setDescription("Display help on what I can do!")
+        .addUserOption(option =>
+            option.setName('ignoreme')
+                .setDescription('ignoreme')
+        )
+        .addUserOption(option =>
+            option.setName('ignoremee')
+                .setDescription('ignoremee')
         ),
     async execute(interaction, client) {
         const user = interaction.user;
 
-        const message = "-> Get started with \`/settimezone\` to globally use your timezone to auto convert your messages\n" +
-                        "-> Remove your data with \`/removetimezonedata\` at anytime!\n\n" +
+        const message =
+            "Lol this is outdated... xD\n" +
+            "-> Get started with \`/settimezone\` to globally use your timezone to auto convert your messages\n" +
+            "-> Remove your data with \`/removetimezonedata\` at anytime!\n\n" +
 
-                        "I can recognize any combination of these formats within your messages!\n" +
-                        "<day> <at/@> <time>\n" +
-                        "!(Date) <at/@> <time>\n\n" +
+            "I can recognize any combination of these formats within your messages!\n" +
+            "<day> <at/@> <time>\n" +
+            "!(Date) <at/@> <time>\n\n" +
 
-                        "Here are some possible examples:\n\n" +
+            "Here are some possible examples:\n\n" +
 
-                        "Tuesday at 12:00am\n" +
-                        "today at 15:00\n" +
-                        "tomorrow at 5:00 pm\n" +
-                        "Tuesday at 1200\n" +
-                        "tonight @ 20\n" +
-                        "!(Dec 14 2025) at 4pm\n" +
-                        "!(Jan 10) at 15";
+            "Tuesday at 12:00am\n" +
+            "today at 15:00\n" +
+            "tomorrow at 5:00 pm\n" +
+            "Tuesday at 1200\n" +
+            "tonight @ 20\n" +
+            "!(Dec 14 2025) at 4pm\n" +
+            "!(Jan 10) at 15";
 
         const embed = new EmbedBuilder()
             .setTitle(`Help:`)
@@ -38,7 +44,7 @@ module.exports = {
             });
         await interaction.reply({
             embeds: [embed],
-            ephemeral: true,
+            flags: MessageFlags.Ephemeral
         })
     }
 }

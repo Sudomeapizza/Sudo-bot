@@ -3,8 +3,8 @@ const shell = require('shelljs');
 
 
 var bloodyGifs = ["https://cdn.discordapp.com/attachments/669372366710898688/1175332478563651664/image0.gif?ex=656ad8ab&is=655863ab&hm=dc4afa1be5b9f0f72829d88f9b9944a36c1f97abb8760138712009ba264b9b1a&",
-"https://cdn.discordapp.com/attachments/669372366710898688/1175332479251521585/image1.gif?ex=656ad8ab&is=655863ab&hm=7cea1d7a01a7b5bdbfaa75c3202d0fbe6df0cc59a6ffb658769eba49736114ec&",
-"https://media.discordapp.net/attachments/669372366710898688/1175332479612223639/image2.gif?ex=656ad8ab&is=655863ab&hm=dfa1cab4e4ad5048ea11119c56a80672fcc3b1e86cc3bb7463f4cb4cacbb293f&="]
+    "https://cdn.discordapp.com/attachments/669372366710898688/1175332479251521585/image1.gif?ex=656ad8ab&is=655863ab&hm=7cea1d7a01a7b5bdbfaa75c3202d0fbe6df0cc59a6ffb658769eba49736114ec&",
+    "https://media.discordapp.net/attachments/669372366710898688/1175332479612223639/image2.gif?ex=656ad8ab&is=655863ab&hm=dfa1cab4e4ad5048ea11119c56a80672fcc3b1e86cc3bb7463f4cb4cacbb293f&="]
 
 var atMe = [
     "`<@${message.author.id}>`",
@@ -37,7 +37,7 @@ function getArray(text) {
             console.log("workie2.21");
             link = fetchLink();
             break;
-            
+
         default:
             console.log("Workie2.22");
             break;
@@ -47,14 +47,14 @@ function getArray(text) {
     return link;
 }
 
-function random(array){
+function random(array) {
     console.log("Workie11");
     const val = `${array[Math.floor(Math.random() * array.length)]}`;
     console.log("Workie12");
     return val;
 }
 
-function randomWiki(){
+function randomWiki() {
     console.log("workie55");
     var link = new website();
     console.log("workie1");
@@ -65,9 +65,9 @@ function randomWiki(){
 
 function fetchLink() {
     const source = [
-      'https://en.wikipedia.org/w/api.php?format=json&action=query&generator=random&grnnamespace=0&rvprop=content&grnlimit=1',
-      'https://google.com',
-      'https://api.example.com/data'
+        'https://en.wikipedia.org/w/api.php?format=json&action=query&generator=random&grnnamespace=0&rvprop=content&grnlimit=1',
+        'https://google.com',
+        'https://api.example.com/data'
     ];
 
     var readableContent = shell.exec(`echo $(./src/helpers/wget.sh "${source[0]}")`, { silent: true });
@@ -98,7 +98,7 @@ function restart(process) {
  */
 function gitpull(app) {
     if (app == 0) {
-        return shell.exec(`cd ~/DiscordBot/; git pull`,{ silent: true }).toString() || "No New Commits on the main bot";
+        return shell.exec(`cd ~/DiscordBot/; git pull`, { silent: true }).toString() || "No New Commits on the main bot";
     } else if (app == 1) {
         return shell.exec(`cd ~/DiscordTestBot/; git pull`, { silent: true }).toString() || "No New Commits on the alt bot";
     } else {
@@ -106,8 +106,8 @@ function gitpull(app) {
     }
 }
 
-function pushCode(title,msg) {
-    return shell.exec(`cd ~/DiscordTestBot/ && { gh pr create --title "${title}" --body "${msg}" 2>&1 | grep -q "No commits" && echo "Nothing new to push!" || { gh pr merge --admin --merge && cd ~/DiscordBot/ && git pull && echo "Nothing new to push2!"; }; }`, { silent: true }).toString() || "None:12";
+function pushCode(title, msg) {
+    return shell.exec(` { gh pr create --title "${title}" --body "${msg}" 2>&1 | grep -q "No commits" && echo "Nothing new to push!" || { gh pr merge --admin --merge && git pull && echo "Nothing new to push2!"; }; }`, { silent: true }).toString() || "None:12";
     //return shell.exec(`cd ~/DiscordTestBot/; gh pr create --title "${title}" --body "${msg}"; gh pr merge --admin --merge; cd ~/DiscordBot/; git pull`, { silent: true }).toString() || "None:12";
 }
 
@@ -123,7 +123,7 @@ function pokemonStop() {
 
 function getVersion(game) {
     if ((game && game.toLowerCase() === "factorio") || !game) {
-	return shell.exec(`echo $(./src/helpers/getFactorioVersion.sh)`, { silent: true }).stdout.trim(); 
+        return shell.exec(`echo $(./src/helpers/getFactorioVersion.sh)`, { silent: true }).stdout.trim();
     } else if (game.toLowerCase() == "minecraft") {
         return "Maybe later :p";
     } else {
