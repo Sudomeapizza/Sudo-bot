@@ -1,4 +1,3 @@
-const { timeConvert } = require('../../helpers/timestampcalc.js');
 // const { joinVoiceChannel } = require('@discordjs/voice');
 const { getArray, restart, gitpull, pokemon, pokemonStop, pushCode, getVersion } = require('../../helpers/replycalc.js');
 // const { joinVoiceChannel, VoiceConnection, VoiceConnectionStatus, VoiceConnectionDisconnectReason, VoiceChannel, getVoiceConnection } = require('@discordjs/voice');
@@ -58,139 +57,139 @@ module.exports = (client) => {
         if (message.author.id === '210932800000491520') {
 
             console.log("Sudo sent a message")
-            const match = message.content.match(/https?:\/\/[^\s]+/);
-            console.log(match + " --- " + message.content);
-            if (match == message.content) {
+            // const match = message.content.match(/https?:\/\/[^\s]+/);
+            // console.log(match + " --- " + message.content);
+            // if (match == message.content) {
 
-                console.log("Link matched: " + match);
-                // Errant #News-stuffs
-                // if (message.guild?.id !== 1076645110390984714 || message.channel.id !== 1085298877890056272) return;
-                // TestServer #testbot-test
+            //     console.log("Link matched: " + match);
+            //     // Errant #News-stuffs
+            //     // if (message.guild?.id !== 1076645110390984714 || message.channel.id !== 1085298877890056272) return;
+            //     // TestServer #testbot-test
 
-                if (message.guild.id !== "1174218330962395146" || message.channel.id !== "1416204394894069871") {
-                    console.log(
-                        "NO MATCH:\n" +
-                        "Guild 1174218330962395146 /= " + message.guild.id +
-                        "\nChannel 1416204394894069871 /= " + message.channel.id
-                    )
-                    return
-                };
-                console.log("MATCH")
+            //     if (message.guild.id !== "1174218330962395146" || message.channel.id !== "1416204394894069871") {
+            //         console.log(
+            //             "NO MATCH:\n" +
+            //             "Guild 1174218330962395146 /= " + message.guild.id +
+            //             "\nChannel 1416204394894069871 /= " + message.channel.id
+            //         )
+            //         return
+            //     };
+            //     console.log("MATCH")
 
-                message.delete()
+            //     message.delete()
 
-                var newsPostMessage = await message.channel.send({
-                    withResponse: true,
-                    content: "Parsing: <" + match + "> ..."
-                });
+            //     var newsPostMessage = await message.channel.send({
+            //         withResponse: true,
+            //         content: "Parsing: <" + match + "> ..."
+            //     });
 
-                var url = match[0];
-                var u = new URL(url);
-                var baseUrl = `${u.protocol}//${u.host}/`;
-                var postId = url.split("/post/")[1];
-                var ogUrl = "";
+            //     var url = match[0];
+            //     var u = new URL(url);
+            //     var baseUrl = `${u.protocol}//${u.host}/`;
+            //     var postId = url.split("/post/")[1];
+            //     var ogUrl = "";
 
-                var { data, result } = await testLemmyCommunity(baseUrl, postId);
+            //     var { data, result } = await testLemmyCommunity(baseUrl, postId);
 
-                // Test if Lemmy Community
-                if (!result) {
-                    await newsPostMessage.edit({ content: `Parsing news site: <${url}>` });
-                    // data = await fetchLemmyPostData(baseUrl, postId);
+            //     // Test if Lemmy Community
+            //     if (!result) {
+            //         await newsPostMessage.edit({ content: `Parsing news site: <${url}>` });
+            //         // data = await fetchLemmyPostData(baseUrl, postId);
 
-                    console.log("NOT LEMMY")
-                    const article = await fetchArticleSnippet(url, 5);
+            //         console.log("NOT LEMMY")
+            //         const article = await fetchArticleSnippet(url, 5);
 
-                    console.log(article.articleFavicon)
+            //         console.log(article.articleFavicon)
 
-                    /**
-                     * BUILD EMBED
-                     */
-                    const embed = new EmbedBuilder()
-                        .setAuthor({
-                            name: article.articleNewsSite,
-                            URL: url,
-                            iconURL: article.articleFavicon
+            //         /**
+            //          * BUILD EMBED
+            //          */
+            //         const embed = new EmbedBuilder()
+            //             .setAuthor({
+            //                 name: article.articleNewsSite,
+            //                 URL: url,
+            //                 iconURL: article.articleFavicon
 
-                        })
-                        .setColor(parseInt("580085", 16))
-                        .setTitle(article.articleTitle)
-                        .setURL(url)
-                        .setThumbnail(article.articlePreviewImage)
-                        .setTimestamp(new Date())
-                        .addFields(
-                            {
-                                name: "Article", value:
-                                    `[${url.substring(8)}](${url})`
-                            },
-                            { name: "Article Content", value: article.content.substring(0, 1020) + " ..." }
-                        );
-
-
-                    await newsPostMessage.edit({ content: "", embeds: [embed] });
-                    return;
-                }
-
-                try {
-
-                    if (url != data.post_view.post.ap_id) {
-                        ogUrl = url;
-                        url = data.post_view.post.ap_id
-                        u = new URL(url)
-                        baseUrl = `${u.protocol}//${u.host}/`;
-                        postId = url.split("/post/")[1];
-
-                        var { data, result } = await testLemmyCommunity(baseUrl, postId);
-                        console.log(result)
-                    }
-
-                    const favicon = await fetchFavicon(baseUrl);
-                    data = await fetchLemmyPostData(baseUrl, postId);
-
-                    /**
-                     * BUILD EMBED
-                     */
-                    const embed = new EmbedBuilder()
-                        .setAuthor({
-                            name: formatCommunity(data.communityActor, data.communityTitle), // Autofill News Site -> dbzer0
-                            URL: url,
-                            iconURL: favicon
-                        })
-                        .setColor(16747008)
-                        .setTitle(data.post_view.post.name || "Lemmy Post")
-                        .setURL(url)
-                        .setThumbnail(data.post_view.post.thumbnail_url)
-                        .setFooter({
-                            text: message.author.globalName,
-                            iconURL: message.author.avatarURL()
-                        })
-                        .setTimestamp(new Date())
-                        .addFields(
-                            {
-                                name: "Lemmy Post:", value:
-                                    `\n:arrow_up: ${data.postUpvotes} :arrow_down: ${data.postDownvotes}\n` +
-                                    `${ogUrl ? "Via: [" + ogUrl.substring(8) + "](" + ogUrl + ")\n" : ""}` +
-                                    `[${url.substring(8)}](${url}) • <t:${Date.parse(new Date(data.publishedDate)) / 1000}:f>\n\n` +
-                                    `${commentDataFormatted(data.topComments)}`
-                            },
-                            {
-                                name: "Article", value:
-                                    `[${data.articleUrl.substring(8)}](${data.articleUrl})`
-                            },
-                            { name: "Article Content", value: data.snippet.content.substring(0, 1020) + " ..." }
-                        );
+            //             })
+            //             .setColor(parseInt("580085", 16))
+            //             .setTitle(article.articleTitle)
+            //             .setURL(url)
+            //             .setThumbnail(article.articlePreviewImage)
+            //             .setTimestamp(new Date())
+            //             .addFields(
+            //                 {
+            //                     name: "Article", value:
+            //                         `[${url.substring(8)}](${url})`
+            //                 },
+            //                 { name: "Article Content", value: article.content.substring(0, 1020) + " ..." }
+            //             );
 
 
-                    newsPostMessage.edit({ content: "", embeds: [embed] });
-                } catch (err) {
-                    await newsPostMessage.edit({ content: "ahhh! brokie! Lemme know it brokie!" });
-                    console.error(err)
-                }
-            } else {
-                if (match) {
-                    console.log("Link NOT matched: " + match)
-                    await newsPostMessage.edit({ content: "Resend with *only* the web url!" });
-                }
-            }
+            //         await newsPostMessage.edit({ content: "", embeds: [embed] });
+            //         return;
+            //     }
+
+            //     try {
+
+            //         if (url != data.post_view.post.ap_id) {
+            //             ogUrl = url;
+            //             url = data.post_view.post.ap_id
+            //             u = new URL(url)
+            //             baseUrl = `${u.protocol}//${u.host}/`;
+            //             postId = url.split("/post/")[1];
+
+            //             var { data, result } = await testLemmyCommunity(baseUrl, postId);
+            //             console.log(result)
+            //         }
+
+            //         const favicon = await fetchFavicon(baseUrl);
+            //         data = await fetchLemmyPostData(baseUrl, postId);
+
+            //         /**
+            //          * BUILD EMBED
+            //          */
+            //         const embed = new EmbedBuilder()
+            //             .setAuthor({
+            //                 name: formatCommunity(data.communityActor, data.communityTitle), // Autofill News Site -> dbzer0
+            //                 URL: url,
+            //                 iconURL: favicon
+            //             })
+            //             .setColor(16747008)
+            //             .setTitle(data.post_view.post.name || "Lemmy Post")
+            //             .setURL(url)
+            //             .setThumbnail(data.post_view.post.thumbnail_url)
+            //             .setFooter({
+            //                 text: message.author.globalName,
+            //                 iconURL: message.author.avatarURL()
+            //             })
+            //             .setTimestamp(new Date())
+            //             .addFields(
+            //                 {
+            //                     name: "Lemmy Post:", value:
+            //                         `\n:arrow_up: ${data.postUpvotes} :arrow_down: ${data.postDownvotes}\n` +
+            //                         `${ogUrl ? "Via: [" + ogUrl.substring(8) + "](" + ogUrl + ")\n" : ""}` +
+            //                         `[${url.substring(8)}](${url}) • <t:${Date.parse(new Date(data.publishedDate)) / 1000}:f>\n\n` +
+            //                         `${commentDataFormatted(data.topComments)}`
+            //                 },
+            //                 {
+            //                     name: "Article", value:
+            //                         `[${data.articleUrl.substring(8)}](${data.articleUrl})`
+            //                 },
+            //                 { name: "Article Content", value: data.snippet.content.substring(0, 1020) + " ..." }
+            //             );
+
+
+            //         newsPostMessage.edit({ content: "", embeds: [embed] });
+            //     } catch (err) {
+            //         await newsPostMessage.edit({ content: "ahhh! brokie! Lemme know it brokie!" });
+            //         console.error(err)
+            //     }
+            // } else {
+            //     if (match) {
+            //         console.log("Link NOT matched: " + match)
+            //         await newsPostMessage.edit({ content: "Resend with *only* the web url!" });
+            //     }
+            // }
 
 
             if (message.content.toLowerCase().substring(0, 8) == "!restart") {
@@ -205,7 +204,7 @@ module.exports = (client) => {
             if (message.content.toLowerCase().substring(0, 8) == "!gitpull") {
                 console.log("gitpull");
 
-                const replyMessage = await message.reply({ content: `Checking github...`});
+                const replyMessage = await message.reply({ content: `Checking github...` });
                 const fetchedReplyMessage = await message.channel.messages.fetch(replyMessage.id);
                 fetchedReplyMessage.edit({ content: gitpull(parseInt(message.content.toLowerCase().split(" ")[1])) });
             }
@@ -218,6 +217,7 @@ module.exports = (client) => {
                 fetchedReplyMessage.edit({ content: getVersion(message.content.toLowerCase().split(" ")[1]), flags: silence ? MessageFlags.Ephemeral : undefined });
             }
 
+            // Usage: `!pushcode "title" "body"`
             if (message.content.toLowerCase().substring(0, 9) == "!pushcode") {
                 console.log("Pushcode");
 
@@ -240,14 +240,16 @@ module.exports = (client) => {
                 const values = extractValues(message.content.toLowerCase());
                 console.log(values);
                 if (values) {
-                    fetchedReplyMessage.edit({ content: pushCode(values.title, values.body)});
+                    fetchedReplyMessage.edit({ content: pushCode(values.title, values.body) });
                 } else {
-                    fetchedReplyMessage.edit({ content: `!pushcode "title" "body"`});
+                    fetchedReplyMessage.edit({ content: `!pushcode "title" "body"` });
                 }
             }
         }
+
         if (message.author.id === '210932800000491520' || message.author.id === '1166148722867056681' || message.author.
 id === "308766485461991434") {
+
             // if (message.content.toLowerCase().includes("pokemon")) {
             if (message.content.toLowerCase().substring(0, 8) == "!pokemon") {
                 console.log("pokemon");
@@ -265,28 +267,27 @@ id === "308766485461991434") {
                 fetchedReplyMessage.edit({ content: messagess });
             }
         }
-
-        //if (message.author.id === '165615258965114880' || message.author.id === '210932800000491520') {
+        // if (message.author.id === '165615258965114880' || message.author.id === '210932800000491520') {
             // if (Math.floor(Math.random() * 10) == 0) {
-            //      if (message.content.toLowerCase().includes("bloody")) {
-            //        console.log("bloody");
-            //        message.channel.send(`${getArray("wiki")}` || "None2");
-            //    }
+            // if (message.content.toLowerCase().includes("bloody")) {
+            //     console.log("bloody");
+            //     message.channel.send(`${getArray("wiki")}` || "None2");
             // }
-        //}
+            // }
+        // }
 
-        // convert messages
-        var localTimeZone = await client.getTimeZone(message.author.id);
-        if (localTimeZone) {
-            const result = timeConvert(message, localTimeZone.timeZone);
-            if (result) {
-                console.log(result);
-                message.channel.send(result);
-            }
-        } else {
-            // maybe something?
-            console.log(`No time region set for {${message.author.tag} : ${message.author.id}}`);
-        }
+        // // convert messages
+        // var localTimeZone = await client.getTimeZone(message.author.id);
+        // if (localTimeZone) {
+        //     const result = timeConvert(message, localTimeZone.timeZone);
+        //     if (result) {
+        //         console.log(result);
+        //         message.channel.send(result);
+        //     }
+        // } else {
+        //     // maybe something?
+        //     console.log(`No time region set for {${message.author.tag} : ${message.author.id}}`);
+        // }
     })
 }
 

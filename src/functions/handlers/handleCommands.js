@@ -24,6 +24,7 @@ module.exports = (client) => {
                 }
             }
         }
+
         const rest = new REST({ version: "9" }).setToken(process.env.token);
         try {
             console.log("Started refreshing application (/) commands.");
@@ -35,10 +36,25 @@ module.exports = (client) => {
                 body: commandArray,
             });
 
-            console.log("Successfully reloaded application (/) commands.");
+//         const rest = new REST().setToken(process.env.token_2);
+//         (async () => {
+//             try {
+//                 console.log(`Started refreshing ${commands.length} application (/) commands.`);
 
-        } catch (error) {
-            console.error(error);
-        }
+//                 // The put method is used to fully refresh all commands in the guild with the current set
+//                 const data = await rest.put(
+//                     Routes.applicationGuildCommands(process.env.APP_ID_2, process.env.GUILD_ID_2),
+//                     { body: commandArray },
+//                 );
+//                 // await rest.put(Routes.applicationCommands(process.env.APP_ID_2), {
+//                 //     body: commandArray,
+//                 // });
+
+//                 console.log(`Successfully reloaded ${data.length} application (/) commands.`);
+//             } catch (error) {
+//                 // And of course, make sure you catch and log any errors!
+//                 console.error(error);
+//             }
+//         })();
     }
 }

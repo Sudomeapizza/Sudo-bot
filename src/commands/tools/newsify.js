@@ -1,4 +1,4 @@
-const { SlashCommandBuilder, PermissionFlagsBits, MessageFlags, EmbedBuilder } = require('discord.js')
+const { SlashCommandBuilder, InteractionContextType, MessageFlags, EmbedBuilder } = require('discord.js')
 const cheerio = require('cheerio');
 const fetch = (...args) => import("node-fetch").then(({ default: fetch }) => fetch(...args));
 
@@ -10,8 +10,13 @@ module.exports = {
             option.setName('url')
                 .setDescription('full web url')
                 .setRequired(true)
-        ),
-    // .setDefaultMemberPermissions(PermissionFlagsBits.SendMessages,PermissionFlagsBits.SendMessagesInThreads),
+        )
+        .setContexts(
+            InteractionContextType.BotDM,
+            InteractionContextType.PrivateChannel,
+            InteractionContextType.Guild
+        ),    
+        // .setDefaultMemberPermissions(PermissionFlagsBits.SendMessages,PermissionFlagsBits.SendMessagesInThreads),
     async execute(interaction, client) {
 
 

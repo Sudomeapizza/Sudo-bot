@@ -1,125 +1,77 @@
-const { SlashCommandBuilder, MessageFlags } = require('discord.js')
-const { timeStampCalc } = require('../../helpers/timestampcalc.js')
-const { goToDate } = require('../../helpers/timestampcalc.js');
+const { SlashCommandBuilder, InteractionContextType, MessageFlags } = require('discord.js')
+const { timestampformat } = require('../../helpers/timestampformat.js')
 
 module.exports = {
     data: new SlashCommandBuilder()
     .setName('timestamp')
-    .setDescription("Give a timestamp code")
-
+    .setDescription("create discord timestamp")
     .addStringOption(option =>
-        option.setName('date')
-        .setDescription('the date in MM DD YYYY')
+        option.setName('type')
+        .setDescription('type of time')
         .setRequired(true)
+        .addChoices (
+            {name: 'Relative Time', value:"rT"},
+            {name: 'Fixed Time', value:"fT"},
         )
+    )
     .addStringOption(option =>
-        option.setName('time')
-        .setDescription('the 24h time is in HH:MM<:SS>')
-        .setRequired(true)
-        )
-    .addStringOption(option =>
-        option.setName('time_region')
-        .setDescription('Time Region code. Ex: UTC. (Optional if already setup with bot, otherwise required)')
-        // .setRequired(true) // somehow make optional based on DB?
-        .addChoices(
-            {name: "JST/Tokyo", value: "JST"},
-            {name: "HKT/Hong Kong Time", value: "HKT"},
-            {name: "WIB/Jakarta", value: "WIB"},
-            {name: "BST/Dhaka", value: "BST"},
-            {name: "UZT/Tashkent", value: "UZT"},
-            {name: "GST/Dubai", value: "GST"},
-            {name: "MSK/Moscow", value: "MSK"},
-            {name: "EET/Cairo", value: "EET"},
-            {name: "CET/Brussels", value: "CET"},
-            {name: "GMT/London", value: "GMT"},
-            {name: "CVT/Praia", value: "CVT"},
-            {name: "CGT/Nuuk", value: "CGT"},
-            {name: "ART/Buenos Aires", value: "ART"},
-            {name: "VET/Caracas", value: "VET"},
-            {name: "EST/New York", value: "EST"},
-            {name: "CST/Mexico City", value: "CST"},
-            {name: "MST/Calgary", value: "MST"},
-            {name: "PST/Los Angeles", value: "PST"},
-            {name: "HST/Honolulu", value: "HST"},
-            {name: "NUT/Alofi", value: "NUT"},
-            {name: "AoE/Baker Island", value: "AoE"},
-            {name: "ANAT/Anadyr", value: "ANAT"},
-            {name: "AEDT/Melbourne", value: "AEDT"},
-            {name: "AEST/Brisbane", value: "AEST"},
-            {name: "AKST/Anchorage", value: "AKST"},
-        )
-        )
+        option.setName('relativetime')
+        .setDescription('Relative time - use y/M/w/d/h/m/s and "-" for the past - ex: 5M3d22m, 90m, -5w1d')
+    )
     .addStringOption(option =>
         option.setName('format')
-        .setDescription('optional format')
+        .setDescription('Show Time formats (Default=All)')
         .addChoices(
-            {name: 'Realitive Time', value: 'R'},
+            {name: 'All', value: 'yes'},
+            {name: 'Relative Time', value: 'R'},
             {name: 'Long Date', value: 'D'},
             {name: 'Short Date', value: 'd'},
             {name: 'Lone Time', value: 'T'},
             {name: 'Short Time', value: 't'},
             {name: 'Long Time/Date', value: 'F'},
             {name: 'Short Time/Date', value: 'f'},
-        ))
+            {name: 'Countdown', value:"c"},
+        )
+    )
+    .addStringOption(option =>
+        option.setName('fixedtime')
+        .setDescription('Enter a date - Date Req, Time Optional, Default UTC - Ex: "Sept 28 2025 9:10:25 UTC-7"')
+    )
+    .addBooleanOption(option =>
+        option.setName('displaytimecode')
+        .setDescription('Show time code in output (Default=True)')
+    )
     .addBooleanOption(option =>
         option.setName('silent')
-        .setDescription('shhhhh (true)')
-        )
-    .addBooleanOption(option =>
-        option.setName('mobile')
-        .setDescription('set true for mobile copy/paste')
-        ),
+        .setDescription('Invisible reply (Default=True)')
+    )
+    .setContexts(
+        InteractionContextType.BotDM,
+        InteractionContextType.PrivateChannel,
+        InteractionContextType.Guild
+    ),
 
     async execute(interaction, client) {
-        var region;
+        const timeType = interaction.options.getString('type');
+        const rTime = interaction.options.getString('relativetime');
+        const fTime = interaction.options.getString('fixedtime');
+        const format = interaction.options.getString('format') ?? 'yes';
+        const outputType = interaction.options.getBoolean('displaytimecode') ?? true;
+        const silent = interaction.options.getBoolean('silent') ?? true
+
+        await interaction.deferReply({
+            withResponse: true,
+            flags: silent ? MessageFlags.Ephemeral : undefined
+        });
         
-        if (interaction.options.getString('time_region') == null ) {
-            console.log("path1");
-            region = await client.getTimeZone(interaction.user.id);
-            // region = await client.getTimeZone(message.author.id);
-            console.log(region);
-            region = region.timeZone;
-            console.log(region);
-            if (!region) {
-                console.log("path1.5");
-                region = interaction.options.getString('time_region') || false;
-            }
-        } else {
-            console.log("path2");
-            region = interaction.options.getString('time_region') || false;
-        }
-
-        console.log("0 " + region);
-        
-        var date = interaction.options.getString('date');
-        const time = interaction.options.getString('time');
-        // const timeRegion = interaction.options.getString('time_region') || false;
-        const format = interaction.options.getString('format') || 'R';
-        const silence = interaction.options.getBoolean('silent') || false;
-        const mobile = interaction.options.getBoolean('mobile') || true;
-        
-        console.log("1 " + date);
-        console.log("2 " + region);
-
-        var response = timeStampCalc(goToDate(new Date(date).toLocaleDateString("en-US", { weekday: 'short' })), time, region, format);
-        response = (`<t:${response}:F> <t:${response}:R>`);
-        // response = timeConvert();
-
-        console.log("3 " + response);
-        if (response == false) {
-
-            await interaction.reply({
-                content: "You do not have a region set internally, please specify your region.",
-                flags: silence ? MessageFlags.Ephemeral : undefined
+        if (timeType === "rT") {
+            await interaction.editReply({
+                content: timestampformat(timeType,rTime,format,outputType ? false : true),
             });
-
-        } else {
-
-            await interaction.reply({
-                content: response,
-                flags: silence ? MessageFlags.Ephemeral : undefined
+        } else if (timeType === "fT") {
+            await interaction.editReply({
+                content: timestampformat(timeType,fTime,format,outputType ? false : true),
             });
-
         }
     }
 }

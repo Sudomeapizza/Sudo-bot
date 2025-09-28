@@ -3,13 +3,14 @@ node_modules
 config.json
 .vscode
 .git
-start.sh
+# start.sh
 info.txt
 gfile
 update
-handleEvents.js
-handleCommands.js
-ready.js
-app.js
-app-dev.js
+# handleEvents.js
+# handleCommands.js
+# ready.js
+# app.js
+# app-dev.js
 .citra
+reload.js
