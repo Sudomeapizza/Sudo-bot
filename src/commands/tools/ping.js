@@ -1,4 +1,4 @@
-const { SlashCommandBuilder, PermissionFlagsBits, MessageFlags } = require('discord.js')
+const { SlashCommandBuilder, PermissionFlagsBits, InteractionContextType, MessageFlags } = require('discord.js')
 
 module.exports = {
     data: new SlashCommandBuilder()
@@ -9,7 +9,7 @@ module.exports = {
         .setDescription('shhhhh (true)')
         )
     .setDefaultMemberPermissions(PermissionFlagsBits.ManageGuild)
-    .setDMPermission(false),
+    .setContexts(InteractionContextType.BotDM,InteractionContextType.PrivateChannel,InteractionContextType.Guild),
     async execute(interaction, client) {
 
         const silence = interaction.options.getBoolean('silents') || false;
@@ -23,14 +23,10 @@ module.exports = {
         const message = await interaction.fetchReply();
         const ping = client.ws.ping;
 
-        const newMessage = `API Latency: ${ping} ms\n`
-        // + `Client Ping: ${message.createdTimestamp - interaction.createdTimestamp}`;
-        + `Client Ping: ${Date.now() - interaction.createdTimestamp} ms`;
+        const newMessage = `Pong: ${ping}ms`;
 
         await interaction.editReply({
             content: newMessage,
         });
-
     }
-
 }

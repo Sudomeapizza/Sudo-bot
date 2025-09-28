@@ -8,10 +8,11 @@ module.exports = {
             option.setName('ignoreme')
                 .setDescription('ignoreme')
         )
-        .addUserOption(option =>
-            option.setName('ignoremee')
-                .setDescription('ignoremee')
-        ),
+        // .addUserOption(option =>
+        //     option.setName('ignoremeee')
+        //         .setDescription('ignoremee')
+        // )
+        ,
     async execute(interaction, client) {
         const user = interaction.user;
 
