@@ -2,19 +2,23 @@ function timestampformat(timeType, userInput, format, outputOnly = false) {
 
     var time;
 
-    if (timeType === "fT") {
+    if (userInput.toString().toLowerCase() === "now") {
+        time = new Date().getTime().toString().slice(0, -3);
+    } else {
 
-        // TODO: RAINBOWS
-        time = parseFixedInput(userInput)
+        if (timeType === "fT") {
 
-    } else if (timeType === "rT") {
+            // TODO: RAINBOWS
+            time = parseFixedInput(userInput)
 
-        if (userInput.match("[^\-0-9yMwdhms]")) {
-            return "Error: Please only use y/M/w/d/h/m/s, \"-\", 0-9"
+        } else if (timeType === "rT") {
+
+            if (userInput.match("[^\-0-9yMwdhms]")) {
+                return "Error: Please only use y/M/w/d/h/m/s, \"-\", 0-9"
+            }
+            time = parseRelativeInput(userInput);
         }
-        time = parseRelativeInput(userInput);
     }
-
     var result = "";
 
     switch (format) {
@@ -50,7 +54,7 @@ function timestampformat(timeType, userInput, format, outputOnly = false) {
             break;
         case "c":
             result = outputOnly ? `<t:${time}:F><t:${time}:R>` :
-            `\`<t:${time}:F><t:${time}:R>\` - <t:${time}:F><t:${time}:R>`
+                `\`<t:${time}:F><t:${time}:R>\` - <t:${time}:F><t:${time}:R>`
             break;
         default:
             result = `Time Error: "${format}"`
