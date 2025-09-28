@@ -1,0 +1,49 @@
+const { REST } = require('@discordjs/rest');
+const { Routes } = require('discord-api-types/v9');
+
+const fs = require('fs');
+
+module.exports = (client) => {
+    const { commands, commandArray } = client;
+    client.handleCommands = async() => {
+        // const commandFolders = fs.readdirSync("./src/commands");
+
+        const commandFolders = fs.readdirSync(`./src/commands`);
+        for (const folder of commandFolders) {
+            const commandFiles = fs.readdirSync(`./src/commands/${folder}`).filter((file) => file.endsWith(".js"));
+            for (const file of commandFiles) {
+                const command = require(`../../commands/${folder}/${file}`);
+                const fileName = command.data.name;
+                
+                if (!commandArray.some((cmd) => cmd.name === fileName)) {
+                    commands.set(command.data.name, command);
+                    commandArray.push(command.data.toJSON());
+                    console.log(`command: ${fileName} has passed through the handler`);
+                } else {
+                    console.log(`-- command: ${fileName} already exists in the array`);
+                }
+            }
+        }
+
+        const rest = new REST().setToken(process.env.token_2);
+        (async () => {
+            try {
+                console.log(`Started refreshing ${commands.length} application (/) commands.`);
+
+                // The put method is used to fully refresh all commands in the guild with the current set
+                const data = await rest.put(
+                    Routes.applicationGuildCommands(process.env.APP_ID_2, process.env.GUILD_ID_2),
+                    { body: commandArray },
+                );
+                // await rest.put(Routes.applicationCommands(process.env.APP_ID_2), {
+                //     body: commandArray,
+                // });
+
+                console.log(`Successfully reloaded ${data.length} application (/) commands.`);
+            } catch (error) {
+                // And of course, make sure you catch and log any errors!
+                console.error(error);
+            }
+        })();
+    }
+}
