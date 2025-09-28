@@ -3,7 +3,7 @@ const { calcPresets } = require('../../helpers/presetCalc.js')
 const presetsData = require('../../helpers/presets.json')
 const presets = presetsData.presets;
 
-console.log('Loaded Presets:', presets); // Add this line
+// console.log('Loaded Presets:', presets); // Add this line
 
 module.exports = {
     data: new SlashCommandBuilder()
@@ -75,20 +75,6 @@ module.exports = {
             choices.slice(0, 25) // Always slice to 25 to adhere to Discord's limit
         );
     },
-    // async autocomplete(interaction) {
-    //     const focusedOption = interaction.options.getFocused(true);
-    //     let choices; // = json file?
-
-    //     if (focusedOption.name === 'preset') {
-    //         choices; // = filtered search of choices
-    //     }
-
-    //     const filtered = choices.filter(choice => choice.startsWith(focusedOption.value));
-    //     // also on confirmation or only option left, to populate args options
-    //     await interaction.respond(
-    //         filtered.map(choice => ({ name: choice, value: choice })),
-    //     );
-    // },
 
     async execute(interaction, client) {
         const presetName = interaction.options.getString('preset');
@@ -133,18 +119,4 @@ module.exports = {
         });
     }
 
-    // async execute(interaction, client) {
-    //     var preset = interaction.options.getString('preset');
-    //     var args = interaction.options.getString('args');
-    //     var silent = interaction.options.getBoolean('silent') ?? true
-
-    //     await interaction.deferReply({
-    //         withResponse: true,
-    //         flags: silent ? MessageFlags.Ephemeral : undefined
-    //     });
-
-    //     await interaction.editReply({
-    //         content: calcPresets(preset, args),
-    //     });
-    // }
 }

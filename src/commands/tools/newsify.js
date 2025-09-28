@@ -1,5 +1,6 @@
 const { SlashCommandBuilder, InteractionContextType, MessageFlags, EmbedBuilder } = require('discord.js')
 const cheerio = require('cheerio');
+const { reportCrash } = require('../../helpers/crash');
 const fetch = (...args) => import("node-fetch").then(({ default: fetch }) => fetch(...args));
 
 module.exports = {
@@ -15,8 +16,8 @@ module.exports = {
             InteractionContextType.BotDM,
             InteractionContextType.PrivateChannel,
             InteractionContextType.Guild
-        ),    
-        // .setDefaultMemberPermissions(PermissionFlagsBits.SendMessages,PermissionFlagsBits.SendMessagesInThreads),
+        ),
+    // .setDefaultMemberPermissions(PermissionFlagsBits.SendMessages,PermissionFlagsBits.SendMessagesInThreads),
     async execute(interaction, client) {
 
 
@@ -29,23 +30,6 @@ module.exports = {
 
         const match = targetUrl.match(/https?:\/\/[^\s]+/);
         if (match == targetUrl) {
-
-            console.log("Link matched: " + match);
-            // Errant #News-stuffs
-            // if (message.guild?.id !== 1076645110390984714 || message.channel.id !== 1085298877890056272) return;
-            // TestServer #testbot-test
-
-            // if (message.guild.id !== "1174218330962395146" || message.channel.id !== "1416204394894069871") {
-            //     console.log(
-            //         "NO MATCH:\n" +
-            //         "Guild 1174218330962395146 /= " + message.guild.id +
-            //         "\nChannel 1416204394894069871 /= " + message.channel.id
-            //     )
-            //     return
-            // };
-            console.log("MATCH")
-
-            // message.delete()
 
             message = await interaction.editReply({
                 withResponse: true,
@@ -63,12 +47,8 @@ module.exports = {
             // Test if Lemmy Community
             if (!result) {
                 await interaction.editReply({ content: `Parsing news site: <${url}>` });
-                // data = await fetchLemmyPostData(baseUrl, postId);
 
-                console.log("NOT LEMMY")
                 const article = await fetchArticleSnippet(url, 5);
-
-                console.log(article.articleFavicon)
 
                 /**
                  * BUILD EMBED
@@ -97,7 +77,6 @@ module.exports = {
                 await interaction.editReply({ content: "", embeds: [embed] });
                 return;
             }
-            console.log("LEMMY")
             try {
 
                 if (url != data.post_view.post.ap_id) {
@@ -108,12 +87,14 @@ module.exports = {
                     postId = url.split("/post/")[1];
 
                     var { data, result } = await testLemmyCommunity(baseUrl, postId);
-                    console.log("result: " + result)
                 }
 
                 const favicon = await fetchFavicon(baseUrl);
                 data = await fetchLemmyPostData(baseUrl, postId);
 
+                if (!data) {
+                    await reportCrash(client, "Newsify Command", { "ogUrl": ogUrl, "url": url }, err);
+                }
                 /**
                  * BUILD EMBED
                  */
@@ -145,21 +126,23 @@ module.exports = {
                                 `[${data.articleUrl.substring(8)}](${data.articleUrl})`
                         },
                         { name: "Article Content", value: data.snippet.content.substring(0, 1020) + " ..." }
+
+                        // { name: "Article Content", value: (data.snippet.content ? data.snippet.content.substring(0, 1020) + " ...": data.snippet)}
                     );
 
 
                 await interaction.editReply({ content: "", embeds: [embed] });
             } catch (err) {
-                await interaction.editReply({ content: "ahhh! brokie! Lemme know it brokie!" });
+                await reportCrash(client, "Newsify Command", { "ogUrl": ogUrl, "url": url }, err);
+                await interaction.editReply({ content: "I broke! Report sent!" });
                 console.error(err)
+                console.error(JSON.stringify(data))
             }
         } else {
             console.log("Link NOT matched: " + match)
             await interaction.editReply({ content: "Resend with *only* the web url!" });
         }
-
     }
-
 }
 
 function formatCommunity(actor_id, communityTitle) {
@@ -175,7 +158,7 @@ function commentDataFormatted(comments) {
         const u = new URL(obj.actor_id);
         const domain = u.hostname;
         if ((obj.text).length > 250) {
-            obj.text = (obj.text).substring(0, 250) + " ..."
+            obj.text = (obj.text).substring(0, 200) + " ..."
         }
         output +=
             `:arrow_up: ${obj.upvotes} :arrow_down: ${obj.downvotes}  ` +
@@ -289,6 +272,7 @@ async function fetchLemmyPostData(baseUrl, postId) {
 async function fetchArticleSnippet(articleUrl, paraCount = 3) {
     try {
         const res = await fetch(articleUrl);
+        console.log(articleUrl);
         if (!res.ok) return "Could not fetch article.";
 
         const html = await res.text();

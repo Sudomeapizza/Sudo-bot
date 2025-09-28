@@ -1,4 +1,5 @@
-const { InteractionResponse, MessageFlags , InteractionType } = require("discord.js");
+const { InteractionResponse, MessageFlags, InteractionType } = require("discord.js");
+const { reportCrash } = require("../../helpers/crash");
 
 module.exports = {
     name: "interactionCreate",
@@ -13,9 +14,11 @@ module.exports = {
             } catch (error) {
                 console.error(error);
                 if (interaction.deferred || interaction.replied) {
-                    await interaction.followUp({ content: 'There was an error while executing this command!', ephemeral: true });
+                    await reportCrash(client, );
+                    await interaction.followUp({ content: 'There was an error while executing this command! Report sent!', ephemeral: true });
                 } else {
-                    await interaction.reply({ content: 'There was an error while executing this command!', ephemeral: true });
+                    await reportCrash(client, `Interaction system: ${timestampformat("rT", "now", "F", true)}\n\nError:\n` + ((error && error.stack) ? error.stack : error.toString()));
+                    await interaction.reply({ content: 'There was an error while executing this command! Report sent!', ephemeral: true });
                 }
             }
         }

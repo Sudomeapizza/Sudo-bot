@@ -1,4 +1,4 @@
-const { SlashCommandBuilder, EmbedBuilder, PermissionFlagsBits, MessageFlags } = require('discord.js');
+const { SlashCommandBuilder, EmbedBuilder, MessageFlags, InteractionContextType } = require('discord.js');
 
 module.exports = {
     data: new SlashCommandBuilder()
@@ -16,8 +16,11 @@ module.exports = {
             option.setName('silence')
                 .setDescription('quiet')
         )
-        .setDefaultMemberPermissions(PermissionFlagsBits.ManageGuild)
-        .setDMPermission(false),
+        .setContexts(
+            InteractionContextType.BotDM,
+            InteractionContextType.PrivateChannel,
+            InteractionContextType.Guild
+        ),
     async execute(interaction, client) {
         let rollSize = parseInt(interaction.options.getString('sides')) || 20;
         const optionsString = interaction.options.getString('options');
