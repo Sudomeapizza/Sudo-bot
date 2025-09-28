@@ -36,7 +36,7 @@ function calcPresets(presetName, argsArray) {
                 coopIdContractName = url;
             }
 
-            return `Ecoopad ${coopIdContractName}\nAll welcome! <a:chicken_wobble:1340181821538828418> Required: ${req} by ${timestampformat(timestamp,"f", true)}`;
+            return `Ecoopad ${coopIdContractName}\nAll welcome! <a:chicken_wobble:1340181821538828418> Required: ${req} by ${timestampformat("rT",timestamp,"f", true)}`;
         }
         // case 'Rossmann': {
         //     const [url] = argsArray;
