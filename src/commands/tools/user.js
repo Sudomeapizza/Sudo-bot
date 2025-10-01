@@ -1,6 +1,7 @@
 const { SlashCommandBuilder, EmbedBuilder, PermissionFlagsBits, MessageFlags } = require('discord.js')
 
 module.exports = {
+    category: 'tools',
     data: new SlashCommandBuilder()
     .setName('user')
     .setDescription("give deets")

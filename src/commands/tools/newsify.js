@@ -4,6 +4,7 @@ const { reportCrash } = require('../../helpers/crash');
 const fetch = (...args) => import("node-fetch").then(({ default: fetch }) => fetch(...args));
 
 module.exports = {
+    category: 'tools',
     data: new SlashCommandBuilder()
         .setName('newsify')
         .setDescription("Newsify the site!")
@@ -17,7 +18,6 @@ module.exports = {
             InteractionContextType.PrivateChannel,
             InteractionContextType.Guild
         ),
-    // .setDefaultMemberPermissions(PermissionFlagsBits.SendMessages,PermissionFlagsBits.SendMessagesInThreads),
     async execute(interaction, client) {
 
 
@@ -79,6 +79,11 @@ module.exports = {
             }
             try {
 
+                var ogData = await fetchLemmyPostData(baseUrl, postId);
+                var ogBaseUrl = baseUrl;
+                var ogPostId = postId;
+
+                // var data,result = "";
                 if (url != data.post_view.post.ap_id) {
                     ogUrl = url;
                     url = data.post_view.post.ap_id
@@ -88,44 +93,67 @@ module.exports = {
 
                     var { data, result } = await testLemmyCommunity(baseUrl, postId);
                 }
+                // const favicon = "";
+                // var postData
+                // if (!result) {
+                //     data 
+                // } else {
+                    const favicon = await fetchFavicon(baseUrl);
+                    console.log(baseUrl);
+                    data = (baseUrl == "https://piefed.social/") ? await fetchLemmyPostData(ogBaseUrl, ogPostId) :await fetchLemmyPostData(baseUrl, postId);
+                    var postData = "";
+                // }
 
-                const favicon = await fetchFavicon(baseUrl);
-                data = await fetchLemmyPostData(baseUrl, postId);
 
-                if (!data) {
-                    await reportCrash(client, "Newsify Command", { "ogUrl": ogUrl, "url": url }, err);
+                // data.snippet.content
+                if (data == "Unable to grab pifed.social comments.") {
+                    postData = data;
+                } else if (!data) {
+                    postData = "No post data found";
+                    // await reportCrash(client, "Newsify Command", { "ogUrl": ogUrl, "url": url }, err);
+                } else if (!data.snippet) {
+                    postData = "Unable to grab post data";
+                } else if (!data.snippet.content) {
+                    postData = "Unable to grab post data content";
+                } else {
+                    postData = data.snippet.content.substring(0, 1020) + " ...";
                 }
+
+                var lemmypostData = (data == "Unable to grab pifed.social comments.") ?
+                    `\n:arrow_up: ${ogData.postUpvotes} :arrow_down: ${ogData.postDownvotes}\n` +
+                    `${ogUrl ? "Via: [" + ogUrl.substring(8) + "](" + ogUrl + ")\n" : ""}` +
+                    `[${url.substring(8)}](${url}) • <t:${Date.parse(new Date(ogData.publishedDate)) / 1000}:f>\n` +
+                    `${(baseUrl == "https://piefed.social/") ? `*Unable to grab PiFed.social comments*` :commentDataFormatted(data.topComments)}`
+                    :
+                    `\n:arrow_up: ${data.postUpvotes} :arrow_down: ${data.postDownvotes}\n` +
+                    `${ogUrl ? "Via: [" + ogUrl.substring(8) + "](" + ogUrl + ")\n" : ""}` +
+                    `[${url.substring(8)}](${url}) • <t:${Date.parse(new Date(data.publishedDate)) / 1000}:f>\n` +
+                    `${(baseUrl == "https://piefed.social/") ? `*Unable to grab PiFed.social comments*` :commentDataFormatted(data.topComments)}`;
+
+                var articleName = (baseUrl == "https://piefed.social/") ? `[${ogData.articleUrl.substring(8)}](${ogData.articleUrl})` : `[${data.articleUrl.substring(8)}](${data.articleUrl})`
+                
                 /**
                  * BUILD EMBED
                  */
                 const embed = new EmbedBuilder()
                     .setAuthor({
-                        name: formatCommunity(data.communityActor, data.communityTitle), // Autofill News Site -> dbzer0
+                        name: (baseUrl == "https://piefed.social/") ? formatCommunity(ogData.communityActor, ogData.communityTitle): formatCommunity(data.communityActor, data.communityTitle), // Autofill News Site -> dbzer0
                         URL: url,
                         iconURL: favicon
                     })
                     .setColor(16747008)
-                    .setTitle(data.post_view.post.name || "Lemmy Post")
+                    .setTitle((baseUrl == "https://piefed.social/") ? ogData.post_view.post.name : (ogData.post_view.post.name ?? "Lemmy Post"))
                     .setURL(url)
-                    .setThumbnail(data.post_view.post.thumbnail_url)
+                    .setThumbnail((baseUrl == "https://piefed.social/") ? ogData.post_view.post.thumbnail_url : (data.post_view.post.thumbnail_url ?? ""))
                     // .setFooter({
                     //     text: message.author.globalName,
                     //     iconURL: message.author.avatarURL()
                     // })
                     .setTimestamp(new Date())
                     .addFields(
-                        {
-                            name: "Lemmy Post:", value:
-                                `\n:arrow_up: ${data.postUpvotes} :arrow_down: ${data.postDownvotes}\n` +
-                                `${ogUrl ? "Via: [" + ogUrl.substring(8) + "](" + ogUrl + ")\n" : ""}` +
-                                `[${url.substring(8)}](${url}) • <t:${Date.parse(new Date(data.publishedDate)) / 1000}:f>\n\n` +
-                                `${commentDataFormatted(data.topComments)}`
-                        },
-                        {
-                            name: "Article", value:
-                                `[${data.articleUrl.substring(8)}](${data.articleUrl})`
-                        },
-                        { name: "Article Content", value: data.snippet.content.substring(0, 1020) + " ..." }
+                        { name: "Lemmy Post:", value: lemmypostData},
+                        { name: "Article", value: articleName},
+                        { name: "Article Content", value: postData }
 
                         // { name: "Article Content", value: (data.snippet.content ? data.snippet.content.substring(0, 1020) + " ...": data.snippet)}
                     );
@@ -208,9 +236,11 @@ async function testLemmyCommunity(baseUrl, postId) {
 }
 
 async function fetchPost(baseUrl, postId) {
+    console.log(`Fetching: ${postId}`)
     const postRes = await fetch(`${baseUrl}api/v3/post?id=${postId}`);
-    if (!postRes.ok) throw new Error("Failed to fetch post");
-    const postData = await postRes.json();
+    if (!postRes.ok) console.error("Failed to fetch post");
+    const postData = (!postRes.ok) ? "Failed to fetch post" : await postRes.json();
+
     return {
         postData,
         post_view: postData.post_view,
@@ -246,7 +276,7 @@ async function fetchLemmyPostData(baseUrl, postId) {
 
     const { postData, post_view, postUpvotes, postDownvotes, postCommentsCount, communityActor, communityName, communityTitle } =
         await fetchPost(baseUrl, postId);
-
+    
     const { topComments } = await fetchPostComments(baseUrl, postId);
 
     const articleUrl = postData.post_view.post.url;

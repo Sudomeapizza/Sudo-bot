@@ -1,6 +1,7 @@
 const { SlashCommandBuilder, EmbedBuilder, MessageFlags, InteractionContextType } = require('discord.js');
 
 module.exports = {
+    category: 'tools',
     data: new SlashCommandBuilder()
         .setName('roll')
         .setDescription("Roll dice")
@@ -20,7 +21,8 @@ module.exports = {
             InteractionContextType.BotDM,
             InteractionContextType.PrivateChannel,
             InteractionContextType.Guild
-        ),
+        )
+        ,
     async execute(interaction, client) {
         let rollSize = parseInt(interaction.options.getString('sides')) || 20;
         const optionsString = interaction.options.getString('options');
@@ -50,9 +52,9 @@ module.exports = {
                     embeds: [new EmbedBuilder()
                         .setColor(0x8B41C8)
                         .setAuthor({ name: `${interaction.user.displayName}`, iconURL: `${interaction.user.displayAvatarURL()}` })
-                        .setThumbnail("https://upload.wikimedia.org/wikipedia/commons/c/cd/D20_icon_showing_1.png")
+                        // .setThumbnail("https://upload.wikimedia.org/wikipedia/commons/c/cd/D20_icon_showing_1.png")
                         .addFields(
-                            { name: '**Roll:**', value: result }
+                            { name: `Roll:`, value: `**${result}**` }
                         )
                         .setTimestamp()
                         .setFooter({ text: client.user.tag, iconURL: client.user.displayAvatarURL() })
