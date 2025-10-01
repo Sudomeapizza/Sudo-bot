@@ -1,6 +1,7 @@
 const { SlashCommandBuilder, EmbedBuilder, MessageFlags } = require('discord.js')
 
 module.exports = {
+    category: 'tools',
     data: new SlashCommandBuilder()
         .setName('help')
         .setDescription("Display help on what I can do!")

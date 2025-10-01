@@ -3,7 +3,7 @@ const { calcPresets } = require('../../helpers/presetCalc.js')
 const presetsData = require('../../helpers/presets.json')
 const presets = presetsData.presets;
 
-// console.log('Loaded Presets:', presets); // Add this line
+// console.log('Loaded Presets:', presets);
 
 module.exports = {
     data: new SlashCommandBuilder()
@@ -18,9 +18,6 @@ module.exports = {
         .addStringOption(option =>
             option.setName('args')
                 .setDescription('preset options')
-            // .addChoices(
-            //     { name: "All", value: "yes" }
-            // )
         )
         .addBooleanOption(option =>
             option.setName('silent')

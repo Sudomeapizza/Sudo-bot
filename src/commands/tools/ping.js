@@ -1,15 +1,19 @@
 const { SlashCommandBuilder, PermissionFlagsBits, InteractionContextType, MessageFlags } = require('discord.js')
 
 module.exports = {
+    category: 'tools',
     data: new SlashCommandBuilder()
-    .setName('ping')
-    .setDescription("return the pinnng")
-    .addBooleanOption(option =>
-        option.setName('silents')
-        .setDescription('shhhhh (true)')
+        .setName('ping')
+        .setDescription("return the pinnng")
+        .addBooleanOption(option =>
+            option.setName('silents')
+                .setDescription('shhhhh (true)')
         )
-    .setDefaultMemberPermissions(PermissionFlagsBits.ManageGuild)
-    .setContexts(InteractionContextType.BotDM,InteractionContextType.PrivateChannel,InteractionContextType.Guild),
+        .setContexts(
+            InteractionContextType.BotDM,
+            InteractionContextType.PrivateChannel,
+            InteractionContextType.Guild
+        ),
     async execute(interaction, client) {
 
         const silence = interaction.options.getBoolean('silents') || false;

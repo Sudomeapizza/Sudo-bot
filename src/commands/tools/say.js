@@ -1,6 +1,7 @@
 const { SlashCommandBuilder, PermissionFlagsBits, MessageFlags } = require('discord.js')
 
 module.exports = {
+    category: 'tools',
     data: new SlashCommandBuilder()
     .setName('say')
     .setDescription("SPEAK")
