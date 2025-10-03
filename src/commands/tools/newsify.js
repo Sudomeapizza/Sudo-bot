@@ -13,6 +13,10 @@ module.exports = {
                 .setDescription('full web url')
                 .setRequired(true)
         )
+        .addBooleanOption(option =>
+            option.setName('silent')
+                .setDescription('Invisible reply (Default=True)')
+        )
         .setContexts(
             InteractionContextType.BotDM,
             InteractionContextType.PrivateChannel,
@@ -26,12 +30,14 @@ module.exports = {
             content: "Parsing: ..."
         });
 
+        const silent = interaction.options.getBoolean('silent') ?? true;
         const targetUrl = interaction.options.getString('url');
 
         const match = targetUrl.match(/https?:\/\/[^\s]+/);
         if (match == targetUrl) {
 
             message = await interaction.editReply({
+                flags: silent ? MessageFlags.Ephemeral : undefined,
                 withResponse: true,
                 content: "Parsing: <" + match + "> ..."
             });
@@ -98,10 +104,10 @@ module.exports = {
                 // if (!result) {
                 //     data 
                 // } else {
-                    const favicon = await fetchFavicon(baseUrl);
-                    console.log(baseUrl);
-                    data = (baseUrl == "https://piefed.social/") ? await fetchLemmyPostData(ogBaseUrl, ogPostId) :await fetchLemmyPostData(baseUrl, postId);
-                    var postData = "";
+                const favicon = await fetchFavicon(baseUrl);
+                console.log(baseUrl);
+                data = (baseUrl == "https://piefed.social/") ? await fetchLemmyPostData(ogBaseUrl, ogPostId) : await fetchLemmyPostData(baseUrl, postId);
+                var postData = "";
                 // }
 
 
@@ -123,21 +129,21 @@ module.exports = {
                     `\n:arrow_up: ${ogData.postUpvotes} :arrow_down: ${ogData.postDownvotes}\n` +
                     `${ogUrl ? "Via: [" + ogUrl.substring(8) + "](" + ogUrl + ")\n" : ""}` +
                     `[${url.substring(8)}](${url}) • <t:${Date.parse(new Date(ogData.publishedDate)) / 1000}:f>\n` +
-                    `${(baseUrl == "https://piefed.social/") ? `*Unable to grab PiFed.social comments*` :commentDataFormatted(data.topComments)}`
+                    `${(baseUrl == "https://piefed.social/") ? `*Unable to grab PiFed.social comments*` : commentDataFormatted(data.topComments)}`
                     :
                     `\n:arrow_up: ${data.postUpvotes} :arrow_down: ${data.postDownvotes}\n` +
                     `${ogUrl ? "Via: [" + ogUrl.substring(8) + "](" + ogUrl + ")\n" : ""}` +
                     `[${url.substring(8)}](${url}) • <t:${Date.parse(new Date(data.publishedDate)) / 1000}:f>\n` +
-                    `${(baseUrl == "https://piefed.social/") ? `*Unable to grab PiFed.social comments*` :commentDataFormatted(data.topComments)}`;
+                    `${(baseUrl == "https://piefed.social/") ? `*Unable to grab PiFed.social comments*` : commentDataFormatted(data.topComments)}`;
 
                 var articleName = (baseUrl == "https://piefed.social/") ? `[${ogData.articleUrl.substring(8)}](${ogData.articleUrl})` : `[${data.articleUrl.substring(8)}](${data.articleUrl})`
-                
+
                 /**
                  * BUILD EMBED
                  */
                 const embed = new EmbedBuilder()
                     .setAuthor({
-                        name: (baseUrl == "https://piefed.social/") ? formatCommunity(ogData.communityActor, ogData.communityTitle): formatCommunity(data.communityActor, data.communityTitle), // Autofill News Site -> dbzer0
+                        name: (baseUrl == "https://piefed.social/") ? formatCommunity(ogData.communityActor, ogData.communityTitle) : formatCommunity(data.communityActor, data.communityTitle), // Autofill News Site -> dbzer0
                         URL: url,
                         iconURL: favicon
                     })
@@ -151,8 +157,8 @@ module.exports = {
                     // })
                     .setTimestamp(new Date())
                     .addFields(
-                        { name: "Lemmy Post:", value: lemmypostData},
-                        { name: "Article", value: articleName},
+                        { name: "Lemmy Post:", value: lemmypostData },
+                        { name: "Article", value: articleName },
                         { name: "Article Content", value: postData }
 
                         // { name: "Article Content", value: (data.snippet.content ? data.snippet.content.substring(0, 1020) + " ...": data.snippet)}
@@ -276,7 +282,7 @@ async function fetchLemmyPostData(baseUrl, postId) {
 
     const { postData, post_view, postUpvotes, postDownvotes, postCommentsCount, communityActor, communityName, communityTitle } =
         await fetchPost(baseUrl, postId);
-    
+
     const { topComments } = await fetchPostComments(baseUrl, postId);
 
     const articleUrl = postData.post_view.post.url;
