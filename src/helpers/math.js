@@ -3,7 +3,7 @@ class RPNCalculator {
         // Pre‑populate built‑in constants
         this.variables = {
             e: Math.E,
-            π: Math.PI,
+            'pi': Math.PI,
         };
         this.operators = {
             '+': (a, b) => a + b,
