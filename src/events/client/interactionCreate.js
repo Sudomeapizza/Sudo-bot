@@ -14,10 +14,10 @@ module.exports = {
             } catch (error) {
                 console.error(error);
                 if (interaction.deferred || interaction.replied) {
-                    await reportCrash(client, );
+                    await reportCrash(client, "Thing", "", `Error:\n` + ((error && error.stack) ? error.stack : error.toString()) );
                     await interaction.followUp({ content: 'There was an error while executing this command! Report sent!', ephemeral: true });
                 } else {
-                    await reportCrash(client, `Interaction system: ${timestampformat("rT", "now", "F", true)}\n\nError:\n` + ((error && error.stack) ? error.stack : error.toString()));
+                    await reportCrash(client, `Interaction system: ${timestampformat("rT", "now", "F", true)}`,"",`Error:\n` + ((error && error.stack) ? error.stack : error.toString()));
                     await interaction.reply({ content: 'There was an error while executing this command! Report sent!', ephemeral: true });
                 }
             }
