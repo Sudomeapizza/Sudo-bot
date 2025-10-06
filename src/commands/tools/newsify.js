@@ -1,6 +1,7 @@
 const { SlashCommandBuilder, InteractionContextType, MessageFlags, EmbedBuilder } = require('discord.js')
 const cheerio = require('cheerio');
 const { reportCrash } = require('../../helpers/crash');
+const { getVideoDetails, fetchFavicon } = require('../../helpers/website')
 const fetch = (...args) => import("node-fetch").then(({ default: fetch }) => fetch(...args));
 
 module.exports = {
@@ -24,20 +25,19 @@ module.exports = {
         ),
     async execute(interaction, client) {
 
+        const silent = interaction.options.getBoolean('silent') ?? true;
+        const targetUrl = interaction.options.getString('url');
 
         var message = await interaction.deferReply({
+            flags: silent ? MessageFlags.Ephemeral : undefined,
             withResponse: true,
             content: "Parsing: ..."
         });
-
-        const silent = interaction.options.getBoolean('silent') ?? true;
-        const targetUrl = interaction.options.getString('url');
 
         const match = targetUrl.match(/https?:\/\/[^\s]+/);
         if (match == targetUrl) {
 
             message = await interaction.editReply({
-                flags: silent ? MessageFlags.Ephemeral : undefined,
                 withResponse: true,
                 content: "Parsing: <" + match + "> ..."
             });
@@ -55,32 +55,33 @@ module.exports = {
                 await interaction.editReply({ content: `Parsing news site: <${url}>` });
 
                 const article = await fetchArticleSnippet(url, 5);
+                var embed = 0;
 
-                /**
-                 * BUILD EMBED
-                 */
-                const embed = new EmbedBuilder()
-                    .setAuthor({
-                        name: article.articleNewsSite,
-                        URL: url,
-                        iconURL: article.articleFavicon
+                if (article !== "Could not fetch article.") {
+                    embed = new EmbedBuilder()
+                        .setAuthor({
+                            name: article.articleNewsSite ?? "Missing Author",
+                            URL: url,
+                            iconURL: article.articleFavicon
 
-                    })
-                    .setColor(parseInt("580085", 16))
-                    .setTitle(article.articleTitle)
-                    .setURL(url)
-                    .setThumbnail(article.articlePreviewImage)
-                    .setTimestamp(new Date())
-                    .addFields(
-                        {
-                            name: "Article", value:
-                                `[${url.substring(8)}](${url})`
-                        },
-                        { name: "Article Content", value: article.content.substring(0, 1020) + " ..." }
-                    );
+                        })
+                        .setColor(parseInt("580085", 16))
+                        .setTitle(article.articleTitle ?? "Missing Title")
+                        .setURL(url)
+                        .setThumbnail(article.articlePreviewImage)
+                        .setTimestamp(new Date())
+                        .addFields(
+                            {
+                                name: "Article", value:
+                                    `[${url.substring(8)}](${url})`
+                            },
+                            { name: "Article Content", value: (article.content ?? "Missing Content").substring(0, 1020) + " ..." }
+                        );
+                    await interaction.editReply({ content: "", embeds: [embed] });
+                    return
+                }
 
-
-                await interaction.editReply({ content: "", embeds: [embed] });
+                await interaction.editReply({ content: "Invalid Post link" });
                 return;
             }
             try {
@@ -136,7 +137,16 @@ module.exports = {
                     `[${url.substring(8)}](${url}) • <t:${Date.parse(new Date(data.publishedDate)) / 1000}:f>\n` +
                     `${(baseUrl == "https://piefed.social/") ? `*Unable to grab PiFed.social comments*` : commentDataFormatted(data.topComments)}`;
 
-                var articleName = (baseUrl == "https://piefed.social/") ? `[${ogData.articleUrl.substring(8)}](${ogData.articleUrl})` : `[${data.articleUrl.substring(8)}](${data.articleUrl})`
+                var articleName = "";
+                console.log(`${data.snippet.articleTitle} || ${baseUrl}`)
+                if (baseUrl == "https://piefed.social/") {
+                    articleName = `[${ogData.articleUrl.substring(8)}](${ogData.articleUrl})`
+                } else if (data.articleUrl.substring(0, 16) === "https://youtu.be" || data.articleUrl.substring(0, 19) === "https://youtube.com") {
+                    articleName = `[${data.snippet.articleTitle}](${data.articleUrl})`
+                } else {
+                    articleName = `[${data.articleUrl.substring(8)}](${data.articleUrl})`
+                }
+
 
                 /**
                  * BUILD EMBED
@@ -150,7 +160,7 @@ module.exports = {
                     .setColor(16747008)
                     .setTitle((baseUrl == "https://piefed.social/") ? ogData.post_view.post.name : (ogData.post_view.post.name ?? "Lemmy Post"))
                     .setURL(url)
-                    .setThumbnail((baseUrl == "https://piefed.social/") ? ogData.post_view.post.thumbnail_url : (data.post_view.post.thumbnail_url ?? ""))
+                    .setThumbnail((baseUrl == "https://piefed.social/") ? ogData.post_view.post.thumbnail_url : (data.post_view.post.thumbnail_url ?? data.snippet.articlePreviewImage ?? "https://http.cat/images/403.jpg") ?? "https://http.cat/images/404.jpg")
                     // .setFooter({
                     //     text: message.author.globalName,
                     //     iconURL: message.author.avatarURL()
@@ -202,34 +212,11 @@ function commentDataFormatted(comments) {
     return output
 }
 
-
-async function fetchFavicon(baseUrl) {
-    try {
-        const res = await fetch(baseUrl);
-        if (!res.ok) return `${baseUrl}favicon.ico`;
-
-        const html = await res.text();
-        const $ = cheerio.load(html);
-
-        // Find all <link rel="..."> that contain "icon"
-        let iconHref = $('link[rel*="icon"]').attr("href");
-
-        if (!iconHref) {
-            // fallback to common default
-            return new URL("/favicon.ico", baseUrl).href;
-        }
-
-        // Normalize to absolute URL
-        if (iconHref.startsWith("http")) return iconHref;
-        return new URL(iconHref, baseUrl).href;
-
-    } catch (err) {
-        console.error("fetchFavicon failed:", err);
-        return new URL("/favicon.ico", baseUrl).href;
-    }
-}
-
 async function testLemmyCommunity(baseUrl, postId) {
+    // console.log("testing: `" + baseUrl + "` === `" + baseUrl.substring(0, 16) + "`")
+    if (baseUrl.substring(0, 16) === "https://youtu.be" || baseUrl.substring(0, 19) === "https://youtube.com") {
+        return { result: false }
+    }
     const apiUrl = `${baseUrl}api/v3/post?id=${postId}`;
     const res = await fetch(apiUrl);
     var postData = "";
@@ -242,7 +229,6 @@ async function testLemmyCommunity(baseUrl, postId) {
 }
 
 async function fetchPost(baseUrl, postId) {
-    console.log(`Fetching: ${postId}`)
     const postRes = await fetch(`${baseUrl}api/v3/post?id=${postId}`);
     if (!postRes.ok) console.error("Failed to fetch post");
     const postData = (!postRes.ok) ? "Failed to fetch post" : await postRes.json();
@@ -307,6 +293,21 @@ async function fetchLemmyPostData(baseUrl, postId) {
 
 async function fetchArticleSnippet(articleUrl, paraCount = 3) {
     try {
+        // console.log(`articleurl:: ${articleUrl}`)
+        if (articleUrl.substring(0, 16) === "https://youtu.be" || articleUrl.substring(0, 19) === "https://youtube.com") {
+            const results = await getVideoDetails(articleUrl.substring(articleUrl.lastIndexOf("/") + 1));
+
+            if (results.ok) {
+                return {
+                    articleNewsSite: "Youtube",
+                    articleTitle: results.title,
+                    articlePreviewImage: `https://img.youtube.com/vi/${articleUrl.substring(articleUrl.lastIndexOf("/") + 1)}/hqdefault.jpg`,
+                    articleFavicon: fetchFavicon("https://youtube.com"),
+                    content: results.description.substring(0, 250)
+                };
+            }
+        }
+
         const res = await fetch(articleUrl);
         console.log(articleUrl);
         if (!res.ok) return "Could not fetch article.";

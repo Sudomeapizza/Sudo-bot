@@ -1,0 +1,42 @@
+{
+    "minicmds": {
+        "lmgtfy": {
+            "Url": {
+                "count": 1,
+                "description": "url"
+            },
+            "Req": {
+                "count": 1,
+                "description": "layrate req"
+            },
+            "Timestamp": {
+                "count": 1,
+                "description": "timestamp"
+            }
+        },
+        "insult": {
+            "na": {
+                "count": 1,
+                "description": "na"
+            }
+        },
+        "sarcastic": {
+            "sentence": {
+                "count": 1,
+                "description": "sentence"
+            }
+        },
+        "shout": {
+            "sentence": {
+                "count": 1,
+                "description": "sentence"
+            }
+        },
+        "calc": {
+            "expression": {
+                "count": 0,
+                "description": "ex: `a=4,B = 3; sin(sqrt(B,27)+a)*e^(B!)*2`"
+            }
+        }
+    }
+}

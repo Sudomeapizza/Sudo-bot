@@ -1,5 +1,5 @@
 const { SlashCommandBuilder, InteractionContextType, MessageFlags, ActionRowBuilder, ButtonBuilder, ButtonStyle, EmbedBuilder } = require('discord.js')
-const cheerio = require('cheerio');
+const { fetchFavicon } = require('../../helpers/website')
 
 module.exports = {
     category: 'tools',
@@ -60,19 +60,19 @@ module.exports = {
         const row2 = new ActionRowBuilder()
 
         for (var a = 0; a < results[0].length; a++) {
-            listings += `${a}) [${results[1][a]}](<${results[3][a]}>)\n`
+            listings += `${(a + 1)}) [${results[1][a]}](<${results[3][a]}>)\n`
             if (a <= 4) {
                 row.addComponents(
                     new ButtonBuilder()
                         .setCustomId(a.toString())
-                        .setLabel(a.toString())
+                        .setLabel((a + 1).toString())
                         .setStyle(ButtonStyle.Secondary)
                 );
             } else if (a >= 5 && a < 10) {
                 row2.addComponents(
                     new ButtonBuilder()
                         .setCustomId(a.toString())
-                        .setLabel(a.toString())
+                        .setLabel((a + 1).toString())
                         .setStyle(ButtonStyle.Secondary)
                 );
             }
@@ -86,7 +86,11 @@ module.exports = {
                 { name: "Search Results:", value: listings },
             );
 
-        message = await interaction.editReply({ content: "", components: [row, row2], embeds: [embed], fetchReply: true });
+        console.log(`Row1: ${row} Row2: ${row2.components.length}`)
+
+        message = await interaction.editReply({ content: "", components: [row], embeds: [embed], fetchReply: true });
+
+        if (row2.components.length > 0) message.addComponents(row2)
 
         const collectorFilter = (i) => i.user.id === interaction.user.id;
         const collectorFilterBad = (i) => i.user.id !== interaction.user.id;
@@ -149,64 +153,6 @@ module.exports = {
             });
         });
 
-
-
-
-        // try {
-        //     const confirmation = await message.awaitMessageComponent({
-        //         filter: collectorFilter,
-        //         time: collectionTimer
-        //     });
-        //     console.log(confirmation.customId);
-        //     if (targetUrl === "rossmann") {
-        //         embed.setFields(
-        //             { name: "Loading:", value: "Please be patient, loading..." }
-        //         )
-        //         await interaction.editReply({ content: "", components: [], embeds: [embed] });
-        //     }
-        //     let authorName = results[1][confirmation.customId];
-        //     let authorUrl = results[3][confirmation.customId];
-        //     console.log("obtaining page info");
-        //     results = await searchWiki((targetUrl === "rossmann") ? "lookupRights" : "lookup", link[targetUrl], results[3][confirmation.customId])
-        //     embed.setFields(
-        //         { name: "Result:", value: results.substring(0, 500) }
-        //     )
-        //         .setAuthor({
-        //             name: targetUrl,
-        //             iconURL: (targetUrl === "rossmann") ?
-        //                 await fetchFavicon("https://consumerrights.wiki") :
-        //                 await fetchFavicon("https://en.wikipedia.com"),
-        //         })
-        //         .setTitle(authorName)
-        //         .setURL(authorUrl)
-
-        //     await interaction.editReply({ content: "", components: [], embeds: [embed] });
-        // } catch {
-        //     await interaction.editReply({ content: "Interaction timed out", components: [], embed: [] });
-        // }
-    }
-}
-
-async function fetchFavicon(baseUrl) {
-    try {
-        const res = await fetch(baseUrl);
-        if (!res.ok) return `${baseUrl}favicon.ico`;
-
-        const html = await res.text();
-        const $ = cheerio.load(html);
-
-        let iconHref = $('link[rel*="icon"]').attr("href");
-
-        if (!iconHref) {
-            return new URL("/favicon.ico", baseUrl).href;
-        }
-
-        if (iconHref.startsWith("http")) return iconHref;
-        return new URL(iconHref, baseUrl).href;
-
-    } catch (err) {
-        console.error("fetchFavicon failed:", err);
-        return new URL("/favicon.ico", baseUrl).href;
     }
 }
 
