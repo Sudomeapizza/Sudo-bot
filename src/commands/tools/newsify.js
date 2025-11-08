@@ -4,6 +4,8 @@ const { reportCrash } = require('../../helpers/crash');
 const { getVideoDetails, fetchFavicon } = require('../../helpers/website')
 const fetch = (...args) => import("node-fetch").then(({ default: fetch }) => fetch(...args));
 
+var paragraphCount,commentCount;
+
 module.exports = {
     category: 'tools',
     data: new SlashCommandBuilder()
@@ -14,9 +16,17 @@ module.exports = {
                 .setDescription('full web url')
                 .setRequired(true)
         )
+        .addIntegerOption(option =>
+            option.setName('paragraphcount')
+                .setDescription('# of paragraphs from article (default 1 | 0..5)')
+        )
+        .addIntegerOption(option =>
+            option.setName('commentcount')
+                .setDescription('# of comments from lemmy (default 1 | 0..3)')
+        )
         .addBooleanOption(option =>
             option.setName('silent')
-                .setDescription('Invisible reply (Default=True)')
+                .setDescription('Invisible reply (Default false)')
         )
         .setContexts(
             InteractionContextType.BotDM,
@@ -25,7 +35,9 @@ module.exports = {
         ),
     async execute(interaction, client) {
 
-        const silent = interaction.options.getBoolean('silent') ?? true;
+        const silent = interaction.options.getBoolean('silent') ?? false;
+        paragraphCount = interaction.options.getInteger('paragraphcount');
+        commentCount = interaction.options.getInteger('commentcount');
         const targetUrl = interaction.options.getString('url');
 
         var message = await interaction.deferReply({
@@ -33,6 +45,12 @@ module.exports = {
             withResponse: true,
             content: "Parsing: ..."
         });
+
+        (commentCount > 3) ? commentCount == 3: commentCount;
+        (commentCount < 0) ? commentCount == 0: commentCount;
+        (paragraphCount > 5) ? paragraphCount == 5: paragraphCount;
+        (paragraphCount < 0) ? paragraphCount == 0: paragraphCount;
+
 
         const match = targetUrl.match(/https?:\/\/[^\s]+/);
         if (match == targetUrl) {
@@ -54,7 +72,7 @@ module.exports = {
             if (!result) {
                 await interaction.editReply({ content: `Parsing news site: <${url}>` });
 
-                const article = await fetchArticleSnippet(url, 5);
+                const article = await fetchArticleSnippet(url, paragraphCount);
                 var embed = 0;
 
                 if (article !== "Could not fetch article.") {
@@ -260,8 +278,8 @@ async function fetchPostComments(baseUrl, postId) {
             upvotes: c.counts?.upvotes ?? 0,
             downvotes: c.counts?.downvotes ?? 0,
         });
+        if (topComments.length >= commentCount) return { topComments };
     }
-    return { topComments };
 }
 
 async function fetchLemmyPostData(baseUrl, postId) {
@@ -272,7 +290,7 @@ async function fetchLemmyPostData(baseUrl, postId) {
     const { topComments } = await fetchPostComments(baseUrl, postId);
 
     const articleUrl = postData.post_view.post.url;
-    const content = await fetchArticleSnippet(articleUrl, 5);
+    const content = await fetchArticleSnippet(articleUrl, paragraphCount);
 
     return {
         siteDomain: baseUrl,

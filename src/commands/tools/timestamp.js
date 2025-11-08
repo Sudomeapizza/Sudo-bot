@@ -44,7 +44,7 @@ module.exports = {
         )
         .addBooleanOption(option =>
             option.setName('silent')
-                .setDescription('Invisible reply (Default=True)')
+                .setDescription('Invisible reply (Default False)')
         )
         .setContexts([
             InteractionContextType.Guild,
@@ -58,14 +58,14 @@ module.exports = {
         const fTime = interaction.options.getString('fixedtime');
         const format = interaction.options.getString('format') ?? 'yes';
         const outputType = interaction.options.getBoolean('displaytimecode') ?? true;
-        const silent = interaction.options.getBoolean('silent') ?? true
+        const silent = interaction.options.getBoolean('silent') ?? false
 
         await interaction.deferReply({
             withResponse: true,
             flags: silent ? MessageFlags.Ephemeral : undefined
         });
 
-        if (!rTime || fTime) {
+        if (!(rTime || fTime)) {
             await interaction.editReply({
                 content: `Missing time input. Please use \"${timeType === "rT" ? "relativetime" : "fixedtime"}\" input`,
             });

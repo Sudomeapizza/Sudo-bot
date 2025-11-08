@@ -1,4 +1,4 @@
-function timestampformat(timeType, userInput, format, outputOnly = false) {
+function timestampformat(timeType, userInput, format, outputOnly = false, outputCodeOnly = false) {
 
     var time;
 
@@ -23,37 +23,37 @@ function timestampformat(timeType, userInput, format, outputOnly = false) {
 
     switch (format) {
         case "yes":
-            result += outputOnly ? `<t:${time}:R>\n` : `\`<t:${time}:R>\` - <t:${time}:R>\n`
-            result += outputOnly ? `<t:${time}:t>\n` : `\`<t:${time}:t>\` - <t:${time}:t>\n`
-            result += outputOnly ? `<t:${time}:T>\n` : `\`<t:${time}:T>\` - <t:${time}:T>\n`
-            result += outputOnly ? `<t:${time}:d>\n` : `\`<t:${time}:d>\` - <t:${time}:d>\n`
-            result += outputOnly ? `<t:${time}:D>\n` : `\`<t:${time}:D>\` - <t:${time}:D>\n`
-            result += outputOnly ? `<t:${time}:f>\n` : `\`<t:${time}:f>\` - <t:${time}:f>\n`
-            result += outputOnly ? `<t:${time}:F>` : `\`<t:${time}:F>\` - <t:${time}:F>`
+            result += outputOnly|outputCodeOnly ? `<t:${time}:R>\n` : `\`<t:${time}:R>\` - <t:${time}:R>\n`
+            result += outputOnly|outputCodeOnly ? `<t:${time}:t>\n` : `\`<t:${time}:t>\` - <t:${time}:t>\n`
+            result += outputOnly|outputCodeOnly ? `<t:${time}:T>\n` : `\`<t:${time}:T>\` - <t:${time}:T>\n`
+            result += outputOnly|outputCodeOnly ? `<t:${time}:d>\n` : `\`<t:${time}:d>\` - <t:${time}:d>\n`
+            result += outputOnly|outputCodeOnly ? `<t:${time}:D>\n` : `\`<t:${time}:D>\` - <t:${time}:D>\n`
+            result += outputOnly|outputCodeOnly ? `<t:${time}:f>\n` : `\`<t:${time}:f>\` - <t:${time}:f>\n`
+            result += outputOnly|outputCodeOnly ? `<t:${time}:F>` : `\`<t:${time}:F>\` - <t:${time}:F>`
             break;
         case "R":
-            result = outputOnly ? `<t:${time}:R>` : `\`<t:${time}:R>\` - <t:${time}:R>`
+            result = outputOnly|outputCodeOnly ? `<t:${time}:R>` : `\`<t:${time}:R>\` - <t:${time}:R>`
             break;
         case "t":
-            result = outputOnly ? `<t:${time}:t>` : `\`<t:${time}:t>\` - <t:${time}:t>`
+            result = outputOnly|outputCodeOnly ? `<t:${time}:t>` : `\`<t:${time}:t>\` - <t:${time}:t>`
             break;
         case "T":
-            result = outputOnly ? `<t:${time}:T>` : `\`<t:${time}:T>\` - <t:${time}:T>`
+            result = outputOnly|outputCodeOnly ? `<t:${time}:T>` : `\`<t:${time}:T>\` - <t:${time}:T>`
             break;
         case "d":
-            result = outputOnly ? `<t:${time}:d>` : `\`<t:${time}:d>\` - <t:${time}:d>`
+            result = outputOnly|outputCodeOnly ? `<t:${time}:d>` : `\`<t:${time}:d>\` - <t:${time}:d>`
             break;
         case "D":
-            result = outputOnly ? `<t:${time}:D>` : `\`<t:${time}:D>\` - <t:${time}:D>`
+            result = outputOnly|outputCodeOnly ? `<t:${time}:D>` : `\`<t:${time}:D>\` - <t:${time}:D>`
             break;
         case "f":
-            result = outputOnly ? `<t:${time}:f>` : `\`<t:${time}:f>\` - <t:${time}:f>`
+            result = outputOnly|outputCodeOnly ? `<t:${time}:f>` : `\`<t:${time}:f>\` - <t:${time}:f>`
             break;
         case "F":
-            result = outputOnly ? `<t:${time}:F>` : `\`<t:${time}:F>\` - <t:${time}:F>`
+            result = outputOnly|outputCodeOnly ? `<t:${time}:F>` : `\`<t:${time}:F>\` - <t:${time}:F>`
             break;
         case "c":
-            result = outputOnly ? `<t:${time}:F><t:${time}:R>` :
+            result = outputOnly|outputCodeOnly ? `<t:${time}:F><t:${time}:R>` :
                 `\`<t:${time}:F><t:${time}:R>\` - <t:${time}:F><t:${time}:R>`
             break;
         default:
@@ -61,11 +61,13 @@ function timestampformat(timeType, userInput, format, outputOnly = false) {
             break;
     }
 
+    if (outputCodeOnly) result = `\`${result}\``
+
     return result;
 }
 
 function parseFixedInput(userInput) {
-    return new Date(`"${userInput}"`).getTime().toString().slice(0, -3);
+    return new Date(`${userInput}`).getTime().toString().slice(0, -3);
 }
 
 function parseRelativeInput(userInput) {

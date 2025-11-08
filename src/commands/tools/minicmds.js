@@ -1,7 +1,8 @@
 const { SlashCommandBuilder, InteractionContextType, MessageFlags } = require('discord.js')
 const { calcPresets } = require('../../helpers/presetCalc.js')
 const presetsData = require('../../helpers/minicmds.json')
-const { doMath } = require('../../helpers/math.js')
+const { doMath } = require('../../helpers/math.js');
+const e = require('express');
 const presets = presetsData.minicmds;
 
 // console.log('Loaded Presets:', presets);
@@ -23,7 +24,7 @@ module.exports = {
         )
         .addBooleanOption(option =>
             option.setName('silent')
-                .setDescription('Invisible reply (Default=True)')
+                .setDescription('Invisible reply (Default False)')
         )
         .setContexts(
             InteractionContextType.BotDM,
@@ -59,7 +60,7 @@ module.exports = {
                         const argDesc = presetArgs[argKey].description || argKey;
                         return `<${argDesc}>`;
                     });
-                    argHint = ` - Args: ${hints.join(' ')}`;
+                    argHint = ` - ${hints.join(' ')}`;
                 }
 
                 return {
@@ -78,7 +79,7 @@ module.exports = {
     async execute(interaction, client) {
         const minicmd = interaction.options.getString('minicmd');
         const argsString = interaction.options.getString('args');
-        const silent = interaction.options.getBoolean('silent') ?? true;
+        const silent = interaction.options.getBoolean('silent') ?? false;
 
         await interaction.deferReply({
             flags: silent ? MessageFlags.Ephemeral : undefined
@@ -92,6 +93,7 @@ module.exports = {
         if (argsString) {
             parsedArgs = argsString.split(/\s+/).map(arg => arg.trim()).filter(arg => arg.length > 0);
         }
+        
 
         // Basic validation example
         let validationError = null;
@@ -113,6 +115,8 @@ module.exports = {
             return;
         }
 
+        // console.log(`Args: ${argsString}`)
+
         const result = calcMinicmds(client, minicmd, argsString, parsedArgs);
 
 
@@ -127,6 +131,7 @@ module.exports = {
 function calcMinicmds(client, presetName, argsString, parsedArgs) {
     switch (presetName) {
         case "lmgtfy":
+            // console.log(`https://letmegooglethat.com/?q=${encodeURIComponent(argsString)}`)
             return `https://letmegooglethat.com/?q=${encodeURIComponent(argsString)}`
             break;
         case "insult":
@@ -135,27 +140,31 @@ function calcMinicmds(client, presetName, argsString, parsedArgs) {
         case "sarcastic":
             var result = "";
             var flip = true;
-            argsString[0].forEach(e => {
+            for (const e of argsString) {
                 if (e.match("[a-zA-Z]")) {
-                    if (flip)
-                        result += e.toUpperCase
-                    else
-                        result += e.toLowerCase
+                    if (flip) {
+                        result += e.toUpperCase()
+                        // console.log(`Uppercase: ${e.toUpperCase()}`)
+                    } else {
+                        result += e.toLowerCase()
+                        // console.log(`Lowercase: ${e.toLowerCase()}`)
+                    }
                     flip = !flip
                 } else {
                     result += e
+                    // console.log(`No Flip:   ${e.toUpperCase()}`)
                 }
-            });
+            }
             return result
             break;
         case "shout":
             var result = "";
-            argsString[0].forEach(e => {
+            for (const e of argsString) {
                 if (e.match("[a-zA-Z0-9]"))
                     result += `:regional_indicator_${e}:`
                 else
                     result += e
-            });
+            }
             return result
             break;
         case "calc":
