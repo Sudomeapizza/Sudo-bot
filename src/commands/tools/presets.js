@@ -21,7 +21,7 @@ module.exports = {
         )
         .addBooleanOption(option =>
             option.setName('silent')
-                .setDescription('Invisible reply (Default=True)')
+                .setDescription('Invisible reply (Default False)')
         )
         .setContexts(
             InteractionContextType.BotDM,
@@ -57,7 +57,7 @@ module.exports = {
                         const argDesc = presetArgs[argKey].description || argKey;
                         return `<${argDesc}>`;
                     });
-                    argHint = ` - Args: ${hints.join(' ')}`;
+                    argHint = ` - ${hints.join(' ')}`;
                 }
 
                 return {
@@ -76,7 +76,7 @@ module.exports = {
     async execute(interaction, client) {
         const presetName = interaction.options.getString('preset');
         const argsString = interaction.options.getString('args');
-        const silent = interaction.options.getBoolean('silent') ?? true;
+        const silent = interaction.options.getBoolean('silent') ?? false;
 
         await interaction.deferReply({
             flags: silent ? MessageFlags.Ephemeral : undefined

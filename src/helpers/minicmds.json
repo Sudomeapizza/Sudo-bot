@@ -4,14 +4,6 @@
             "Url": {
                 "count": 1,
                 "description": "url"
-            },
-            "Req": {
-                "count": 1,
-                "description": "layrate req"
-            },
-            "Timestamp": {
-                "count": 1,
-                "description": "timestamp"
             }
         },
         "insult": {
