@@ -161,7 +161,7 @@ function calcMinicmds(client, presetName, argsString, parsedArgs) {
             var result = "";
             for (const e of argsString) {
                 if (e.match("[a-zA-Z0-9]"))
-                    result += `:regional_indicator_${e}:`
+                    result += `:regional_indicator_${e.toLowerCase()}:`
                 else
                     result += e
             }
