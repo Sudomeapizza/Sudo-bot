@@ -117,12 +117,13 @@ module.exports = {
 
         // console.log(`Args: ${argsString}`)
 
-        const result = calcMinicmds(client, minicmd, argsString, parsedArgs);
+        var result = calcMinicmds(client, minicmd, argsString, parsedArgs);
 
+        result = result.substring(0,1990)
 
         console.log(`result: ${result}`)
         await interaction.editReply({
-            content: result.toString(),
+            content: result.toString() || "meow",
         });
     }
 }
@@ -160,8 +161,46 @@ function calcMinicmds(client, presetName, argsString, parsedArgs) {
         case "shout":
             var result = "";
             for (const e of argsString) {
-                if (e.match("[a-zA-Z0-9]"))
+                if (e.match("[a-zA-Z]"))
                     result += `:regional_indicator_${e.toLowerCase()}:`
+                else if (e.match("0")) 
+                    result += `:zero:`
+                else if (e.match("1")) 
+                    result += `:one:`
+                else if (e.match("2")) 
+                    result += `:two:`
+                else if (e.match("3")) 
+                    result += `:three:`
+                else if (e.match("4")) 
+                    result += `:four:`
+                else if (e.match("5")) 
+                    result += `:five:`
+                else if (e.match("6")) 
+                    result += `:six:`
+                else if (e.match("7")) 
+                    result += `:seven:`
+                else if (e.match("8")) 
+                    result += `:eight:`
+                else if (e.match("9")) 
+                    result += `:nine:`
+                else if (e.match("[#]")) 
+                    result += `:hash:`
+                else if (e.match("[*]")) 
+                    result += `:asterisk:`
+                else if (e.match("[+]")) 
+                    result += `:heavy_plus_sign:`
+                else if (e.match("[-]")) 
+                    result += `:heavy_minus_sign:`
+                else if (e.match("[/]")) 
+                    result += `:heavy_division_sign:`
+                else if (e.match("[=]")) 
+                    result += `:heavy_equals_sign:`
+                else if (e.match("[!]")) 
+                    result += `:exclimation:`
+                else if (e.match("[?]")) 
+                    result += `:question:`
+                else if (e.match("[$]")) 
+                    result += `:heavy_dollar_sign:`
                 else
                     result += e
             }
