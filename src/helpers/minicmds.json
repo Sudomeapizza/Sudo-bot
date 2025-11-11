@@ -7,10 +7,6 @@
             }
         },
         "insult": {
-            "na": {
-                "count": 1,
-                "description": "na"
-            }
         },
         "sarcastic": {
             "sentence": {
@@ -29,6 +25,8 @@
                 "count": 0,
                 "description": "ex: `a=4,B = 3; sin(sqrt(B,27)+a)*e^(B!)*2`"
             }
+        },
+        "nou": {
         }
     }
 }
