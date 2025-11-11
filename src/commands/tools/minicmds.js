@@ -1,6 +1,7 @@
 const { SlashCommandBuilder, InteractionContextType, MessageFlags } = require('discord.js')
 const { calcPresets } = require('../../helpers/presetCalc.js')
 const presetsData = require('../../helpers/minicmds.json')
+const {links} = require('../../helpers/noulinks.json')
 const { doMath } = require('../../helpers/math.js');
 const e = require('express');
 const presets = presetsData.minicmds;
@@ -209,6 +210,10 @@ function calcMinicmds(client, presetName, argsString, parsedArgs) {
         case "calc":
             console.log(`Args: ${argsString}`)
             return doMath(argsString);
+            break;
+        case "nou":
+            console.log(`Args: ${argsString}`)
+            return links[Math.floor(Math.random()*(links.length+1))];
             break;
         default:
             break;
