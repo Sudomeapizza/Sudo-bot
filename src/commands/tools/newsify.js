@@ -4,7 +4,10 @@ const { reportCrash } = require('../../helpers/crash');
 const { getVideoDetails, fetchFavicon } = require('../../helpers/website')
 const fetch = (...args) => import("node-fetch").then(({ default: fetch }) => fetch(...args));
 
-var paragraphCount,commentCount;
+var paragraphCount,commentCount
+
+// "Lemmy", "Youtube", "3rd Party", "Pifed" etc...
+var postOrigin;
 
 module.exports = {
     category: 'tools',
@@ -70,6 +73,7 @@ module.exports = {
 
             // Test if Lemmy Community
             if (!result) {
+                postOrigin = "3rd Party"
                 await interaction.editReply({ content: `Parsing news site: <${url}>` });
 
                 const article = await fetchArticleSnippet(url, paragraphCount);
@@ -104,6 +108,7 @@ module.exports = {
             }
             try {
 
+                console.log("Posting Lemmy Newsify Post:")
                 var ogData = await fetchLemmyPostData(baseUrl, postId);
                 var ogBaseUrl = baseUrl;
                 var ogPostId = postId;
@@ -118,16 +123,20 @@ module.exports = {
 
                     var { data, result } = await testLemmyCommunity(baseUrl, postId);
                 }
-                // const favicon = "";
-                // var postData
-                // if (!result) {
-                //     data 
-                // } else {
+                var postData = ``;
+
+                
                 const favicon = await fetchFavicon(baseUrl);
-                console.log(baseUrl);
-                data = (baseUrl == "https://piefed.social/") ? await fetchLemmyPostData(ogBaseUrl, ogPostId) : await fetchLemmyPostData(baseUrl, postId);
-                var postData = "";
-                // }
+                    console.log(`  Favicon: ` + favicon);
+                // if lemmy
+                
+                if (!result) {
+                    postOrigin = "Lemmy"
+                    data = await fetchLemmyPostData(baseUrl, postId);
+                } else {
+                    postOrigin = "Pifed"
+                    data = await fetchLemmyPostData(ogBaseUrl, ogPostId);
+                }
 
 
                 // data.snippet.content
@@ -144,20 +153,23 @@ module.exports = {
                     postData = data.snippet.content.substring(0, 1020) + " ...";
                 }
 
-                var lemmypostData = (data == "Unable to grab pifed.social comments.") ?
-                    `\n:arrow_up: ${ogData.postUpvotes} :arrow_down: ${ogData.postDownvotes}\n` +
-                    `${ogUrl ? "Via: [" + ogUrl.substring(8) + "](" + ogUrl + ")\n" : ""}` +
-                    `[${url.substring(8)}](${url}) • <t:${Date.parse(new Date(ogData.publishedDate)) / 1000}:f>\n` +
-                    `${(baseUrl == "https://piefed.social/") ? `*Unable to grab PiFed.social comments*` : commentDataFormatted(data.topComments)}`
-                    :
-                    `\n:arrow_up: ${data.postUpvotes} :arrow_down: ${data.postDownvotes}\n` +
-                    `${ogUrl ? "Via: [" + ogUrl.substring(8) + "](" + ogUrl + ")\n" : ""}` +
-                    `[${url.substring(8)}](${url}) • <t:${Date.parse(new Date(data.publishedDate)) / 1000}:f>\n` +
-                    `${(baseUrl == "https://piefed.social/") ? `*Unable to grab PiFed.social comments*` : commentDataFormatted(data.topComments)}`;
+                var lemmypostData = 
+                        // Post up/downvotes
+                        `\n:arrow_up: ${ogData.postUpvotes} :arrow_down: ${ogData.postDownvotes}\n` +
+
+                        // Display if post if referenced by another community
+                        `${ogUrl ? "Via: [" + ogUrl.substring(8) + "](" + ogUrl + ")\n" : ""}` +
+
+                        // Show time post was posted 
+                        `[${url.substring(8)}](${url}) • <t:${Date.parse(new Date(ogData.publishedDate)) / 1000}:f>\n` +
+
+                        // post Desc
+                        `\n` +
+                        `**Post Description:**\n${ogData.post_view.post.embed_description}\n`;
 
                 var articleName = "";
-                console.log(`${data.snippet.articleTitle} || ${baseUrl}`)
-                if (baseUrl == "https://piefed.social/") {
+                console.log(`  Article Title: ${data.snippet.articleTitle}\n  BaseUrl: ${baseUrl}`)
+                if (postOrigin = "Pifed") {
                     articleName = `[${ogData.articleUrl.substring(8)}](${ogData.articleUrl})`
                 } else if (data.articleUrl.substring(0, 16) === "https://youtu.be" || data.articleUrl.substring(0, 19) === "https://youtube.com") {
                     articleName = `[${data.snippet.articleTitle}](${data.articleUrl})`
@@ -165,20 +177,21 @@ module.exports = {
                     articleName = `[${data.articleUrl.substring(8)}](${data.articleUrl})`
                 }
 
+                console.log(`  Thumbnail: `+(data.post_view.post.thumbnail_url ?? data.snippet.articlePreviewImage ?? "https://http.cat/images/403.jpg"));
 
                 /**
                  * BUILD EMBED
                  */
                 const embed = new EmbedBuilder()
                     .setAuthor({
-                        name: (baseUrl == "https://piefed.social/") ? formatCommunity(ogData.communityActor, ogData.communityTitle) : formatCommunity(data.communityActor, data.communityTitle), // Autofill News Site -> dbzer0
+                        name: (postOrigin = "Pifed") ? formatCommunity(ogData.communityActor, ogData.communityTitle) : formatCommunity(data.communityActor, data.communityTitle), // Autofill News Site -> dbzer0
                         URL: url,
                         iconURL: favicon
                     })
                     .setColor(16747008)
-                    .setTitle((baseUrl == "https://piefed.social/") ? ogData.post_view.post.name : (ogData.post_view.post.name ?? "Lemmy Post"))
+                    .setTitle((postOrigin = "Pifed") ? ogData.post_view.post.name : (ogData.post_view.post.name ?? "Lemmy Post"))
                     .setURL(url)
-                    .setThumbnail((baseUrl == "https://piefed.social/") ? ogData.post_view.post.thumbnail_url : (data.post_view.post.thumbnail_url ?? data.snippet.articlePreviewImage ?? "https://http.cat/images/403.jpg") ?? "https://http.cat/images/404.jpg")
+                    .setThumbnail((postOrigin = "Pifed") ? ogData.post_view.post.thumbnail_url : (data.post_view.post.thumbnail_url ?? data.snippet.articlePreviewImage ?? "https://http.cat/images/403.jpg") ?? "https://http.cat/images/404.jpg")
                     // .setFooter({
                     //     text: message.author.globalName,
                     //     iconURL: message.author.avatarURL()
@@ -186,10 +199,8 @@ module.exports = {
                     .setTimestamp(new Date())
                     .addFields(
                         { name: "Lemmy Post:", value: lemmypostData },
-                        { name: "Article", value: articleName },
-                        { name: "Article Content", value: postData }
-
-                        // { name: "Article Content", value: (data.snippet.content ? data.snippet.content.substring(0, 1020) + " ...": data.snippet)}
+                        { name: "Top Comments:", value: commentDataFormatted(data.topComments) },
+                        { name: "Article", value: articleName }
                     );
 
 
@@ -264,7 +275,9 @@ async function fetchPost(baseUrl, postId) {
 }
 
 async function fetchPostComments(baseUrl, postId) {
-    const url = `${baseUrl}api/v3/comment/list?post_id=${postId}&sort=Top&limit=3`;
+
+    //https://lemmy.dbzer0.com/post/57854507
+    const url = `${baseUrl}api/v3/comment/list?post_id=${postId}&type_=All&sort=Top`;
     const res = await fetch(url);
     const data = await res.json();
     const comments = data.comments || [];
@@ -305,7 +318,8 @@ async function fetchLemmyPostData(baseUrl, postId) {
         snippet: content,
         communityActor,
         communityName,
-        communityTitle
+        communityTitle,
+        embed_description: postData.post_view.post.embed_description
     };
 }
 
@@ -327,7 +341,7 @@ async function fetchArticleSnippet(articleUrl, paraCount = 3) {
         }
 
         const res = await fetch(articleUrl);
-        console.log(articleUrl);
+        // console.log(articleUrl);
         if (!res.ok) return "Could not fetch article.";
 
         const html = await res.text();
