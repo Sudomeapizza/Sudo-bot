@@ -69,10 +69,29 @@ module.exports = {
             var postId = url.split("/post/")[1];
             var ogUrl = "";
 
-            var { data, result } = await testLemmyCommunity(baseUrl, postId);
+
+            console.log(url)
+            var match2;
+            if (url.includes("/p/")) {
+                match2 = url.match(/\/p\/([0-9]+)\//)[1];
+                // match2 = match2[0].substring(3,match2.length-1);
+            }
+
+            console.log(match2)
+
+            var { data, result, site, newTargetUrl } = await testLemmyCommunity(baseUrl, postId, match2);
+
+            if (site === "Lemmy") {
+                postOrigin = "Lemmy"
+                data = await fetchLemmyPostData(baseUrl, postId);
+            } else if (site === "Pifed") {
+                postId = match2
+                postOrigin = "Pifed"
+                data = await fetchLemmyPostData(baseUrl, postId);
+            }
 
             // Test if Lemmy Community
-            if (!result) {
+            if (site == !("Lemmy" || "Pifed")) {
                 postOrigin = "3rd Party"
                 await interaction.editReply({ content: `Parsing news site: <${url}>` });
 
@@ -113,16 +132,24 @@ module.exports = {
                 var ogBaseUrl = baseUrl;
                 var ogPostId = postId;
 
+                console.log(" " + url + " \n " + ogData.apId)
                 // var data,result = "";
-                if (url != data.post_view.post.ap_id) {
+                if (url != ogData.apId) {
                     ogUrl = url;
-                    url = data.post_view.post.ap_id
+                    url = ogData.apId
                     u = new URL(url)
                     baseUrl = `${u.protocol}//${u.host}/`;
                     postId = url.split("/post/")[1];
 
-                    var { data, result } = await testLemmyCommunity(baseUrl, postId);
+                    var match2;
+                    if (url.match(/\/p\//)) {
+                        match2 = url.match(/\/p\/[0-9]*\//);
+                        match2 = match2[0].substring(3,match2.length-1);
+                    }
+
+                    var { data, result, site } = await testLemmyCommunity(baseUrl, postId, match2);
                 }
+                
                 var postData = ``;
 
                 
@@ -130,12 +157,12 @@ module.exports = {
                     console.log(`  Favicon: ` + favicon);
                 // if lemmy
                 
-                if (!result) {
+                if (site === "Lemmy") {
                     postOrigin = "Lemmy"
                     data = await fetchLemmyPostData(baseUrl, postId);
-                } else {
+                } else if (site === "Pifed") {
                     postOrigin = "Pifed"
-                    data = await fetchLemmyPostData(ogBaseUrl, ogPostId);
+                    data = await fetchLemmyPostData(baseUrl, postId);
                 }
 
 
@@ -165,11 +192,11 @@ module.exports = {
 
                         // post Desc
                         `\n` +
-                        `**Post Description:**\n${ogData.post_view.post.embed_description}\n`;
+                        `**Post Description:**\n${ogData.embed_description}\n`;
 
                 var articleName = "";
                 console.log(`  Article Title: ${data.snippet.articleTitle}\n  BaseUrl: ${baseUrl}`)
-                if (postOrigin = "Pifed") {
+                if (postOrigin === "Pifed") {
                     articleName = `[${ogData.articleUrl.substring(8)}](${ogData.articleUrl})`
                 } else if (data.articleUrl.substring(0, 16) === "https://youtu.be" || data.articleUrl.substring(0, 19) === "https://youtube.com") {
                     articleName = `[${data.snippet.articleTitle}](${data.articleUrl})`
@@ -177,21 +204,28 @@ module.exports = {
                     articleName = `[${data.articleUrl.substring(8)}](${data.articleUrl})`
                 }
 
-                console.log(`  Thumbnail: `+(data.post_view.post.thumbnail_url ?? data.snippet.articlePreviewImage ?? "https://http.cat/images/403.jpg"));
+                console.log(`  Thumbnail: `+(data.thumbnail_url ?? data.snippet.articlePreviewImage ?? "https://http.cat/images/403.jpg"));
+            
 
+                console.log (`test: ${data.topComments}`);
                 /**
                  * BUILD EMBED
                  */
                 const embed = new EmbedBuilder()
                     .setAuthor({
-                        name: (postOrigin = "Pifed") ? formatCommunity(ogData.communityActor, ogData.communityTitle) : formatCommunity(data.communityActor, data.communityTitle), // Autofill News Site -> dbzer0
+                        // name: (postOrigin === "Pifed") ? formatCommunity(ogData.communityActor, ogData.communityTitle) : formatCommunity(data.communityActor, data.communityTitle), // Autofill News Site -> dbzer0
+                        name: formatCommunity(data.communityActor, data.communityTitle), // Autofill News Site -> dbzer0
+
                         URL: url,
-                        iconURL: favicon
+                        iconURL: (data.favicon ?? favicon)
                     })
                     .setColor(16747008)
-                    .setTitle((postOrigin = "Pifed") ? ogData.post_view.post.name : (ogData.post_view.post.name ?? "Lemmy Post"))
+                    // .setTitle((postOrigin === "Pifed") ? ogData.post_view.post.name : (ogData.post_view.post.name ?? "Lemmy Post"))
+                    .setTitle((ogData.postName ?? "Lemmy Post"))
+
                     .setURL(url)
-                    .setThumbnail((postOrigin = "Pifed") ? ogData.post_view.post.thumbnail_url : (data.post_view.post.thumbnail_url ?? data.snippet.articlePreviewImage ?? "https://http.cat/images/403.jpg") ?? "https://http.cat/images/404.jpg")
+//                    .setThumbnail((postOrigin === "Pifed") ? ogData.post_view.post.thumbnail_url : (data.post_view.post.thumbnail_url ?? data.snippet.articlePreviewImage ?? "https://http.cat/images/403.jpg") ?? "https://http.cat/images/404.jpg")
+                    .setThumbnail((data.thumbnail_url ?? data.snippet.articlePreviewImage ?? "https://http.cat/images/403.jpg") ?? "https://http.cat/images/404.jpg")
                     // .setFooter({
                     //     text: message.author.globalName,
                     //     iconURL: message.author.avatarURL()
@@ -199,7 +233,7 @@ module.exports = {
                     .setTimestamp(new Date())
                     .addFields(
                         { name: "Lemmy Post:", value: lemmypostData },
-                        { name: "Top Comments:", value: commentDataFormatted(data.topComments) },
+                        { name: "Top Comments:", value: (data.topComments) ? commentDataFormatted(data.topComments) : "No replies on this post" },
                         { name: "Article", value: articleName }
                     );
 
@@ -241,66 +275,144 @@ function commentDataFormatted(comments) {
     return output
 }
 
-async function testLemmyCommunity(baseUrl, postId) {
-    // console.log("testing: `" + baseUrl + "` === `" + baseUrl.substring(0, 16) + "`")
+async function testLemmyCommunity(baseUrl, postId, pifedPostId) {
+    var site, apiUrl, res, postData;
+    
     if (baseUrl.substring(0, 16) === "https://youtu.be" || baseUrl.substring(0, 19) === "https://youtube.com") {
-        return { result: false }
+        return { result: false, site: "youtube" }
     }
-    const apiUrl = `${baseUrl}api/v3/post?id=${postId}`;
-    const res = await fetch(apiUrl);
-    var postData = "";
-    if (res.ok)
-        postData = await res.json();
+
+    if (postId) {
+        apiUrl = `${baseUrl}api/v3/post?id=${postId}`;
+        console.log ("Testing Lemmy: " + apiUrl);
+        res = await fetch(apiUrl);
+
+        if (res.ok) {
+            console.log ("Lemmy");
+            postData = await res.json();
+
+            return {
+                result: res.ok,
+                site: "Lemmy",
+                data: postData
+            };
+        }
+    }
+
+    
+    if (pifedPostId) {
+        
+        apiUrl = `${baseUrl}api/alpha/post?id=${pifedPostId}`;
+        console.log ("Testing Pifed: " + pifedPostId);
+        console.log ("Testing Pifed: " + apiUrl);
+        res = await fetch(apiUrl);
+
+        if (res.ok) { console.log ("Pifed");
+            postData = await res.json();
+            
+            return {
+                result: res.ok,
+                site: "Pifed",
+                data: postData
+            };
+        }
+    }
+
     return {
-        result: res.ok,
+        result: false,
+        site,
         data: postData
     };
 }
 
 async function fetchPost(baseUrl, postId) {
-    const postRes = await fetch(`${baseUrl}api/v3/post?id=${postId}`);
+    const postRes = await fetch(`${baseUrl}api/${(postOrigin==="Pifed")?"alpha":"v3"}/post?id=${postId}`);
+    console.log(`  ${baseUrl}api/${(postOrigin==="Pifed")?"alpha":"v3"}/post?id=${postId}`)
     if (!postRes.ok) console.error("Failed to fetch post");
     const postData = (!postRes.ok) ? "Failed to fetch post" : await postRes.json();
 
-    return {
-        postData,
-        post_view: postData.post_view,
-        postUpvotes: postData.post_view.counts.upvotes,
-        postDownvotes: postData.post_view.counts.downvotes,
-        postCommentsCount: postData.post_view.counts.comments,
-        communityName: postData.post_view.community.name,
-        communityTitle: postData.post_view.community.title,
-        communityActor: postData.post_view.community.actor_id,
+    if (postOrigin === "Pifed") {
+        console.log("   is pifed: " + postOrigin)
+        return {
+            postData,
+            post_view: postData.post_view,
+            postUpvotes: postData.post_view.counts.upvotes,
+            postDownvotes: postData.post_view.counts.downvotes,
+            postCommentsCount: postData.post_view.counts.comments,
+            communityName: postData.post_view.community.name,
+            communityTitle: postData.post_view.community.title,
+            communityActor: postData.post_view.community.actor_id,
+            publishedDate: postData.post_view.counts.published,
+            embed_description: postData.post_view.post.body,
+            thumbnail_url: postData.post_view.post.thumbnail_url,
+            postName: postData.post_view.post.title,
+            apId: postData.post_view.post.ap_id,
+            favicon: postData.post_view.community.icon
+        }
+    } else {
+        console.log("   is NOT pifed: " + postOrigin)
+        return {
+            postData,
+            post_view: postData.post_view,
+            postUpvotes: postData.post_view.counts.upvotes,
+            postDownvotes: postData.post_view.counts.downvotes,
+            postCommentsCount: postData.post_view.counts.comments,
+            communityName: postData.post_view.community.name,
+            communityTitle: postData.post_view.community.title,
+            communityActor: postData.post_view.community.actor_id,
+            publishedDate: postData.post_view.counts.published,
+            embed_description: postData.post_view.post.embed_description,
+            thumbnail_url: postData.post_view.post.thumbnail_url,
+            postName: postData.post_view.post.name,
+            apId: postData.post_view.post.ap_id
+        }
     }
 }
 
 async function fetchPostComments(baseUrl, postId) {
 
     //https://lemmy.dbzer0.com/post/57854507
-    const url = `${baseUrl}api/v3/comment/list?post_id=${postId}&type_=All&sort=Top`;
+    const url = `${baseUrl}api/${(postOrigin=="Pifed")?"alpha":"v3"}/comment/list?post_id=${postId}&type_=All&sort=Top`;
+    console.log(`  ${baseUrl}api/${(postOrigin=="Pifed")?"alpha":"v3"}/comment/list?post_id=${postId}&type_=All&sort=Top`)
     const res = await fetch(url);
     const data = await res.json();
     const comments = data.comments || [];
-    const topComments = [];
+    var topComments = [];
 
-    for (const c of comments) {
-        topComments.push({
-            author: c.creator?.name || "NA",
-            actor_id: c.creator?.actor_id || "NA",
-            text: c.comment?.content || "NA",
-            upvotes: c.counts?.upvotes ?? 0,
-            downvotes: c.counts?.downvotes ?? 0,
-        });
-        if (topComments.length >= commentCount) return { topComments };
+    if (!comments) return topComments;
+
+    if  (postOrigin === "Pifed") {
+        for (const c of comments) {
+            topComments.push({
+                author: c.creator?.user_name || "NA",
+                actor_id: c.creator?.actor_id || "NA",
+                text: c.comment?.body || "NA",
+                upvotes: c.counts?.upvotes ?? 0,
+                downvotes: c.counts?.downvotes ?? 0,
+            });
+            if (topComments.length >= commentCount) return { topComments };
+        }
+    } else {
+        for (const c of comments) {
+            topComments.push({
+                author: c.creator?.name || "NA",
+                actor_id: c.creator?.actor_id || "NA",
+                text: c.comment?.content || "NA",
+                upvotes: c.counts?.upvotes ?? 0,
+                downvotes: c.counts?.downvotes ?? 0,
+            });
+            if (topComments.length >= commentCount) return { topComments };
+        }
     }
 }
 
 async function fetchLemmyPostData(baseUrl, postId) {
 
-    const { postData, post_view, postUpvotes, postDownvotes, postCommentsCount, communityActor, communityName, communityTitle } =
+    const { postData, post_view, postUpvotes, postDownvotes, postCommentsCount, communityActor, communityName,
+        communityTitle, publishedDate, embed_description, thumbnail_url, postName, apId, favicon } =
         await fetchPost(baseUrl, postId);
 
-    const { topComments } = await fetchPostComments(baseUrl, postId);
+    const { topComments } = await fetchPostComments(baseUrl, postId) ?? [];
 
     const articleUrl = postData.post_view.post.url;
     const content = await fetchArticleSnippet(articleUrl, paragraphCount);
@@ -309,7 +421,7 @@ async function fetchLemmyPostData(baseUrl, postId) {
         siteDomain: baseUrl,
         postId,
         post_view,
-        publishedDate: postData.post_view.counts.published,
+        publishedDate,
         postUpvotes,
         postDownvotes,
         postCommentsCount,
@@ -319,7 +431,11 @@ async function fetchLemmyPostData(baseUrl, postId) {
         communityActor,
         communityName,
         communityTitle,
-        embed_description: postData.post_view.post.embed_description
+        embed_description,
+        thumbnail_url,
+        postName,
+        apId,
+        favicon
     };
 }
 
