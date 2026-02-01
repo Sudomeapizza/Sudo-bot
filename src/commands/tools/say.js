@@ -1,4 +1,4 @@
-const { SlashCommandBuilder, PermissionFlagsBits, MessageFlags } = require('discord.js')
+const { SlashCommandBuilder, PermissionFlagsBits, MessageFlags, InteractionContextType } = require('discord.js')
 
 module.exports = {
     category: 'tools',
@@ -15,7 +15,11 @@ module.exports = {
         .setDescription('Message ID to reply to')
         )
     .setDefaultMemberPermissions(PermissionFlagsBits.ManageGuild)
-    .setDMPermission(false),
+    .setContexts(
+        InteractionContextType.BotDM,
+        InteractionContextType.PrivateChannel,
+        InteractionContextType.Guild
+    ),
     async execute(interaction, client) {
         const usermessage = interaction.options.getString('message');
         const replymessageid = interaction.options.getString('replyid');
@@ -32,7 +36,7 @@ module.exports = {
                 if (fetchedMessage) {
                     await interaction.reply({
                         content: ".",
-                        flags: silence ? MessageFlags.Ephemeral : undefined
+                    flags: MessageFlags.Ephemeral
                     });
                     await interaction.deleteReply({});
                     
@@ -44,7 +48,7 @@ module.exports = {
                 } else {
                     await interaction.reply({
                         content: "message does not exist",
-                        flags: silence ? MessageFlags.Ephemeral : undefined
+                        flags: MessageFlags.Ephemeral
                     });
                 }
 
@@ -53,7 +57,7 @@ module.exports = {
                 client.channels.cache.get(`${interaction.channelId}`).send(usermessage);
                 await interaction.reply({
                     content: ".",
-                    flags: silence ? MessageFlags.Ephemeral : undefined
+                    flags: MessageFlags.Ephemeral
                 });
                 await interaction.deleteReply({});
             }
