@@ -1,13 +1,37 @@
 const { SlashCommandBuilder, InteractionContextType, MessageFlags, EmbedBuilder } = require('discord.js')
 const cheerio = require('cheerio');
 const { reportCrash } = require('../../helpers/crash');
-const { getVideoDetails, fetchFavicon } = require('../../helpers/website')
+const { getVideoDetails, fetchFavicon } = require('../../helpers/website');
+const user = require('./user');
 const fetch = (...args) => import("node-fetch").then(({ default: fetch }) => fetch(...args));
 
 var paragraphCount,commentCount
 
 // "Lemmy", "Youtube", "3rd Party", "Pifed" etc...
-var postOrigin;
+var site;
+
+/** MERMAID.LIVE FLOWCHART
+flowchart LR
+    A[Get URL] -->
+    A2{Test if the link is an https link via Regex} -->|OK| A3
+        A2 -->|BAD| AB[Reply to user for only URL]
+    A3[Disect Link properties and test Lemmy Community]-->
+    
+    A4{Test Link}
+        A4 --> |Lemmy| B1[Lemmy]
+        B1 --> C1[Grab Lemmy Info]
+
+        A4 -->|Pifed| B2[Pifed]
+        B2 --> C2[Grab Pifed Info]
+        
+        A4 -->|Youtube| B3[Youtube]
+        B3 --> C3[Grab Youtube Info]
+        
+        A4 --> |Other| B4[General News site]
+        B4 --> C4[Cheerio the site]
+ */
+
+
 
 module.exports = {
     category: 'tools',
@@ -18,6 +42,10 @@ module.exports = {
             option.setName('url')
                 .setDescription('full web url')
                 .setRequired(true)
+        )
+        .addStringOption(option =>
+            option.setName('usermsg')
+                .setDescription('accompanying message')
         )
         .addIntegerOption(option =>
             option.setName('paragraphcount')
@@ -38,24 +66,36 @@ module.exports = {
         ),
     async execute(interaction, client) {
 
+        var usermsg = interaction.options.getString('usermsg') ?? "";
         const silent = interaction.options.getBoolean('silent') ?? false;
-        paragraphCount = interaction.options.getInteger('paragraphcount');
-        commentCount = interaction.options.getInteger('commentcount');
-        const targetUrl = interaction.options.getString('url');
+        paragraphCount = interaction.options.getInteger('paragraphcount') ?? 1;
+        commentCount = interaction.options.getInteger('commentcount') ?? 1;
+        var targetUrl = interaction.options.getString('url');
 
-        var message = await interaction.deferReply({
-            flags: silent ? MessageFlags.Ephemeral : undefined,
+        var message = await interaction.reply({
+            // flags: silent ? MessageFlags.Ephemeral : undefined,
+            flags: MessageFlags.SuppressNotifications,
             withResponse: true,
             content: "Parsing: ..."
         });
 
+        // If a message has been added, put who sent that message at the front:
+        if (usermsg)
+            usermsg = `${interaction.user.globalName} :\n` + usermsg;
+
+        // check bounds of comments to be 0..3
         (commentCount > 3) ? commentCount == 3: commentCount;
         (commentCount < 0) ? commentCount == 0: commentCount;
+        
+        // check bounds of paragraphs to be 0..5
         (paragraphCount > 5) ? paragraphCount == 5: paragraphCount;
         (paragraphCount < 0) ? paragraphCount == 0: paragraphCount;
 
 
-        const match = targetUrl.match(/https?:\/\/[^\s]+/);
+        // Remove the `t.` for tesseract links
+        targetUrl = targetUrl.replace("//t.","//");
+
+        var match = targetUrl.match(/https?:\/\/[^\s]+/);
         if (match == targetUrl) {
 
             message = await interaction.editReply({
@@ -63,36 +103,33 @@ module.exports = {
                 content: "Parsing: <" + match + "> ..."
             });
 
+            
+
             var url = match[0];
             var u = new URL(url);
             var baseUrl = `${u.protocol}//${u.host}/`;
-            var postId = url.split("/post/")[1];
-            var ogUrl = "";
+            var postId = url.match(`([0-9]{6,10})`)[0];
+            // var ogUrl = "";
 
+            // console.log(`URL: ${url}`)
+            // console.log(`Post ID: ${postId}`)
 
-            console.log(url)
-            var match2;
-            if (url.includes("/p/")) {
-                match2 = url.match(/\/p\/([0-9]+)\//)[1];
-                // match2 = match2[0].substring(3,match2.length-1);
-            }
+            var { data, result, siteType } = await testURL(baseUrl, postId);
 
-            console.log(match2)
-
-            var { data, result, site, newTargetUrl } = await testLemmyCommunity(baseUrl, postId, match2);
-
-            if (site === "Lemmy") {
-                postOrigin = "Lemmy"
+            if (siteType === "Lemmy") {
+                // console.log("verified Lemmy")
+                site = "Lemmy"
                 data = await fetchLemmyPostData(baseUrl, postId);
-            } else if (site === "Pifed") {
-                postId = match2
-                postOrigin = "Pifed"
+            } else if (siteType === "Pifed") {
+                // console.log("verified Pifed")
+                site = "Pifed"
                 data = await fetchLemmyPostData(baseUrl, postId);
+            } else {
+                console.log("wtf: " + siteType)
             }
 
             // Test if Lemmy Community
-            if (site == !("Lemmy" || "Pifed")) {
-                postOrigin = "3rd Party"
+            if (siteType == "generic") {
                 await interaction.editReply({ content: `Parsing news site: <${url}>` });
 
                 const article = await fetchArticleSnippet(url, paragraphCount);
@@ -104,7 +141,6 @@ module.exports = {
                             name: article.articleNewsSite ?? "Missing Author",
                             URL: url,
                             iconURL: article.articleFavicon
-
                         })
                         .setColor(parseInt("580085", 16))
                         .setTitle(article.articleTitle ?? "Missing Title")
@@ -118,7 +154,16 @@ module.exports = {
                             },
                             { name: "Article Content", value: (article.content ?? "Missing Content").substring(0, 1020) + " ..." }
                         );
-                    await interaction.editReply({ content: "", embeds: [embed] });
+
+
+                    await interaction.deleteReply({});
+                    client.channels.cache.get(`${interaction.channelId}`).send({
+                        flags: silent ? MessageFlags.Ephemeral : undefined,
+                        content: usermsg,
+                        embeds: [embed] });
+
+
+                    // await interaction.editReply({ content: usermsg, embeds: [embed] });
                     return
                 }
 
@@ -127,43 +172,16 @@ module.exports = {
             }
             try {
 
-                console.log("Posting Lemmy Newsify Post:")
-                var ogData = await fetchLemmyPostData(baseUrl, postId);
-                var ogBaseUrl = baseUrl;
-                var ogPostId = postId;
-
-                console.log(" " + url + " \n " + ogData.apId)
-                // var data,result = "";
-                if (url != ogData.apId) {
-                    ogUrl = url;
-                    url = ogData.apId
-                    u = new URL(url)
-                    baseUrl = `${u.protocol}//${u.host}/`;
-                    postId = url.split("/post/")[1];
-
-                    var match2;
-                    if (url.match(/\/p\//)) {
-                        match2 = url.match(/\/p\/[0-9]*\//);
-                        match2 = match2[0].substring(3,match2.length-1);
-                    }
-
-                    var { data, result, site } = await testLemmyCommunity(baseUrl, postId, match2);
-                }
+                console.log(`Creating Newsify Post. Type: ${siteType}`);
                 
                 var postData = ``;
 
                 
                 const favicon = await fetchFavicon(baseUrl);
                     console.log(`  Favicon: ` + favicon);
-                // if lemmy
-                
-                if (site === "Lemmy") {
-                    postOrigin = "Lemmy"
-                    data = await fetchLemmyPostData(baseUrl, postId);
-                } else if (site === "Pifed") {
-                    postOrigin = "Pifed"
-                    data = await fetchLemmyPostData(baseUrl, postId);
-                }
+
+
+                // what is this???
 
 
                 // data.snippet.content
@@ -180,67 +198,101 @@ module.exports = {
                     postData = data.snippet.content.substring(0, 1020) + " ...";
                 }
 
+
+
                 var lemmypostData = 
-                        // Post up/downvotes
-                        `\n:arrow_up: ${ogData.postUpvotes} :arrow_down: ${ogData.postDownvotes}\n` +
+                    // Post up/downvotes
+                    `\n:arrow_up: ${data.postUpvotes} :arrow_down: ${data.postDownvotes}\n` +
 
-                        // Display if post if referenced by another community
-                        `${ogUrl ? "Via: [" + ogUrl.substring(8) + "](" + ogUrl + ")\n" : ""}` +
+                    // Show time post was posted 
+                    `[${url.substring(8)}](${url}) • <t:${Date.parse(new Date(data.publishedDate)) / 1000}:f>\n`;
 
-                        // Show time post was posted 
-                        `[${url.substring(8)}](${url}) • <t:${Date.parse(new Date(ogData.publishedDate)) / 1000}:f>\n` +
-
+                if (data.embed_description){
+                    if (data.embed_description.length > 500) {
+                        lemmypostData +=
                         // post Desc
                         `\n` +
-                        `**Post Description:**\n${ogData.embed_description}\n`;
-
-                var articleName = "";
-                console.log(`  Article Title: ${data.snippet.articleTitle}\n  BaseUrl: ${baseUrl}`)
-                if (postOrigin === "Pifed") {
-                    articleName = `[${ogData.articleUrl.substring(8)}](${ogData.articleUrl})`
-                } else if (data.articleUrl.substring(0, 16) === "https://youtu.be" || data.articleUrl.substring(0, 19) === "https://youtube.com") {
-                    articleName = `[${data.snippet.articleTitle}](${data.articleUrl})`
-                } else {
-                    articleName = `[${data.articleUrl.substring(8)}](${data.articleUrl})`
+                        `**Post Description:**\n${data.embed_description.substring(0, 500) + " ..."}\n`;
+                    } else {
+                        lemmypostData +=
+                        // post Desc
+                        `\n` +
+                        `**Post Description:**\n${data.embed_description}\n`;
+                    }
                 }
 
-                console.log(`  Thumbnail: `+(data.thumbnail_url ?? data.snippet.articlePreviewImage ?? "https://http.cat/images/403.jpg"));
+                var articleName = "";
+
+                if (data.articleUrl){
+                    console.log("ArticleName")
+                    articleName = `[${data.articleUrl.substring(8)}](${data.articleUrl})`
+                } else if (data.snippet) {
+                    console.log("ArticleSnippet")
+                    articleName = `[${data.snippet.articleTitle}](${data.articleUrl})`
+                }
+
+                // if (data.snippet) {
+                //     console.log(`  Article Title: ${data.snippet.articleTitle}\n  BaseUrl: ${baseUrl}`)
+                //     if (site === "Pifed") {
+                //         articleName = `[${data.articleUrl.substring(8)}](${data.articleUrl})`
+                //     } else if (site === "youtube") {
+                //         articleName = `[${data.snippet.articleTitle}](${data.articleUrl})`
+                //     } else {
+                //         articleName = `[${data.articleUrl.substring(8)}](${data.articleUrl})`
+                //     }
+                // }
+
+                if (data.snippet) {console.log(`  Thumbnail: `+(data.thumbnail_url ?? data.snippet.articlePreviewImage ?? "https://http.cat/images/403.jpg"))};
             
 
                 console.log (`test: ${data.topComments}`);
                 /**
                  * BUILD EMBED
                  */
-                const embed = new EmbedBuilder()
+                var embed = new EmbedBuilder()
                     .setAuthor({
-                        // name: (postOrigin === "Pifed") ? formatCommunity(ogData.communityActor, ogData.communityTitle) : formatCommunity(data.communityActor, data.communityTitle), // Autofill News Site -> dbzer0
+                        // name: (postOrigin === "Pifed") ? formatCommunity(data.communityActor, data.communityTitle) : formatCommunity(data.communityActor, data.communityTitle), // Autofill News Site -> dbzer0
                         name: formatCommunity(data.communityActor, data.communityTitle), // Autofill News Site -> dbzer0
 
                         URL: url,
                         iconURL: (data.favicon ?? favicon)
                     })
                     .setColor(16747008)
-                    // .setTitle((postOrigin === "Pifed") ? ogData.post_view.post.name : (ogData.post_view.post.name ?? "Lemmy Post"))
-                    .setTitle((ogData.postName ?? "Lemmy Post"))
+                    .setTitle((data.postName ?? "Lemmy Post"))
 
                     .setURL(url)
-//                    .setThumbnail((postOrigin === "Pifed") ? ogData.post_view.post.thumbnail_url : (data.post_view.post.thumbnail_url ?? data.snippet.articlePreviewImage ?? "https://http.cat/images/403.jpg") ?? "https://http.cat/images/404.jpg")
-                    .setThumbnail((data.thumbnail_url ?? data.snippet.articlePreviewImage ?? "https://http.cat/images/403.jpg") ?? "https://http.cat/images/404.jpg")
+                    .setThumbnail((data.thumbnail_url ?? (data.snippet)?(data.snippet.articlePreviewImage): "https://http.cat/images/403.jpg") ?? "https://http.cat/images/404.jpg")
                     // .setFooter({
                     //     text: message.author.globalName,
                     //     iconURL: message.author.avatarURL()
                     // })
                     .setTimestamp(new Date())
                     .addFields(
-                        { name: "Lemmy Post:", value: lemmypostData },
-                        { name: "Top Comments:", value: (data.topComments) ? commentDataFormatted(data.topComments) : "No replies on this post" },
-                        { name: "Article", value: articleName }
+                        { name: `${site} Post:`, value: lemmypostData }
                     );
 
+                    if (commentCount > 0) {
+                        embed.addFields(
+                            { name: "Top Comments:", value: (data.topComments) ? commentDataFormatted(data.topComments) : "No replies on this post" }
+                        )
+                    }
 
-                await interaction.editReply({ content: "", embeds: [embed] });
+                    if (data.snippet && paragraphCount > 0) {
+                        embed.addFields(
+                            { name: "Article", value: articleName }
+                        )
+                    }
+
+                await interaction.deleteReply({});
+                client.channels.cache.get(`${interaction.channelId}`).send({
+                        flags: silent ? MessageFlags.Ephemeral : undefined,
+                        content: usermsg,
+                        embeds: [embed] });
+
+
+                // await interaction.editReply({ content: usermsg, embeds: [embed] });
             } catch (err) {
-                await reportCrash(client, "Newsify Command", { "ogUrl": ogUrl, "url": url }, err);
+                await reportCrash(client, "Newsify Command", { /*"ogUrl": ogUrl,*/ "url": url }, err);
                 await interaction.editReply({ content: "I broke! Report sent!" });
                 console.error(err)
                 console.error(JSON.stringify(data))
@@ -275,14 +327,27 @@ function commentDataFormatted(comments) {
     return output
 }
 
-async function testLemmyCommunity(baseUrl, postId, pifedPostId) {
-    var site, apiUrl, res, postData;
+async function testURL(baseUrl, postId) {
+    var apiUrl, res, postData;
     
-    if (baseUrl.substring(0, 16) === "https://youtu.be" || baseUrl.substring(0, 19) === "https://youtube.com") {
-        return { result: false, site: "youtube" }
-    }
+    /**
+     * If no postID
+     *      Test for YT
+     *  else default webpage
+     * else test lemmy api
+     * else test pifed api
+     * else test kbin api???
+     * 
+     */
 
-    if (postId) {
+    if (!postId){
+        if (baseUrl.substring(0, 16) === "https://youtu.be" || baseUrl.substring(0, 19) === "https://youtube.com") {
+            return { result: false, siteType: "youtube", data: null}
+        }
+    } else {
+
+        // test lemmy
+
         apiUrl = `${baseUrl}api/v3/post?id=${postId}`;
         console.log ("Testing Lemmy: " + apiUrl);
         res = await fetch(apiUrl);
@@ -290,29 +355,26 @@ async function testLemmyCommunity(baseUrl, postId, pifedPostId) {
         if (res.ok) {
             console.log ("Lemmy");
             postData = await res.json();
-
             return {
                 result: res.ok,
-                site: "Lemmy",
+                siteType: "Lemmy",
                 data: postData
             };
         }
-    }
 
-    
-    if (pifedPostId) {
-        
-        apiUrl = `${baseUrl}api/alpha/post?id=${pifedPostId}`;
-        console.log ("Testing Pifed: " + pifedPostId);
+        // else test pifed
+
+        apiUrl = `${baseUrl}api/alpha/post?id=${postId}`;
         console.log ("Testing Pifed: " + apiUrl);
         res = await fetch(apiUrl);
 
-        if (res.ok) { console.log ("Pifed");
+        if (res.ok) {
+            console.log ("Pifed");
             postData = await res.json();
             
             return {
                 result: res.ok,
-                site: "Pifed",
+                siteType: "Pifed",
                 data: postData
             };
         }
@@ -320,19 +382,19 @@ async function testLemmyCommunity(baseUrl, postId, pifedPostId) {
 
     return {
         result: false,
-        site,
+        siteType: "generic",
         data: postData
     };
 }
 
 async function fetchPost(baseUrl, postId) {
-    const postRes = await fetch(`${baseUrl}api/${(postOrigin==="Pifed")?"alpha":"v3"}/post?id=${postId}`);
-    console.log(`  ${baseUrl}api/${(postOrigin==="Pifed")?"alpha":"v3"}/post?id=${postId}`)
+    const postRes = await fetch(`${baseUrl}api/${(site==="Pifed")?"alpha":"v3"}/post?id=${postId}`);
+    console.log(`  ${baseUrl}api/${(site==="Pifed")?"alpha":"v3"}/post?id=${postId}`)
     if (!postRes.ok) console.error("Failed to fetch post");
     const postData = (!postRes.ok) ? "Failed to fetch post" : await postRes.json();
 
-    if (postOrigin === "Pifed") {
-        console.log("   is pifed: " + postOrigin)
+    if (site === "Pifed") {
+        console.log("   is pifed: " + site)
         return {
             postData,
             post_view: postData.post_view,
@@ -350,7 +412,7 @@ async function fetchPost(baseUrl, postId) {
             favicon: postData.post_view.community.icon
         }
     } else {
-        console.log("   is NOT pifed: " + postOrigin)
+        console.log("   is NOT pifed: " + site)
         return {
             postData,
             post_view: postData.post_view,
@@ -361,7 +423,8 @@ async function fetchPost(baseUrl, postId) {
             communityTitle: postData.post_view.community.title,
             communityActor: postData.post_view.community.actor_id,
             publishedDate: postData.post_view.counts.published,
-            embed_description: postData.post_view.post.embed_description,
+            embed_description: postData.post_view.post.embed_description ?? 
+                postData.post_view.post.body,
             thumbnail_url: postData.post_view.post.thumbnail_url,
             postName: postData.post_view.post.name,
             apId: postData.post_view.post.ap_id
@@ -372,8 +435,8 @@ async function fetchPost(baseUrl, postId) {
 async function fetchPostComments(baseUrl, postId) {
 
     //https://lemmy.dbzer0.com/post/57854507
-    const url = `${baseUrl}api/${(postOrigin=="Pifed")?"alpha":"v3"}/comment/list?post_id=${postId}&type_=All&sort=Top`;
-    console.log(`  ${baseUrl}api/${(postOrigin=="Pifed")?"alpha":"v3"}/comment/list?post_id=${postId}&type_=All&sort=Top`)
+    const url = `${baseUrl}api/${(site=="Pifed")?"alpha":"v3"}/comment/list?post_id=${postId}&type_=All&sort=Top`;
+    console.log(`  ${baseUrl}api/${(site=="Pifed")?"alpha":"v3"}/comment/list?post_id=${postId}&type_=All&sort=Top`)
     const res = await fetch(url);
     const data = await res.json();
     const comments = data.comments || [];
@@ -381,7 +444,9 @@ async function fetchPostComments(baseUrl, postId) {
 
     if (!comments) return topComments;
 
-    if  (postOrigin === "Pifed") {
+    if (commentCount === 0) return topComments;
+
+    if  (site === "Pifed") {
         for (const c of comments) {
             topComments.push({
                 author: c.creator?.user_name || "NA",
@@ -415,7 +480,9 @@ async function fetchLemmyPostData(baseUrl, postId) {
     const { topComments } = await fetchPostComments(baseUrl, postId) ?? [];
 
     const articleUrl = postData.post_view.post.url;
-    const content = await fetchArticleSnippet(articleUrl, paragraphCount);
+    var content;
+    if (articleUrl)
+        content = await fetchArticleSnippet(articleUrl, paragraphCount);
 
     return {
         siteDomain: baseUrl,
@@ -439,10 +506,11 @@ async function fetchLemmyPostData(baseUrl, postId) {
     };
 }
 
-async function fetchArticleSnippet(articleUrl, paraCount = 3) {
+async function fetchArticleSnippet(articleUrl, paraCount) {
+    var textSnippets = [];
     try {
         // console.log(`articleurl:: ${articleUrl}`)
-        if (articleUrl.substring(0, 16) === "https://youtu.be" || articleUrl.substring(0, 19) === "https://youtube.com") {
+        if (site === "youtube") {
             const results = await getVideoDetails(articleUrl.substring(articleUrl.lastIndexOf("/") + 1));
 
             if (results.ok) {
@@ -457,29 +525,19 @@ async function fetchArticleSnippet(articleUrl, paraCount = 3) {
         }
 
         const res = await fetch(articleUrl);
-        // console.log(articleUrl);
         if (!res.ok) return "Could not fetch article.";
 
         const html = await res.text();
         const $ = cheerio.load(html);
 
         // === 1. Collect text from first N <p> tags ===
-        let textSnippets = [];
-        $("p").each((i, el) => {
-            if (i < paraCount) {
-                const content = $(el).text().trim();
-                if (content.length > 0) textSnippets.push(content);
-            }
-        });
-
-        if (textSnippets.length === 0) {
-            return {
-                articleNewsSite: new URL(articleUrl).hostname,
-                articleTitle: $("title").text() || "Untitled",
-                articlePreviewImage: null,
-                articleFavicon: new URL("/favicon.ico", articleUrl).href,
-                content: "No paragraph content found."
-            };
+        if (paraCount > 0) {
+            $("p").each((i, el) => {
+                if (i < paraCount) {
+                    const content = $(el).text().trim();
+                    if (content.length > 0) textSnippets.push(content);
+                }
+            });
         }
 
         // === 2. Get metadata ===

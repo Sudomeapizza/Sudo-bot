@@ -18,9 +18,9 @@ module.exports = (client) => {
                 if (!commandArray.some((cmd) => cmd.name === fileName)) {
                     commands.set(command.data.name, command);
                     commandArray.push(command.data.toJSON());
-                    console.log(`command: ${fileName} has passed through the handler`);
+                    // console.log(`command: ${fileName} has passed through the handler`);
                 } else {
-                    console.log(`-- command: ${fileName} already exists in the array`);
+                    // console.log(`-- command: ${fileName} already exists in the array`);
                 }
             }
         }
