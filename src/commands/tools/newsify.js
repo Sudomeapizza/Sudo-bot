@@ -258,8 +258,9 @@ module.exports = {
                 var postThumbnail = data.thumbnail_url ?? data.snippet.articlePreviewImage ?? null;
                 if (data.snippet) {console.log(`  Thumbnail: `+ postThumbnail)};
             
-                const imageURLRegex = /\.(webp|png|jpg|gif)$/i;
+                const imageURLRegex = /\.(webp|png|jpg|gif)/i;
                 const isImage = data.post_view.post.url.match(imageURLRegex);
+                console.log("post url: "+ data.post_view.post.url)
 
                 postEmbed = new EmbedBuilder()
                     .setAuthor({
@@ -276,10 +277,11 @@ module.exports = {
                     );
 
                 if (isImage) {
+                    console.log("adding image to post");
                     postEmbed.setImage(data.post_view.post.url);
                 }
                 
-                if (postThumbnail && !isImage) {
+                if (postThumbnail) {
                     postEmbed.setThumbnail(postThumbnail);
                 }
                 
