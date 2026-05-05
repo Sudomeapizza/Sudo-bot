@@ -1,4 +1,4 @@
-const { SlashCommandBuilder, InteractionContextType, MessageFlags, EmbedBuilder } = require('discord.js')
+const { SlashCommandBuilder, InteractionContextType, MessageFlags, EmbedBuilder, ChannelType } = require('discord.js')
 const cheerio = require('cheerio');
 const { reportCrash } = require('../../helpers/crash');
 const { getVideoDetails, fetchFavicon } = require('../../helpers/website');
@@ -47,6 +47,10 @@ module.exports = {
             option.setName('usermsg')
                 .setDescription('accompanying message')
         )
+        .addStringOption(option =>
+            option.setName('ping')
+                .setDescription('wanna ping?')
+        )
         .addIntegerOption(option =>
             option.setName('paragraphcount')
                 .setDescription('# of paragraphs from article (default 1 | 0..5)')
@@ -66,22 +70,40 @@ module.exports = {
         ),
     async execute(interaction, client) {
 
-        var usermsg = interaction.options.getString('usermsg') ?? "";
+        var usermsg = interaction.options.getString('usermsg') ?? null;
+        var pingmsg = interaction.options.getString('ping') ?? null;
         const silent = interaction.options.getBoolean('silent') ?? false;
         paragraphCount = interaction.options.getInteger('paragraphcount') ?? 1;
         commentCount = interaction.options.getInteger('commentcount') ?? 1;
         var targetUrl = interaction.options.getString('url');
+        var userEmbed, postEmbed, imageEmbed;
+        const userProfile = await interaction.user.fetch();
 
+        var embedList = [];
+
+        
+        const isDM = [ChannelType.DM, ChannelType.GroupDM].includes(interaction.channel.type);
+        
         var message = await interaction.reply({
-            // flags: silent ? MessageFlags.Ephemeral : undefined,
-            flags: MessageFlags.SuppressNotifications,
+            flags: (silent && isDM) ? MessageFlags.Ephemeral : undefined,
+            flags:
+                MessageFlags.SuppressNotifications,
             withResponse: true,
             content: "Parsing: ..."
         });
 
         // If a message has been added, put who sent that message at the front:
-        if (usermsg)
-            usermsg = `${interaction.user.globalName} :\n` + usermsg;
+        if (usermsg) {
+            userEmbed = new EmbedBuilder()
+                .setAuthor({
+                    // Get User Display Name
+                    name: userProfile.globalName,
+                    iconURL: userProfile.displayAvatarURL()
+                })
+                // Get User Color? ... No workie atm...
+                // .setColor(userProfile.hexAccentColor)
+                .setDescription(usermsg);
+        }
 
         // check bounds of comments to be 0..3
         (commentCount > 3) ? commentCount == 3: commentCount;
@@ -99,6 +121,7 @@ module.exports = {
         if (match == targetUrl) {
 
             message = await interaction.editReply({
+
                 withResponse: true,
                 content: "Parsing: <" + match + "> ..."
             });
@@ -231,63 +254,64 @@ module.exports = {
                     articleName = `[${data.snippet.articleTitle}](${data.articleUrl})`
                 }
 
-                // if (data.snippet) {
-                //     console.log(`  Article Title: ${data.snippet.articleTitle}\n  BaseUrl: ${baseUrl}`)
-                //     if (site === "Pifed") {
-                //         articleName = `[${data.articleUrl.substring(8)}](${data.articleUrl})`
-                //     } else if (site === "youtube") {
-                //         articleName = `[${data.snippet.articleTitle}](${data.articleUrl})`
-                //     } else {
-                //         articleName = `[${data.articleUrl.substring(8)}](${data.articleUrl})`
-                //     }
-                // }
 
-                if (data.snippet) {console.log(`  Thumbnail: `+(data.thumbnail_url ?? data.snippet.articlePreviewImage ?? "https://http.cat/images/403.jpg"))};
+                var postThumbnail = data.thumbnail_url ?? data.snippet.articlePreviewImage ?? null;
+                if (data.snippet) {console.log(`  Thumbnail: `+ postThumbnail)};
             
+                const imageURLRegex = /\.(webp|png|jpg|gif)$/i;
+                const isImage = data.post_view.post.url.match(imageURLRegex);
 
-                console.log (`test: ${data.topComments}`);
-                /**
-                 * BUILD EMBED
-                 */
-                var embed = new EmbedBuilder()
+                postEmbed = new EmbedBuilder()
                     .setAuthor({
-                        // name: (postOrigin === "Pifed") ? formatCommunity(data.communityActor, data.communityTitle) : formatCommunity(data.communityActor, data.communityTitle), // Autofill News Site -> dbzer0
                         name: formatCommunity(data.communityActor, data.communityTitle), // Autofill News Site -> dbzer0
-
                         URL: url,
                         iconURL: (data.favicon ?? favicon)
                     })
                     .setColor(16747008)
                     .setTitle((data.postName ?? "Lemmy Post"))
-
                     .setURL(url)
-                    .setThumbnail((data.thumbnail_url ?? (data.snippet)?(data.snippet.articlePreviewImage): "https://http.cat/images/403.jpg") ?? "https://http.cat/images/404.jpg")
-                    // .setFooter({
-                    //     text: message.author.globalName,
-                    //     iconURL: message.author.avatarURL()
-                    // })
                     .setTimestamp(new Date())
                     .addFields(
                         { name: `${site} Post:`, value: lemmypostData }
                     );
 
-                    if (commentCount > 0) {
-                        embed.addFields(
-                            { name: "Top Comments:", value: (data.topComments) ? commentDataFormatted(data.topComments) : "No replies on this post" }
-                        )
-                    }
+                if (isImage) {
+                    postEmbed.setImage(data.post_view.post.url);
+                }
+                
+                if (postThumbnail && !isImage) {
+                    postEmbed.setThumbnail(postThumbnail);
+                }
+                
+                if (commentCount > 0) {
+                    postEmbed.addFields(
+                        { name: "Top Comments:", value: (data.topComments) ? commentDataFormatted(data.topComments) : "No replies on this post" }
+                    )
+                }
+                
+                if (data.snippet && paragraphCount > 0 && !isImage) {
+                    postEmbed.addFields(
+                        { name: "Article", value: articleName }
+                    )
+                }
+                
+                
+                embedList.push(postEmbed);
 
-                    if (data.snippet && paragraphCount > 0) {
-                        embed.addFields(
-                            { name: "Article", value: articleName }
-                        )
-                    }
+                if (usermsg) embedList.push(userEmbed);
 
-                await interaction.deleteReply({});
-                client.channels.cache.get(`${interaction.channelId}`).send({
-                        flags: silent ? MessageFlags.Ephemeral : undefined,
-                        content: usermsg,
-                        embeds: [embed] });
+                if (!isDM) {
+                    await interaction.deleteReply({});
+                    client.channels.cache.get(`${interaction.channelId}`).send({
+                            content: pingmsg,
+                            flags: silent ? MessageFlags.Ephemeral : undefined,
+                            embeds: embedList });
+                } else {
+                    await interaction.editReply({
+                            content: pingmsg,
+                            flags: silent ? MessageFlags.Ephemeral : undefined,
+                            embeds: embedList });
+                }
 
 
                 // await interaction.editReply({ content: usermsg, embeds: [embed] });
