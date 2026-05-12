@@ -51,10 +51,10 @@ module.exports = {
             option.setName('ping')
                 .setDescription('wanna ping?')
         )
-        .addIntegerOption(option =>
-            option.setName('paragraphcount')
-                .setDescription('# of paragraphs from article (default 1 | 0..5)')
-        )
+        // .addIntegerOption(option =>
+        //     option.setName('paragraphcount')
+        //         .setDescription('# of paragraphs from article (default 1 | 0..5)')
+        // )
         .addIntegerOption(option =>
             option.setName('commentcount')
                 .setDescription('# of comments from lemmy (default 1 | 0..3)')
@@ -70,26 +70,27 @@ module.exports = {
         ),
     async execute(interaction, client) {
 
+        // Options from command interaction
         var usermsg = interaction.options.getString('usermsg') ?? null;
         var pingmsg = interaction.options.getString('ping') ?? null;
         const silent = interaction.options.getBoolean('silent') ?? false;
-        paragraphCount = interaction.options.getInteger('paragraphcount') ?? 1;
+        // paragraphCount = interaction.options.getInteger('paragraphcount') ?? 1;
         commentCount = interaction.options.getInteger('commentcount') ?? 1;
         var targetUrl = interaction.options.getString('url');
         var userEmbed, postEmbed, imageEmbed;
         const userProfile = await interaction.user.fetch();
-
-        var embedList = [];
-
         
+        // Inferred settings from command interaction
         const isDM = [ChannelType.DM, ChannelType.GroupDM].includes(interaction.channel.type);
         
+        // To-be-filled variable
+        var embedList = [];
+        
         var message = await interaction.reply({
-            flags: (silent && isDM) ? MessageFlags.Ephemeral : undefined,
-            flags:
-                MessageFlags.SuppressNotifications,
+            flags: (silent) ? MessageFlags.Ephemeral : undefined,
+            // flags: MessageFlags.SuppressNotifications,
             withResponse: true,
-            content: "Parsing: ..."
+            content: "Parsing News Site, Please wait..."
         });
 
         // If a message has been added, put who sent that message at the front:
@@ -110,8 +111,8 @@ module.exports = {
         (commentCount < 0) ? commentCount == 0: commentCount;
         
         // check bounds of paragraphs to be 0..5
-        (paragraphCount > 5) ? paragraphCount == 5: paragraphCount;
-        (paragraphCount < 0) ? paragraphCount == 0: paragraphCount;
+        // (paragraphCount > 5) ? paragraphCount == 5: paragraphCount;
+        // (paragraphCount < 0) ? paragraphCount == 0: paragraphCount;
 
 
         // Remove the `t.` for tesseract links
@@ -129,9 +130,12 @@ module.exports = {
             
 
             var url = match[0];
+            url = (url.match("html") != null) ? url : url + "index.html"
             var u = new URL(url);
             var baseUrl = `${u.protocol}//${u.host}/`;
-            var postId = url.match(`([0-9]{6,10})`)[0];
+            try {
+                var postId = url.match(`([0-9]{6,10})`)[0];
+            } catch (e) { var postId = null; }
             // var ogUrl = "";
 
             // console.log(`URL: ${url}`)
@@ -147,9 +151,14 @@ module.exports = {
                 // console.log("verified Pifed")
                 site = "Pifed"
                 data = await fetchLemmyPostData(baseUrl, postId);
+            } else if (siteType === "generic") {
+                site = "Generic"
+                // data = await fetchLemmyPostData(baseUrl, postId);
             } else {
                 console.log("wtf: " + siteType)
             }
+
+            console.log(`Creating Newsify Post. Type: ${siteType}`);
 
             // Test if Lemmy Community
             if (siteType == "generic") {
@@ -169,14 +178,24 @@ module.exports = {
                         .setTitle(article.articleTitle ?? "Missing Title")
                         .setURL(url)
                         .setThumbnail(article.articlePreviewImage)
+                        .setImage(article.articlePreviewImage)
                         .setTimestamp(new Date())
                         .addFields(
-                            {
-                                name: "Article", value:
-                                    `[${url.substring(8)}](${url})`
-                            },
-                            { name: "Article Content", value: (article.content ?? "Missing Content").substring(0, 1020) + " ..." }
                         );
+                        
+                        if (article.content) {
+                            embed.addFields(
+                                {
+                                    name: "Article", value:
+                                    `[${url.substring(8)}](${url})`
+                                },
+                                { 
+                                    name: "Article Content",
+                                    value: (article.content ?? "Missing Content").substring(0, 1020) + " ..."
+                                }
+
+                        )
+                    }
 
 
                     await interaction.deleteReply({});
@@ -194,8 +213,6 @@ module.exports = {
                 return;
             }
             try {
-
-                console.log(`Creating Newsify Post. Type: ${siteType}`);
                 
                 var postData = ``;
 
@@ -258,7 +275,7 @@ module.exports = {
                 var postThumbnail = data.thumbnail_url ?? data.snippet.articlePreviewImage ?? null;
                 if (data.snippet) {console.log(`  Thumbnail: `+ postThumbnail)};
             
-                const imageURLRegex = /\.(webp|png|jpg|gif)/i;
+                const imageURLRegex = /\.(webp|png|jpg|gif|avif|heif)/i;
                 const isImage = data.post_view.post.url.match(imageURLRegex);
                 console.log("post url: "+ data.post_view.post.url)
 
@@ -374,36 +391,47 @@ async function testURL(baseUrl, postId) {
 
         // test lemmy
 
+        // NOT ABLE TO TEST FOR BROKEN/FALSE LINKS, ONLY TESTING FOR DOMAIN LEVEL
         apiUrl = `${baseUrl}api/v3/post?id=${postId}`;
-        console.log ("Testing Lemmy: " + apiUrl);
+
+        console.log(`---- ${baseUrl}`)
+
+        console.log("Testing Lemmy: " + apiUrl);
         res = await fetch(apiUrl);
 
-        if (res.ok) {
-            console.log ("Lemmy");
-            postData = await res.json();
-            return {
-                result: res.ok,
-                siteType: "Lemmy",
-                data: postData
-            };
-        }
+        // postData = await res.json();
+
+        try {
+            if (postData.post_view != null) {
+            // if (baseUrl == "https://lemmy.dbzer0.com/") {
+                console.log("Lemmy");
+                postData = await res.json();
+                return {
+                    result: res.ok,
+                    siteType: "Lemmy",
+                    data: postData
+                };
+            }
+        } catch (err) {}
 
         // else test pifed
 
         apiUrl = `${baseUrl}api/alpha/post?id=${postId}`;
-        console.log ("Testing Pifed: " + apiUrl);
+        console.log("Testing Pifed: " + apiUrl);
         res = await fetch(apiUrl);
 
-        if (res.ok) {
-            console.log ("Pifed");
-            postData = await res.json();
-            
-            return {
-                result: res.ok,
-                siteType: "Pifed",
-                data: postData
-            };
-        }
+        try {
+            if (postData.post_view != null) {
+                console.log("Pifed");
+                postData = await res.json();
+                
+                return {
+                    result: res.ok,
+                    siteType: "Pifed",
+                    data: postData
+                };
+            }
+        } catch (err) {}
     }
 
     return {
@@ -554,17 +582,20 @@ async function fetchArticleSnippet(articleUrl, paraCount) {
         if (!res.ok) return "Could not fetch article.";
 
         const html = await res.text();
-        const $ = cheerio.load(html);
+        const $ = await cheerio.load(html);
 
         // === 1. Collect text from first N <p> tags ===
-        if (paraCount > 0) {
-            $("p").each((i, el) => {
-                if (i < paraCount) {
-                    const content = $(el).text().trim();
-                    if (content.length > 0) textSnippets.push(content);
-                }
-            });
-        }
+        // if (paraCount > 0) {
+        //     $("p").each((i, el) => {
+        //         if (i < paraCount) {
+        //             const content = $(el).text().trim();
+        //             if (content.length > 0) textSnippets.push(content);
+        //         }
+        //     });
+        // }
+
+        // Wish it workie, but don't
+        // const content = $('h2').first().text() || $('.article-subtitle').text();
 
         // === 2. Get metadata ===
         const articleNewsSite = new URL(articleUrl).hostname;
@@ -597,7 +628,8 @@ async function fetchArticleSnippet(articleUrl, paraCount) {
             articleTitle,
             articlePreviewImage,
             articleFavicon,
-            content: textSnippets.join("\n\n")
+            // content: textSnippets.join("\n\n")
+            content: ""
         };
     } catch (err) {
         console.error("Error in fetchArticleSnippet:", err);
