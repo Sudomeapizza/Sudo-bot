@@ -402,8 +402,8 @@ async function testURL(baseUrl, postId) {
         // postData = await res.json();
 
         try {
-            if (postData.post_view != null) {
-            // if (baseUrl == "https://lemmy.dbzer0.com/") {
+            // if (postData.post_view != null) {
+            if (baseUrl == "https://lemmy.dbzer0.com/") {
                 console.log("Lemmy");
                 postData = await res.json();
                 return {
@@ -582,7 +582,7 @@ async function fetchArticleSnippet(articleUrl, paraCount) {
         if (!res.ok) return "Could not fetch article.";
 
         const html = await res.text();
-        const $ = await cheerio.load(html);
+        const $ = cheerio.load(html);
 
         // === 1. Collect text from first N <p> tags ===
         // if (paraCount > 0) {
