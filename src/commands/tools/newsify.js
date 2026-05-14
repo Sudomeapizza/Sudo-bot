@@ -130,7 +130,8 @@ module.exports = {
             
 
             var url = match[0];
-            url = (url.match("html") != null) ? url : url + "index.html"
+            // was intended for general news sites, but breaks lemmy links...
+            // url = (url.match("html") != null) ? url : url + "index.html"
             var u = new URL(url);
             var baseUrl = `${u.protocol}//${u.host}/`;
             try {
