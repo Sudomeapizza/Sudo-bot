@@ -273,11 +273,13 @@ module.exports = {
                 }
 
 
-                var postThumbnail = data.thumbnail_url ?? data.snippet.articlePreviewImage ?? null;
+                // var postThumbnail = data.thumbnail_url ?? data.snippet.articlePreviewImage ?? null;
+                var postThumbnail = data.thumbnail_url ?? "";
+                
                 if (data.snippet) {console.log(`  Thumbnail: `+ postThumbnail)};
             
                 const imageURLRegex = /\.(webp|png|jpg|gif|avif|heif)/i;
-                const isImage = data.post_view.post.url.match(imageURLRegex);
+                const isImage = (data.post_view.post.url != null) ? data.post_view.post.url.match(imageURLRegex) : false;
                 console.log("post url: "+ data.post_view.post.url)
 
                 postEmbed = new EmbedBuilder()
