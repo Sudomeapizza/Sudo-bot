@@ -14,12 +14,11 @@
                 "description": "timestamp"
             }
         },
-        "Rossmann": {
-            "Url": {
+        "Additional Egg Message": {
+            "DiscordUrl": {
                 "count": 1,
-                "description": "url"
+                "description": "discord url"
             }
-        },
-        "Simple": {}
+        }
     }
 }
