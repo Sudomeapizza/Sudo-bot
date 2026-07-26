@@ -59,6 +59,7 @@ module.exports = {
                     });
                     argHint = ` - ${hints.join(' ')}`;
                 }
+                console.log("name: ", presetName);
 
                 return {
                     name: `${presetName}${argHint}`,
@@ -109,7 +110,7 @@ module.exports = {
             return;
         }
 
-        const result = calcPresets(presetName, parsedArgs);
+        const result = await calcPresets(presetName, parsedArgs, client);
 
         await interaction.editReply({
             content: result,
