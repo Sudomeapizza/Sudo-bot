@@ -39,9 +39,12 @@ async function calcPresets(presetName, argsArray, client) {
                 coopIdContractName = url;
             }
 
-            var tempMsg = `Ecoopad ${coopIdContractName}\n` +
-                `All welcome! <a:chicken_wobble:1340181821538828418> \n` +
-                `Required: ${req} by ${timestampformat("rT",timestamp,"f", true, true)}`;
+
+            // GET MESSAGE HERE
+
+
+            var formattedTimestamp = timestampformat("rT",timestamp,"f", true, true);
+            var tempMsg = "";
 
                 
             try {
@@ -51,6 +54,8 @@ async function calcPresets(presetName, argsArray, client) {
                 if (fs.existsSync(filePath)) {
                     // 2. Read file content
                     const fileContent = fs.readFileSync(filePath, 'utf8');
+
+                    // console.log(fileContent);
                     
 
                     const parts = fileContent.split('/');
@@ -73,7 +78,12 @@ async function calcPresets(presetName, argsArray, client) {
                     }
 
                     // 3. Append with two newlines
-                    tempMsg += `\n\n${message.content}`;
+                    tempMsg += (message.content||"UHOH")
+                        .replace("$CODE$",coopIdContractName)
+                        .replace("$TIME$",formattedTimestamp)
+                        .replace("$REQ$",req);
+                    
+
                 }
             } catch (err) {
                 console.error("Error reading file:", err);
@@ -113,7 +123,7 @@ async function calcPresets(presetName, argsArray, client) {
                 const content = message.content;
                 
                 const filePath = path.join(__dirname, 'saved_urls.txt');
-                fs.appendFileSync(filePath, `${url}\n`);
+                fs.writeFileSync(filePath, `${url}\n`);
 
                 return `Message Content:\n\n${content}`;
             } catch (error) {
